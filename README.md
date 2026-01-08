@@ -1,4 +1,4 @@
-\# 🚀 ELECTRO-CORE – Git Workflow Guide
+\# GIT WORKFOLOW GUIDE
 
 
 
