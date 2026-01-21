@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "ESP32_NODEMCU")(type "Legacy")(uri "E:/KiCad Projects/KiCad Libraries/ESP32_NODEMCU/ESP32_NODEMCU.lib")(options "")(descr ""))
+)

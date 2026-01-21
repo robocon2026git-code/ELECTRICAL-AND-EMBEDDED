@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "ESP32")(type "KiCad")(uri "E:/KiCad Projects/KiCad Libraries/ESP32_NODEMCU/ESP32.pretty")(options "")(descr ""))
+)
