@@ -27,31 +27,14 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <math.h>
+#include "bot.h"
+//#include "user.h"
+//#include "locomotion.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-typedef struct __attribute__((packed)) {
-    uint8_t btn_flag;   // 1 byte
-    float   lx;         // 4 bytes
-    float   ly;         // 4 bytes
-    float   rx;         // 4 bytes
-    float   ry;         // 4 bytes
-} Packet;
-
-_Static_assert(sizeof(Packet) == 17, "Packet size mismatch");
-
-
-typedef struct {
-    uint8_t up        :1;
-    uint8_t down      :1;
-    uint8_t left      :1;
-    uint8_t right     :1;
-    uint8_t triangle  :1;
-    uint8_t cross     :1;
-    uint8_t square    :1;
-    uint8_t circle    :1;
-}BitfieldButtonStatusUsr;
 
 /* USER CODE END PTD */
 
@@ -62,35 +45,7 @@ typedef struct {
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-#define MAX(a,b) ((a) > (b) ? (a) : (b));
 
-
-#define STX								0xAA
-
-
-#define INITIAL_ANGLE					0
-#define STEP_ANGLE						1
-#define MIN_ANGLE						INITIAL_ANGLE
-#define MAX_ANGLE						180
-#define SERVO_DELAY						20
-#define POS_UP							1
-#define POS_DOWN						2
-
-
-
-#define m1_dir_pin						GPIO_PIN_12
-#define m2_dir_pin						GPIO_PIN_13
-#define m3_dir_pin						GPIO_PIN_14
-#define m4_dir_pin						GPIO_PIN_15
-
-#define m1_pwm_pin						TIM_CHANNEL_1	//PC6
-#define m2_pwm_pin						TIM_CHANNEL_2	//PB5
-#define m3_pwm_pin						TIM_CHANNEL_3	//PB0
-#define m4_pwm_pin						TIM_CHANNEL_4	//PB1
-
-#define PNEUMATIC_PORT					GPIOD
-#define PNEUMATIC_PIN_1					GPIO_PIN_0
-#define PNEUMATIC_PIN_2					GPIO_PIN_1
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -106,21 +61,6 @@ TIM_HandleTypeDef htim3;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-unsigned long current = 0, previous = 0;
-
-
-uint8_t rx_val;
-Packet rx_pkt;
-uint8_t ch, len;
-
-float LX_usr;
-float LY_usr;
-float RX_usr;
-float RY_usr;
-
-BitfieldButtonStatusUsr btnStatus;
-
-uint8_t curr_angle = 0;
 
 
 //const uint8_t m1_dir_pin;
@@ -128,8 +68,6 @@ uint8_t curr_angle = 0;
 //const uint8_t m3_dir_pin;
 //const uint8_t m4_dir_pin;
 
-
-float m1_pwm, m2_pwm, m3_pwm, m4_pwm;
 
 /* USER CODE END PV */
 
@@ -145,21 +83,6 @@ static void MX_TIM3_Init(void);
 void MX_USB_HOST_Process(void);
 
 /* USER CODE BEGIN PFP */
-uint32_t millis(void);
-
-void recieve_uart();
-
-void motor_set_speed(TIM_HandleTypeDef *htim, uint32_t channel, float speed);
-void motor_set_speed255(TIM_HandleTypeDef *htim, uint32_t channel, uint8_t val);
-
-void Servo_WriteAngle(uint8_t angle);
-void servo_handler(uint8_t pos);
-
-int lo_4_wheel_handler();
-int lo_4_wheel_calculation(int vx, int vy, int omega);
-void lo_4_wheel_run(uint16_t dir_pin, uint8_t mot_pin, float pwm);
-
-void pnuematic_actuation();
 
 /* USER CODE END PFP */
 
@@ -218,12 +141,12 @@ int main(void)
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4);
 
   printf("STM32 Ready\n");
-  Servo_WriteAngle(INITIAL_ANGLE);
+  Servo_WriteAngle(&htim2, INITIAL_ANGLE);
   while (1)
   {
-	  recieve_uart();
+	  recieve_uart(&huart2);
 //	  printf("LX = %.2f | LY = %.2f", LX_usr, LY_usr);
-	  lo_4_wheel_handler();
+	  lo_4_wheel_handler(&htim3);
 //	  rx_pkt.lx = 0;
 //	  rx_pkt.ly = 0;
 //	  rx_pkt.ry = 0;
@@ -639,216 +562,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void recieve_uart(){
-	while(1){
-		 do {
-			  HAL_UART_Receive(&huart2, &ch, 1, HAL_MAX_DELAY);
-		 }while (ch != STX);
-
-		// Read length
-		HAL_UART_Receive(&huart2, &len, 1, HAL_MAX_DELAY);
-		if (len != sizeof(Packet)) {
-			 continue;
-	}
-
-		// Read payload directly into struct
-		HAL_UART_Receive(&huart2, (uint8_t*)&rx_pkt, len, HAL_MAX_DELAY);
-		break;
-	}
-	// Use values directly
-	if (rx_pkt.btn_flag & (1 << 7)) {
-		printf("Circle pressed\n");
-		btnStatus.circle = 1;
-	}
-	if (rx_pkt.btn_flag & (1 << 6)) {
-		printf("Square pressed\n");
-		btnStatus.square = 1;
-	}
-	if (rx_pkt.btn_flag & (1 << 5)) {
-		printf("Cross pressed\n");
-		btnStatus.cross = 1;
-	}
-	if (rx_pkt.btn_flag & (1 << 4)) {
-		printf("Triangle pressed\n");
-		btnStatus.triangle = 1;
-	}
-	if (rx_pkt.btn_flag & (1 << 3)) {
-		printf("Right pressed\n");
-		btnStatus.right = 1;
-	}
-	if (rx_pkt.btn_flag & (1 << 2)) {
-		printf("Left pressed\n");
-		btnStatus.left = 1;
-	}
-	if (rx_pkt.btn_flag & (1 << 1)) {
-		printf("Down pressed\n");
-		btnStatus.down = 1;
-	}
-	if (rx_pkt.btn_flag & (1 << 0)) {
-		printf("Up pressed\n");
-		btnStatus.up = 1;
-	}
-
-	LX_usr = rx_pkt.lx;
-	LY_usr = rx_pkt.ly;
-	RX_usr = rx_pkt.rx;
-	RY_usr = rx_pkt.ry;
-
-//	printf("FLAG = %02X | LX = %.2f | LY = %.2f | RX = %.2f | RY = %.2f\n", rx_pkt.btn_flag,  rx_pkt.lx, rx_pkt.ly, rx_pkt.rx, rx_pkt.ry);
-}
-
-
-
-
-void Servo_WriteAngle(uint8_t angle){
-	//Clamp value 0-180
-	if(angle > 180)angle=180;
-
-	//Map 0-180 -> 1000 - 2000us
-	uint16_t pulse = 1000 + (angle * 1000)/180;
-
-	__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, pulse);
-}
-
-
-
-
-void servo_handler(uint8_t pos){
-	if(curr_angle >= MAX_ANGLE){
-	  curr_angle = MAX_ANGLE;
-	  printf("Current Angle: %d\n", curr_angle);
-	}else if(curr_angle <= MIN_ANGLE){
-	  curr_angle = 0;
-	  printf("Current Angle: %d\n", curr_angle);
-	}
-
-	if(pos == POS_UP){
-		HAL_Delay(SERVO_DELAY);
-		Servo_WriteAngle((curr_angle+=STEP_ANGLE));
-	}else if(pos == POS_DOWN){
-		HAL_Delay(SERVO_DELAY);
-		Servo_WriteAngle((curr_angle-=STEP_ANGLE));
-	}
-}
-
-
-
-
-
-int lo_4_wheel_handler(){
-	int x = LY_usr;
-	int y = LX_usr;
-	int w = RX_usr;
-
-    if(abs(x) < 20) x = 0;
-    if(abs(y) < 20) y = 0;
-    if(abs(w) < 20) w = 0;
-
-    int vx = (x * 255) / 127;
-    int vy = (y * 255) / 127;
-    int omega = (w * 255) / 127;
-
-    lo_4_wheel_calculation(vx, vy, omega);
-
-    lo_4_wheel_run(m1_dir_pin, m1_pwm_pin, m1_pwm);
-    lo_4_wheel_run(m2_dir_pin, m2_pwm_pin, m2_pwm);
-    lo_4_wheel_run(m3_dir_pin, m3_pwm_pin, m3_pwm);
-    lo_4_wheel_run(m4_dir_pin, m4_pwm_pin, m4_pwm);
-    return 0;
-}
-
-
-int lo_4_wheel_calculation(int vx, int vy, int omega){
-	m1_pwm = (vx+vy+omega);
-	m2_pwm = (vx-vy-omega);
-	m3_pwm = (-vx-vy+omega);
-	m4_pwm = (-vx+vy-omega);
-
-	// ---------- NORMALIZATION (CRTT) ----------
-	float maxraw_1 = MAX(fabs(m1_pwm), fabs(m2_pwm));
-	float maxraw_2 = MAX(fabs(m3_pwm), fabs(m4_pwm));
-	float maxraw = MAX(maxraw_1, maxraw_2);
-
-	if(maxraw > 255.0){
-	float scale = 255.0 / maxraw;
-	m1_pwm = (m1_pwm * scale);
-	m2_pwm = (m2_pwm * scale);
-	m3_pwm = (m3_pwm * scale);
-	m4_pwm = (m4_pwm * scale);
-	}
-	// -----------------------------------------
-
-
-	current = millis();
-	if(current-previous >= 1000)
-	{
-//		printf("m1 = %f", m1_pwm);
-//		printf("m2 = %f", m2_pwm);
-//		printf("m3 = %f", m3_pwm);
-//		printf("m4 = %f", m4_pwm);
-		printf("m1 = %.2f  |  m2 = %.2f  |  m3 = %.2f |  m4 = %.2f\n", m1_pwm, m2_pwm, m3_pwm, m4_pwm);
-		previous = millis();
-	}
-
-//	printf("m1 = %f  |  m2 = %f  |  m3 = %f |  m4 = %f", m1_pwm, m2_pwm, m3_pwm, m4_pwm);
-	return 0;
-}
-
-void lo_4_wheel_run(uint16_t dir_pin, uint8_t mot_pin, float pwm){
-	if(pwm > 0){
-		HAL_GPIO_WritePin(GPIOD, dir_pin, SET);
-	}else{
-		HAL_GPIO_WritePin(GPIOD, dir_pin, RESET);
-		pwm = abs(pwm);
-	}
-//	printf("pwm = %.2f\n", pwm);
-	motor_set_speed255(&htim3, mot_pin, pwm);
-}
-
-
-
-//Speed value 0.0 <--> 1.0
-void motor_set_speed(TIM_HandleTypeDef *htim, uint32_t channel, float speed)
-{
-    // speed: 0.0 → 1.0
-    if (speed < 0.0f) speed = 0.0f;
-    if (speed > 1.0f) speed = 1.0f;
-
-    uint32_t arr = __HAL_TIM_GET_AUTORELOAD(htim);
-    uint32_t ccr = (uint32_t)((arr + 1) * speed);
-
-    __HAL_TIM_SET_COMPARE(htim, channel, ccr);
-}
-
-
-//This function allows to do analogwrite() like behavior val = (0 - 255)
-void motor_set_speed255(TIM_HandleTypeDef *htim, uint32_t channel, uint8_t val)
-{
-    uint32_t arr = __HAL_TIM_GET_AUTORELOAD(htim);
-    uint32_t ccr = (val * (arr + 1)) / 255;
-
-    __HAL_TIM_SET_COMPARE(htim, channel, ccr);
-}
-
-
-
-
-
-void pnuematic_actuation()
-{
-	if(btnStatus.circle == 1){
-		HAL_GPIO_WritePin(PNEUMATIC_PORT, PNEUMATIC_PIN_1, SET);
-		HAL_GPIO_WritePin(PNEUMATIC_PORT, PNEUMATIC_PIN_2, RESET);
-	}else if(btnStatus.square == 1){
-		HAL_GPIO_WritePin(PNEUMATIC_PORT, PNEUMATIC_PIN_1, RESET);
-		HAL_GPIO_WritePin(PNEUMATIC_PORT, PNEUMATIC_PIN_2, SET);
-	}
-}
-
-
-uint32_t millis(void){
-	return HAL_GetTick();
-}
 
 /* USER CODE END 4 */
 

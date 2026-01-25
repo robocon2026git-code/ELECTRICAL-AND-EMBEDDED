@@ -1,0 +1,3 @@
+../Core/Src/locomotion.c:16:5:lo_4_wheel_handler	7
+../Core/Src/locomotion.c:39:5:lo_4_wheel_calculation	6
+../Core/Src/locomotion.c:75:6:lo_4_wheel_run	2

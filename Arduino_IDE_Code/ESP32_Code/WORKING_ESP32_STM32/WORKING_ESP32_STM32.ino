@@ -6,10 +6,10 @@
 
 #define BUTTON_DEBOUNCING_DELAY   50
 
-#define TXD2              16
-#define RXD2              17
+#define TXD2              19
+#define RXD2              21
 
-#define BT_PIN            2
+#define BT_PIN            7
 
 #define BAUD_RATE         115200
 #define BUFFER_SIZE       10
@@ -88,7 +88,9 @@ void setup() {
   ps5.attachOnConnect(onConnect);
   ps5.attachOnDisconnect(onDisconnect);
 
-  ps5.begin("14:3A:9A:91:49:EE");
+  // ps5.begin("14:3A:9A:91:49:EE");         //Black colour
+  ps5.begin("E8:47:3A:36:ED:CA");         //White colour
+
 
   while(ps5.isConnected() == false){
     Serial.println("PS5 Not Found");

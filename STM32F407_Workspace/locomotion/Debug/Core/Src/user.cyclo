@@ -1,0 +1,5 @@
+../Core/Src/user.c:24:10:millis	1
+../Core/Src/user.c:28:6:recieve_uart	11
+../Core/Src/user.c:89:6:motor_set_speed	6
+../Core/Src/user.c:103:6:motor_set_speed255	4
+../Core/Src/user.c:114:6:Servo_WriteAngle	2

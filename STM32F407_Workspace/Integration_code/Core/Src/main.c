@@ -25,19 +25,16 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
+#include <stdlib.h>
+#include <math.h>
+#include "bot.h"
+//#include "user.h"
+//#include "locomotion.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-typedef struct __attribute__((packed)) {
-    uint8_t btn_flag;   // 1 byte
-    float   lx;         // 4 bytes
-    float   ly;         // 4 bytes
-    float   rx;         // 4 bytes
-    float   ry;         // 4 bytes
-} Packet;
-
-_Static_assert(sizeof(Packet) == 17, "Packet size mismatch");
 
 /* USER CODE END PTD */
 
@@ -48,7 +45,7 @@ _Static_assert(sizeof(Packet) == 17, "Packet size mismatch");
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-#define STX								0xAA
+
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -59,13 +56,18 @@ I2S_HandleTypeDef hi2s3;
 SPI_HandleTypeDef hspi1;
 
 TIM_HandleTypeDef htim2;
+TIM_HandleTypeDef htim3;
 
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-uint8_t rx_val;
-Packet rx_pkt;
-uint8_t ch, len;
+
+
+//const uint8_t m1_dir_pin;
+//const uint8_t m2_dir_pin;
+//const uint8_t m3_dir_pin;
+//const uint8_t m4_dir_pin;
+
 
 /* USER CODE END PV */
 
@@ -77,10 +79,10 @@ static void MX_I2S3_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_USART2_UART_Init(void);
+static void MX_TIM3_Init(void);
 void MX_USB_HOST_Process(void);
 
 /* USER CODE BEGIN PFP */
-void recieve_uart();
 
 /* USER CODE END PFP */
 
@@ -103,7 +105,9 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+
+
+
 
   /* USER CODE BEGIN Init */
 
@@ -124,15 +128,36 @@ int main(void)
   MX_USB_HOST_Init();
   MX_TIM2_Init();
   MX_USART2_UART_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4);
+
+  printf("STM32 Ready\n");
+  Servo_WriteAngle(&htim2, INITIAL_ANGLE);
   while (1)
   {
-	  recieve_uart();
+	  recieve_uart(&huart2);
+//	  printf("LX = %.2f | LY = %.2f", LX_usr, LY_usr);
+	  lo_4_wheel_handler(&htim3);
+//	  rx_pkt.lx = 0;
+//	  rx_pkt.ly = 0;
+//	  rx_pkt.ry = 0;
+//	  rx_pkt.ry = 0;
+//
+//	  LX_usr = 0;
+//	  LY_usr = 0;
+//	  RX_usr = 0;
+//	  RY_usr = 0;
+
+	  pnuematic_actuation();
     /* USER CODE END WHILE */
     MX_USB_HOST_Process();
 
@@ -342,6 +367,67 @@ static void MX_TIM2_Init(void)
 }
 
 /**
+  * @brief TIM3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM3_Init(void)
+{
+
+  /* USER CODE BEGIN TIM3_Init 0 */
+
+  /* USER CODE END TIM3_Init 0 */
+
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
+
+  /* USER CODE BEGIN TIM3_Init 1 */
+
+  /* USER CODE END TIM3_Init 1 */
+  htim3.Instance = TIM3;
+  htim3.Init.Prescaler = 83;
+  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim3.Init.Period = 999;
+  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_PWM_Init(&htim3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM3_Init 2 */
+
+  /* USER CODE END TIM3_Init 2 */
+  HAL_TIM_MspPostInit(&htim3);
+
+}
+
+/**
   * @brief USART2 Initialization Function
   * @param None
   * @retval None
@@ -401,8 +487,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(OTG_FS_PowerSwitchOn_GPIO_Port, OTG_FS_PowerSwitchOn_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, LD4_Pin|LD3_Pin|LD5_Pin|LD6_Pin
-                          |Audio_RST_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9|GPIO_PIN_10|LD4_Pin|LD3_Pin
+                          |LD5_Pin|LD6_Pin|GPIO_PIN_0|GPIO_PIN_1
+                          |GPIO_PIN_3|Audio_RST_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : CS_I2C_SPI_Pin */
   GPIO_InitStruct.Pin = CS_I2C_SPI_Pin;
@@ -446,10 +533,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
   HAL_GPIO_Init(CLK_IN_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LD4_Pin LD3_Pin LD5_Pin LD6_Pin
-                           Audio_RST_Pin */
-  GPIO_InitStruct.Pin = LD4_Pin|LD3_Pin|LD5_Pin|LD6_Pin
-                          |Audio_RST_Pin;
+  /*Configure GPIO pins : PD9 PD10 LD4_Pin LD3_Pin
+                           LD5_Pin LD6_Pin PD0 PD1
+                           PD3 Audio_RST_Pin */
+  GPIO_InitStruct.Pin = GPIO_PIN_9|GPIO_PIN_10|LD4_Pin|LD3_Pin
+                          |LD5_Pin|LD6_Pin|GPIO_PIN_0|GPIO_PIN_1
+                          |GPIO_PIN_3|Audio_RST_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -473,25 +562,7 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void recieve_uart(){
-	while(1){
-		 do {
-			  HAL_UART_Receive(&huart2, &ch, 1, HAL_MAX_DELAY);
-		 }while (ch != STX);
 
-		// Read length
-		HAL_UART_Receive(&huart2, &len, 1, HAL_MAX_DELAY);
-		if (len != sizeof(Packet)) {
-			 continue;
-	}
-
-		// Read payload directly into struct
-		HAL_UART_Receive(&huart2, (uint8_t*)&rx_pkt, len, HAL_MAX_DELAY);
-		break;
-	}
-	// Use values directly
-	printf("FLAG = %02X | LX = %.2f | LY = %.2f | RX = %.2f | RY = %.2f\n", rx_pkt.btn_flag,  rx_pkt.lx, rx_pkt.ly, rx_pkt.rx, rx_pkt.ry);
-}
 /* USER CODE END 4 */
 
 /**
