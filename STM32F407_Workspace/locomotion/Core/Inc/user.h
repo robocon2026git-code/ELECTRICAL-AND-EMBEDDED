@@ -53,7 +53,10 @@ extern float RY_usr;
 
 extern BitfieldButtonStatusUsr btnStatus;
 
+long map(long val, long in_min, long in_max, long out_min, long out_max);
 uint32_t millis(void);
+
+int bldc_maping(int val, int stop, int max_fw, int max_rw);
 
 void recieve_uart(UART_HandleTypeDef *uart);
 

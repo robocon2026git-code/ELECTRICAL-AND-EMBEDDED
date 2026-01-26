@@ -1,5 +1,7 @@
-../Core/Src/user.c:24:10:millis	1
-../Core/Src/user.c:28:6:recieve_uart	11
-../Core/Src/user.c:89:6:motor_set_speed	6
-../Core/Src/user.c:103:6:motor_set_speed255	4
-../Core/Src/user.c:114:6:Servo_WriteAngle	2
+../Core/Src/user.c:27:10:millis	1
+../Core/Src/user.c:34:6:recieve_uart	11
+../Core/Src/user.c:97:6:motor_set_speed	6
+../Core/Src/user.c:111:6:motor_set_speed255	4
+../Core/Src/user.c:124:6:Servo_WriteAngle	2
+../Core/Src/user.c:138:5:bldc_maping	4
+../Core/Src/user.c:153:6:map	1

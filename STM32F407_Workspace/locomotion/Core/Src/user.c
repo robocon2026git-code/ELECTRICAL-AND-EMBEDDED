@@ -21,9 +21,15 @@ float RY_usr;
 BitfieldButtonStatusUsr btnStatus;
 
 
+
+
+//This function can be used for get SysTick timer value
 uint32_t millis(void){
 	return HAL_GetTick();
 }
+
+
+
 
 void recieve_uart(UART_HandleTypeDef *uart){
 	while(1){
@@ -85,6 +91,8 @@ void recieve_uart(UART_HandleTypeDef *uart){
 
 
 
+
+
 //Speed value 0.0 <--> 1.0
 void motor_set_speed(TIM_HandleTypeDef *htim, uint32_t channel, float speed)
 {
@@ -111,6 +119,8 @@ void motor_set_speed255(TIM_HandleTypeDef *htim, uint32_t channel, uint8_t val)
 
 
 
+
+//To write servo angle
 void Servo_WriteAngle(TIM_HandleTypeDef *timer, uint8_t angle){
 	//Clamp value 0-180
 	if(angle > 180)angle=180;
@@ -121,3 +131,25 @@ void Servo_WriteAngle(TIM_HandleTypeDef *timer, uint8_t angle){
 	__HAL_TIM_SET_COMPARE(timer, TIM_CHANNEL_2, pulse);
 }
 
+
+
+
+//This function is used to map for BLDC motors
+int bldc_maping(int val, int stop, int max_fw, int max_rw){
+	if(val == 0){
+		return stop;
+	}
+	if(val < 0){
+		return map(val, -127, -1, max_rw, stop);
+	}
+	if(val > 0){
+		return map(val, 1, 127, stop, max_fw);
+	}
+	return 0;
+}
+
+
+//Arduino like function used to map values
+long map(long val, long in_min, long in_max, long out_min, long out_max) {
+  return (val - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}

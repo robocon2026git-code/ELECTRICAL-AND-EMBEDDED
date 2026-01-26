@@ -145,7 +145,7 @@ int main(void)
   while (1)
   {
 	  recieve_uart(&huart2);
-//	  printf("LX = %.2f | LY = %.2f", LX_usr, LY_usr);
+
 	  lo_4_wheel_handler(&htim3);
 //	  rx_pkt.lx = 0;
 //	  rx_pkt.ly = 0;

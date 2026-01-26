@@ -1,5 +1,7 @@
-../Core/Src/user.c:24:10:millis	8	static
-../Core/Src/user.c:28:6:recieve_uart	16	static
-../Core/Src/user.c:89:6:motor_set_speed	32	static
-../Core/Src/user.c:103:6:motor_set_speed255	32	static
-../Core/Src/user.c:114:6:Servo_WriteAngle	24	static
+../Core/Src/user.c:27:10:millis	8	static
+../Core/Src/user.c:34:6:recieve_uart	16	static
+../Core/Src/user.c:97:6:motor_set_speed	32	static
+../Core/Src/user.c:111:6:motor_set_speed255	32	static
+../Core/Src/user.c:124:6:Servo_WriteAngle	24	static
+../Core/Src/user.c:138:5:bldc_maping	32	static
+../Core/Src/user.c:153:6:map	24	static

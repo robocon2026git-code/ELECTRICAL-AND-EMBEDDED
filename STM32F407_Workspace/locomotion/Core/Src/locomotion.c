@@ -13,18 +13,46 @@ unsigned long current = 0, previous = 0;
 
 
 
+//int lo_4_wheel_handler(TIM_HandleTypeDef *timer){
+//	int x = LY_usr;
+//	int y = LX_usr;
+//	int w = RX_usr;
+//
+//    if(abs(x) < 20) x = 0;
+//    if(abs(y) < 20) y = 0;
+//    if(abs(w) < 20) w = 0;
+//
+//    int vx = (x * 255) / 127;
+//    int vy = (y * 255) / 127;
+//    int omega = (w * 255) / 127;
+//
+//    lo_4_wheel_calculation(vx, vy, omega);
+//
+//    lo_4_wheel_run(timer, m1_dir_pin, m1_pwm_pin, m1_pwm);
+//    lo_4_wheel_run(timer, m2_dir_pin, m2_pwm_pin, m2_pwm);
+//    lo_4_wheel_run(timer, m3_dir_pin, m3_pwm_pin, m3_pwm);
+//    lo_4_wheel_run(timer, m4_dir_pin, m4_pwm_pin, m4_pwm);
+//    return 0;
+//}
+
+
+
 int lo_4_wheel_handler(TIM_HandleTypeDef *timer){
 	int x = LY_usr;
 	int y = LX_usr;
 	int w = RX_usr;
 
-    if(abs(x) < 20) x = 0;
-    if(abs(y) < 20) y = 0;
-    if(abs(w) < 20) w = 0;
+    if(abs(x) < 20) x = 1500;
+    if(abs(y) < 20) y = 1500;
+    if(abs(w) < 20) w = 1500;
 
-    int vx = (x * 255) / 127;
-    int vy = (y * 255) / 127;
-    int omega = (w * 255) / 127;
+//    x=map(x,-127,127,1000,2000);
+//    y=map(y,-127,127,1000,2000);
+//    w=map(w,-127,127,1000,2000);
+
+    int vx = (x * 1000) / 127;
+    int vy = (y * 1000) / 127;
+    int omega = (w * 1000) / 127;
 
     lo_4_wheel_calculation(vx, vy, omega);
 
