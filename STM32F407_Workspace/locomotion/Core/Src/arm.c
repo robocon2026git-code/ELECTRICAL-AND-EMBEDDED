@@ -29,8 +29,6 @@ void servo_handler(TIM_HandleTypeDef *timer, uint8_t pos){
 
 
 
-
-
 void pnuematic_actuation()
 {
 	if(btnStatus.circle == 1){
