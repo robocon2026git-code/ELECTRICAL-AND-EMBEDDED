@@ -1,3 +1,5 @@
-../Core/Src/locomotion.c:40:5:lo_4_wheel_handler	40	static
-../Core/Src/locomotion.c:67:5:lo_4_wheel_calculation	88	static
-../Core/Src/locomotion.c:103:6:lo_4_wheel_run	24	static
+../Core/Src/locomotion.c:16:5:lo_4_wheel_handler	40	static
+../Core/Src/locomotion.c:66:5:lo_4_wheel_calculation	88	static
+../Core/Src/locomotion.c:102:6:lo_4_wheel_run	24	static
+../Core/Src/locomotion.c:117:6:lo_4_wheel_run_bldc	32	static
+../Core/Src/locomotion.c:132:6:esc_set_pulse_us	16	static
