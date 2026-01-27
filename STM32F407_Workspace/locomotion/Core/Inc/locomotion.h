@@ -29,6 +29,7 @@ int lo_4_wheel_handler(TIM_HandleTypeDef *htim);
 int lo_4_wheel_calculation(int vx, int vy, int omega);
 void lo_4_wheel_run(TIM_HandleTypeDef *htim, uint16_t dir_pin, uint8_t mot_pin, float pwm);
 
+//BLDC C
 void lo_4_wheel_run_bldc(TIM_HandleTypeDef *htim, uint8_t esc_channel, float pwm);
 void esc_set_pulse_us(TIM_HandleTypeDef *htim, uint8_t channel, uint16_t pulse_us);
 

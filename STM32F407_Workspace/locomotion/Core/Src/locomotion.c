@@ -37,7 +37,7 @@ int lo_4_wheel_handler(TIM_HandleTypeDef *timer){
 
 
 
-//For BLDC Motor
+//For BLDC Motor C
 //int lo_4_wheel_handler(TIM_HandleTypeDef *timer){
 //    int x = LY_usr;
 //    int y = LX_usr;
