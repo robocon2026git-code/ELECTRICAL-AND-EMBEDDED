@@ -11,6 +11,10 @@
 #include "stm32f4xx_hal.h"
 #include "user.h"
 
+#define ESC_MIN     1000
+#define ESC_MAX     2000
+#define ESC_NEUTRAL 1500
+
 #define m1_dir_pin						GPIO_PIN_12
 #define m2_dir_pin						GPIO_PIN_13
 #define m3_dir_pin						GPIO_PIN_14
@@ -21,10 +25,13 @@
 #define m3_pwm_pin						TIM_CHANNEL_3	//PB0
 #define m4_pwm_pin						TIM_CHANNEL_4	//PB1
 
-
 int lo_4_wheel_handler(TIM_HandleTypeDef *htim);
 int lo_4_wheel_calculation(int vx, int vy, int omega);
 void lo_4_wheel_run(TIM_HandleTypeDef *htim, uint16_t dir_pin, uint8_t mot_pin, float pwm);
+
+//BLDC C
+void lo_4_wheel_run_bldc(TIM_HandleTypeDef *htim, uint8_t esc_channel, float pwm);
+void esc_set_pulse_us(TIM_HandleTypeDef *htim, uint8_t channel, uint16_t pulse_us);
 
 
 float extern m1_pwm, m2_pwm, m3_pwm, m4_pwm;
