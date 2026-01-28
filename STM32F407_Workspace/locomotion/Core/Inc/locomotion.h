@@ -15,10 +15,10 @@
 #define ESC_MAX     2000
 #define ESC_NEUTRAL 1500
 
-#define m1_dir_pin						GPIO_PIN_12
-#define m2_dir_pin						GPIO_PIN_13
-#define m3_dir_pin						GPIO_PIN_14
-#define m4_dir_pin						GPIO_PIN_15
+#define m1_dir_pin						GPIO_PIN_12		//PD12
+#define m2_dir_pin						GPIO_PIN_13		//PD13
+#define m3_dir_pin						GPIO_PIN_14		//PD14
+#define m4_dir_pin						GPIO_PIN_15		//PD15
 
 #define m1_pwm_pin						TIM_CHANNEL_1	//PC6
 #define m2_pwm_pin						TIM_CHANNEL_2	//PB5

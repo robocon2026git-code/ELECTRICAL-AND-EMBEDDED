@@ -112,8 +112,6 @@ void lo_4_wheel_run(TIM_HandleTypeDef *htim, uint16_t dir_pin, uint8_t mot_pin, 
 
 
 
-
-
 void lo_4_wheel_run_bldc(TIM_HandleTypeDef *htim, uint8_t esc_channel, float pwm){
     // pwm range: -255 to +255
     float pulse = ESC_NEUTRAL + (pwm * 500.0f / 255.0f);
@@ -123,9 +121,6 @@ void lo_4_wheel_run_bldc(TIM_HandleTypeDef *htim, uint8_t esc_channel, float pwm
 
     esc_set_pulse_us(htim, esc_channel, (uint16_t)pulse);
 }
-
-
-
 
 
 

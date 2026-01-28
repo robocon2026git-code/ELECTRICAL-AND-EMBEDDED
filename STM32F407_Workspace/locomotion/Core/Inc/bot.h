@@ -8,7 +8,6 @@
 #ifndef INC_BOT_H_
 #define INC_BOT_H_
 
-
 #include "user.h"
 #include "locomotion.h"
 #include "arm.h"

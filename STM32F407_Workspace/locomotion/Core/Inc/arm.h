@@ -19,8 +19,8 @@
 #define POS_DOWN						2
 
 #define PNEUMATIC_PORT					GPIOD
-#define PNEUMATIC_PIN_1					GPIO_PIN_0
-#define PNEUMATIC_PIN_2					GPIO_PIN_1
+#define PNEUMATIC_PIN_1					GPIO_PIN_0		//PD0
+#define PNEUMATIC_PIN_2					GPIO_PIN_1		//PD1
 
 
 void servo_handler(TIM_HandleTypeDef *timer, uint8_t pos);
