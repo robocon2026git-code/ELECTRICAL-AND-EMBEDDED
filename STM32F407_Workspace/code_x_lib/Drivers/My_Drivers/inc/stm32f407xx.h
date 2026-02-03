@@ -12,7 +12,12 @@
 //*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*
 //$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$
 #define RCC_BASE_ADDR								0x40023800UL
+
+#define GPIOA_BASE_ADDR								0x40020000UL
 #define GPIOD_BASE_ADDR								0x40020C00UL
+
+#define USART1_BASE_ADDR							0x40011000UL
+#define USART2_BASE_ADDR							0x40004400UL
 
 //$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$//$$
 //*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*//*
@@ -43,13 +48,20 @@ typedef struct{
 	volatile uint32_t RESERVED3;				//RESERVED
 	volatile uint32_t RCC_APB1ENR;				//RCC APB1 peripheral clock enable register (RCC_APB1ENR)
 	volatile uint32_t RCC_APB2ENR;				//RCC APB2 peripheral clock enable register (RCC_APB2ENR)
+	volatile uint32_t RESERVED4;				//RESERVED
+	volatile uint32_t RESERVED5;				//RESERVED
 	volatile uint32_t RCC_AHB1LPENR;			//RCC AHB1 peripheral clock enable in low power mode register (RCC_AHB1LPENR)
 	volatile uint32_t RCC_AHB2LPENR;			//RCC AHB2 peripheral clock enable in low power mode register (RCC_AHB2LPENR)
 	volatile uint32_t RCC_AHB3LPENR;			//RCC AHB3 peripheral clock enable in low power mode register (RCC_AHB3LPENR)
+	volatile uint32_t RESERVED6;				//RESERVED
 	volatile uint32_t RCC_APB1LPENR;			//RCC APB1 peripheral clock enable in low power mode register (RCC_APB1LPENR)
 	volatile uint32_t RCC_APB2LPENR;			//RCC APB2 peripheral clock enabled in low power mode register (RCC_APB2LPENR)
+	volatile uint32_t RESERVED7;				//RESERVED
+	volatile uint32_t RESERVED8;				//RESERVED
 	volatile uint32_t RCC_BDCR;					//RCC Backup domain control register (RCC_BDCR)
 	volatile uint32_t RCC_CSR;					//RCC clock control & status register (RCC_CSR)
+	volatile uint32_t RESERVED9;				//RESERVED
+	volatile uint32_t RESERVED10;				//RESERVED
 	volatile uint32_t RCC_SSCGR;				//RCC spread spectrum clock generation register (RCC_SSCGR)
 	volatile uint32_t RCC_PLLI2SCFGR;			//RCC PLLI2S configuration register (RCC_PLLI2SCFGR)
 }RCC_RegDef_t;
@@ -70,12 +82,33 @@ typedef struct {
 	volatile uint32_t GPIOx_AFRH;				//GPIO alternate function high register (GPIOx_AFRH)
 }GPIO_RegDef_t;
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+typedef struct {
+	volatile uint32_t GPIOx_MODER;				Status register (USART_SR)
+	volatile uint32_t
+	volatile uint32_t
+	volatile uint32_t
+	volatile uint32_t
+	volatile uint32_t
+	volatile uint32_t
+	volatile uint32_t
+};
+
 
 
 //##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##
 /*????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????*/
 
 #define RCC										((RCC_RegDef_t*)RCC_BASE_ADDR)
+
+//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##//##
+/*????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????*/
+
+
+
+
 
 
 //Peripheral Address Definitions
@@ -84,6 +117,7 @@ typedef struct {
 
 
 //GPIO ADDRESS DEFINITIONS
+#define GPIOA								((GPIO_RegDef_t*) GPIOA_BASE_ADDR)
 #define GPIOD								((GPIO_RegDef_t*) GPIOD_BASE_ADDR)
 
 
@@ -96,8 +130,8 @@ typedef struct {
 //&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&
 /*________________________________________________________________________________________________________________________________________________________________________________*/
 
+#define GPIOA_PCLK_EN() 				do { RCC->RCC_AHB1ENR |= (1 << 0); } while(0)
 #define GPIOD_PCLK_EN() 				do { RCC->RCC_AHB1ENR |= (1 << 3); } while(0)
-
 
 
 
