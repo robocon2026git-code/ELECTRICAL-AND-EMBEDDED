@@ -1,0 +1,2 @@
+../Drivers/My_Drivers/src/stm32f407xx_gpio.c:4:6:GPIO_ModeSel	16	static
+../Drivers/My_Drivers/src/stm32f407xx_gpio.c:10:6:GPIO_WriteToPin	16	static

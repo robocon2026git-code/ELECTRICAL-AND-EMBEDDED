@@ -17,21 +17,50 @@
  */
 
 #include <stdint.h>
+#include <stdio.h>
+#include "stm32f407xx.h"
+#include "stm32f407xx_gpio.h"
 
 #if !defined(__SOFT_FP__) && defined(__ARM_FP)
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
 
-#define const RCC_BASE_ADDR							0x40023800
-#define const RCC_AHB1ENR							(RCC_BASE_ADDR) + (0x30)
+//#define RCC_AHB1ENR									((volatile uint32_t*)(RCC_BASE_ADDR + 0x30))
+//
+//#define GPIOD_MODER									((volatile uint32_t*)0x40020C00)
+//#define GPIOD_OSPEEDR								((volatile uint32_t*)(GPIOD_BASE_ADDR + 0x08))
+//#define GPIOD_ODR									((volatile uint32_t*)(GPIOD_BASE_ADDR + 0x14))
 
-#define GPIOD_BASE_ADDR								0x40020C00
-#define GPIOD_MODER									0x40020C00
+
+void delay();
 
 int main(void)
 {
-	uint32_t *(RCC_AHB1ENR) = (3 << 1);			//EN Clock for GPIOD port (AHB1)
-	uint32_t *(GPIOD_MODER) = (24 << 1);
-    /* Loop forever */
-	for(;;);
+//	*RCC_AHB1ENR |= (1 << 3);			//EN Clock for GPIOD port (AHB1)
+//	*GPIOD_MODER &= ~(3 << 24);		//SET GENERAL PURPOSE OUTPUT MODE for GPIOD12
+//	*GPIOD_MODER |= (1 << 24);		//SET HIGH SPEED for GPIOD12
+//
+//    /* Loop forever */
+//	for(;;){
+//		*GPIOD_ODR &= ~(1 << 12);
+//		*GPIOD_ODR |= (1 << 12);
+//		printf("LED ON\n");
+//		delay();
+//		*GPIOD_ODR &= ~(1 << 12);
+//		printf("LED OFF\n");
+//		delay();
+//	}
+//	RCC->RCC_AHB1ENR |= (1 << 3);
+//	*((uint32_t*)(0x40023800UL + 0x30)) |= (1 << 3);
+	GPIOD_PCLK_EN();
+//	GPIO_ModeSel(GPIOD, GPIO_PIN_13, GPIO_OUTPUT);
+
+	while (1){
+		GPIO_WriteToPin(GPIOD, GPIO_PIN_13, SET);
+		printf("LED ON\n");
+	}
+}
+
+void delay(){
+	for(int i = 0; i < 900000; i++);
 }
