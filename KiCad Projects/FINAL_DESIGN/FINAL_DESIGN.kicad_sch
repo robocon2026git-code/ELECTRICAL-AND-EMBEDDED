@@ -4356,7 +4356,7 @@
 		)
 		(uuid "ed53d2ed-7489-4c8c-9d9a-1b6b8eae70a5")
 	)
-	(text "Note:\nAll Capcitors 10V"
+	(text "Note:\nAll Capcitors 16V"
 		(exclude_from_sim no)
 		(at 111.252 61.468 0)
 		(effects
@@ -19040,7 +19040,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "100K"
+		(property "Value" "10K"
 			(at 62.738 56.134 0)
 			(effects
 				(font
