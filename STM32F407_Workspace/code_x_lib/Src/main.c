@@ -53,6 +53,7 @@ int main(void)
 //	RCC->RCC_AHB1ENR |= (1 << 3);
 //	*((uint32_t*)(0x40023800UL + 0x30)) |= (1 << 3);
 	GPIOD_PCLK_EN();
+//	GPIO_ModeSel(GPIOD, GPIO_PIN_13, GPIO_OUTPUT);
 
 	while (1){
 		GPIO_WriteToPin(GPIOD, GPIO_PIN_13, SET);
