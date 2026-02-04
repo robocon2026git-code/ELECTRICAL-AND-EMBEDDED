@@ -966,7 +966,7 @@
 		(descr "SOD-882, DFN1006-2, body 1.0 x 0.6 x 0.48mm, pitch 0.65mm, https://assets.nexperia.com/documents/package-information/SOD882.pdf")
 		(tags "Diode SOD882 DFN1006-2")
 		(property "Reference" "D26"
-			(at -1.25 0 90)
+			(at -1.495 -0.6 90)
 			(layer "F.SilkS")
 			(uuid "ab56f6ab-27ee-439f-9054-589663193a12")
 			(effects
@@ -1698,7 +1698,7 @@
 	(footprint "RC0805FR-07330RL:RESC2012X60N"
 		(layer "F.Cu")
 		(uuid "0bb62f62-76f3-4ece-bab2-cfa877d19135")
-		(at 89.3 97)
+		(at 89.545 97.6)
 		(property "Reference" "R4"
 			(at -0.3 0.5 0)
 			(layer "F.SilkS")
@@ -3107,7 +3107,7 @@
 		(descr "SMD Solder Jumper, 1x1.5mm Pads, 0.3mm gap, open")
 		(tags "solder jumper open")
 		(property "Reference" "JP19"
-			(at 0 -1.8 90)
+			(at -0.6 -1.555 90)
 			(layer "F.SilkS")
 			(uuid "50ddbcae-3f26-4c5c-80a3-0a167da4c555")
 			(effects
@@ -4270,7 +4270,7 @@
 	(footprint "RC0805FR-07330RL:RESC2012X60N"
 		(layer "F.Cu")
 		(uuid "17d57989-202a-453b-a36d-29f6180d0e49")
-		(at 89.3 99.1)
+		(at 89.545 99.7)
 		(property "Reference" "R24"
 			(at 0.29 -1.87 0)
 			(layer "F.SilkS")
@@ -4735,7 +4735,7 @@
 	(footprint "Capacitor_SMD:C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "1d17da36-6ad8-465e-badd-cd848ddacddc")
-		(at 89.3 88.9 180)
+		(at 89.545 89.5 180)
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C28"
@@ -10960,7 +10960,7 @@
 	(footprint "Capacitor_SMD:C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "3f56fb64-a337-4625-80ee-69722d907343")
-		(at 89.3 95 180)
+		(at 89.545 95.6 180)
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C10"
@@ -12777,7 +12777,7 @@
 	(footprint "RC0805FR-07330RL:RESC2012X60N"
 		(layer "F.Cu")
 		(uuid "5270b7c2-54ba-42fb-be64-8b6d43882d34")
-		(at 89.3 93)
+		(at 89.545 93.6)
 		(property "Reference" "R6"
 			(at -2.5 0 0)
 			(layer "F.SilkS")
@@ -15181,7 +15181,7 @@
 	(footprint "Capacitor_SMD:C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "5dece9c9-933d-421f-927f-ca24762d5603")
-		(at 89.3 101.1 180)
+		(at 89.545 101.7 180)
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C30"
@@ -15476,7 +15476,7 @@
 	(footprint "RC0805FR-07330RL:RESC2012X60N"
 		(layer "F.Cu")
 		(uuid "619ab534-33fb-4d85-83f0-b44469bd712d")
-		(at 89.3 103.1)
+		(at 89.545 103.7)
 		(property "Reference" "R25"
 			(at -0.41 -1.27 0)
 			(layer "F.SilkS")
@@ -18744,7 +18744,7 @@
 	(footprint "Capacitor_SMD:C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "7d774ae2-34b3-484c-b647-1bc4290b2acc")
-		(at 89.3 91 180)
+		(at 89.545 91.6 180)
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C12"
@@ -20888,7 +20888,7 @@
 		(descr "SMD Solder Jumper, 1x1.5mm Pads, 0.3mm gap, open")
 		(tags "solder jumper open")
 		(property "Reference" "JP21"
-			(at 0 -1.8 90)
+			(at -0.6 -1.555 90)
 			(layer "F.SilkS")
 			(uuid "28142df0-1b89-4fd0-b2d9-d208f428a568")
 			(effects
@@ -23608,7 +23608,7 @@
 		(descr "SMD Solder Jumper, 1x1.5mm Pads, 0.3mm gap, open")
 		(tags "solder jumper open")
 		(property "Reference" "JP20"
-			(at 0.48 -2 90)
+			(at -0.12 -1.755 90)
 			(layer "F.SilkS")
 			(uuid "a8b7efec-2d3d-4e24-9106-4ff2070aa047")
 			(effects
@@ -23775,7 +23775,7 @@
 	(footprint "RC0805FR-07330RL:RESC2012X60N"
 		(layer "F.Cu")
 		(uuid "9ddb8b25-777c-4bb9-b2c1-8cac1bdd52d8")
-		(at 89.255 86.9)
+		(at 89.5 87.5)
 		(property "Reference" "R22"
 			(at 0.855 1.62 0)
 			(layer "F.SilkS")
@@ -27497,7 +27497,7 @@
 	(footprint "Capacitor_SMD:C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "ad4fdcc7-72b3-488a-88bb-384ec63cb2bc")
-		(at 89.3 105.1 180)
+		(at 89.545 105.7 180)
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C31"
@@ -28883,7 +28883,7 @@
 	(footprint "RC0805FR-07330RL:RESC2012X60N"
 		(layer "F.Cu")
 		(uuid "b77f57ee-2f89-4d56-9df3-cfb4c2d730d1")
-		(at 89.255 84.9)
+		(at 89.5 85.5)
 		(property "Reference" "R21"
 			(at -3.055 -0.95 0)
 			(layer "F.SilkS")
@@ -29711,11 +29711,11 @@
 	(footprint "Capacitor_SMD:C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "c5525e80-907b-495d-a053-9d9938617177")
-		(at 106.9 81.78 -90)
+		(at 89.45 83)
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C25"
-			(at 0 -1.68 90)
+			(at 0 -1.68 0)
 			(layer "F.SilkS")
 			(uuid "dbb93176-511e-4921-bcb1-7ac4ce269ae9")
 			(effects
@@ -29726,7 +29726,7 @@
 			)
 		)
 		(property "Value" "100nf"
-			(at 0 1.68 90)
+			(at 0 1.68 0)
 			(layer "F.Fab")
 			(uuid "d5900b78-43cf-414d-a778-9712df8321f0")
 			(effects
@@ -29737,7 +29737,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 0 0 90)
+			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "7accf856-be25-406b-ab4a-a925953f126c")
@@ -29749,7 +29749,7 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
-			(at 0 0 90)
+			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "0f9f9781-0c3e-4cc6-9039-dc3900fa3c1c")
@@ -29761,7 +29761,7 @@
 			)
 		)
 		(property "Assembly" "DNP"
-			(at 0 0 270)
+			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
@@ -29779,16 +29779,6 @@
 		(sheetfile "FINAL_DESIGN.kicad_sch")
 		(attr smd dnp)
 		(fp_line
-			(start -0.261252 0.735)
-			(end 0.261252 0.735)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "7a292686-80d7-4427-99f0-acb337af3ae7")
-		)
-		(fp_line
 			(start -0.261252 -0.735)
 			(end 0.261252 -0.735)
 			(stroke
@@ -29797,6 +29787,16 @@
 			)
 			(layer "F.SilkS")
 			(uuid "32134933-b586-4fad-8eb9-bb08212c09b5")
+		)
+		(fp_line
+			(start -0.261252 0.735)
+			(end 0.261252 0.735)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "7a292686-80d7-4427-99f0-acb337af3ae7")
 		)
 		(fp_rect
 			(start -1.7 -0.98)
@@ -29821,7 +29821,7 @@
 			(uuid "2a7920ae-bb98-4173-bf00-67b0dcffabd3")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 0 0 90)
+			(at 0 0 0)
 			(layer "F.Fab")
 			(uuid "5485329e-4a77-4880-95c0-8ee36634acec")
 			(effects
@@ -29832,7 +29832,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -0.95 0 270)
+			(at -0.95 0)
 			(size 1 1.45)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -29841,7 +29841,7 @@
 			(uuid "f959c5b8-699a-48ef-bfc7-295d0501b53d")
 		)
 		(pad "2" smd roundrect
-			(at 0.95 0 270)
+			(at 0.95 0)
 			(size 1 1.45)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -35933,7 +35933,7 @@
 		(descr "SOD-882, DFN1006-2, body 1.0 x 0.6 x 0.48mm, pitch 0.65mm, https://assets.nexperia.com/documents/package-information/SOD882.pdf")
 		(tags "Diode SOD882 DFN1006-2")
 		(property "Reference" "D24"
-			(at 1.25 0 90)
+			(at 1.495 0.6 90)
 			(layer "F.SilkS")
 			(uuid "bcdbb071-4906-45b0-91ee-9a4a5514df93")
 			(effects
@@ -37794,16 +37794,16 @@
 		(uuid "ed02c385-571e-45a4-8684-c3799b5fc217")
 	)
 	(segment
-		(start 88.35 95)
-		(end 87.3 95)
+		(start 88.595 95.6)
+		(end 87.545 95.6)
 		(width 0.2)
 		(layer "F.Cu")
 		(net 2)
 		(uuid "f0539621-4e78-44ab-b80c-64748d5b24c3")
 	)
 	(segment
-		(start 87.3 91)
-		(end 88.35 91)
+		(start 87.545 91.6)
+		(end 88.595 91.6)
 		(width 0.2)
 		(layer "F.Cu")
 		(net 2)
@@ -37881,7 +37881,7 @@
 		(uuid "acd180be-d643-4df6-a4b6-db80f163fc49")
 	)
 	(via
-		(at 87.2 91.4)
+		(at 87.445 92)
 		(size 0.6)
 		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
@@ -37890,7 +37890,7 @@
 		(uuid "ee78b7e6-b351-4e65-9f74-15a9b1b77f21")
 	)
 	(via
-		(at 87.2 95.4)
+		(at 87.445 96)
 		(size 0.6)
 		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
@@ -37939,8 +37939,8 @@
 		(uuid "8b732657-caea-407b-bf6e-a5df58dbe3d7")
 	)
 	(segment
-		(start 90.25 91)
-		(end 91.1 91.85)
+		(start 90.495 91.6)
+		(end 91.345 92.45)
 		(width 0.2)
 		(layer "F.Cu")
 		(net 5)
