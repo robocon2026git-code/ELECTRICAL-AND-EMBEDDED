@@ -6,18 +6,15 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Drivers/My_Drivers/src/stm32f407xx_gpio.c \
-../Drivers/My_Drivers/src/stm32f407xx_usart.c \
-../Drivers/My_Drivers/src/usart.c 
+../Drivers/My_Drivers/src/stm32f407xx_usart.c 
 
 OBJS += \
 ./Drivers/My_Drivers/src/stm32f407xx_gpio.o \
-./Drivers/My_Drivers/src/stm32f407xx_usart.o \
-./Drivers/My_Drivers/src/usart.o 
+./Drivers/My_Drivers/src/stm32f407xx_usart.o 
 
 C_DEPS += \
 ./Drivers/My_Drivers/src/stm32f407xx_gpio.d \
-./Drivers/My_Drivers/src/stm32f407xx_usart.d \
-./Drivers/My_Drivers/src/usart.d 
+./Drivers/My_Drivers/src/stm32f407xx_usart.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -27,7 +24,7 @@ Drivers/My_Drivers/src/%.o Drivers/My_Drivers/src/%.su Drivers/My_Drivers/src/%.
 clean: clean-Drivers-2f-My_Drivers-2f-src
 
 clean-Drivers-2f-My_Drivers-2f-src:
-	-$(RM) ./Drivers/My_Drivers/src/stm32f407xx_gpio.cyclo ./Drivers/My_Drivers/src/stm32f407xx_gpio.d ./Drivers/My_Drivers/src/stm32f407xx_gpio.o ./Drivers/My_Drivers/src/stm32f407xx_gpio.su ./Drivers/My_Drivers/src/stm32f407xx_usart.cyclo ./Drivers/My_Drivers/src/stm32f407xx_usart.d ./Drivers/My_Drivers/src/stm32f407xx_usart.o ./Drivers/My_Drivers/src/stm32f407xx_usart.su ./Drivers/My_Drivers/src/usart.cyclo ./Drivers/My_Drivers/src/usart.d ./Drivers/My_Drivers/src/usart.o ./Drivers/My_Drivers/src/usart.su
+	-$(RM) ./Drivers/My_Drivers/src/stm32f407xx_gpio.cyclo ./Drivers/My_Drivers/src/stm32f407xx_gpio.d ./Drivers/My_Drivers/src/stm32f407xx_gpio.o ./Drivers/My_Drivers/src/stm32f407xx_gpio.su ./Drivers/My_Drivers/src/stm32f407xx_usart.cyclo ./Drivers/My_Drivers/src/stm32f407xx_usart.d ./Drivers/My_Drivers/src/stm32f407xx_usart.o ./Drivers/My_Drivers/src/stm32f407xx_usart.su
 
 .PHONY: clean-Drivers-2f-My_Drivers-2f-src
 

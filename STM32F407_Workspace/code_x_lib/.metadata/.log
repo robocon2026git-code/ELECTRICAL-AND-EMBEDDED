@@ -1,0 +1,190 @@
+!SESSION 2026-02-05 17:24:43.066 -----------------------------------------------
+eclipse.buildId=Version 1.19.0
+java.version=21.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2026-02-05 17:28:50.947
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-02-05 17:28:50.947
+!MESSAGE Log4j2 initialized with config file /home/robocon2026/ELECTO_CORE/workspace_git/ELECTRICAL-AND-EMBEDDED/STM32F407_Workspace/code_x_lib/.metadata/.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-02-05 17:29:04.576
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.managedbuilder.core 4 0 2026-02-05 17:29:31.440
+!MESSAGE Exception trying to parse option [#include </home/robocon2026/ELECTO_CORE/SOFTWARE/stm32cubeide_1.9.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.linux64_1.0.0.202410170706/tools/bin/../arm-none-eabi/include/newlib-nano>], class CrossBuiltinSpecsDetector
+!STACK 0
+java.util.ConcurrentModificationException
+	at java.base/java.util.HashMap.computeIfAbsent(HashMap.java:1229)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.findContainerForLocationURI(AbstractLanguageSettingsOutputScanner.java:818)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.resolvePathEntryInWorkspace(AbstractLanguageSettingsOutputScanner.java:1241)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.createResolvedPathEntry(AbstractLanguageSettingsOutputScanner.java:1193)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.processLine(AbstractLanguageSettingsOutputScanner.java:606)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractBuiltinSpecsDetector$ConsoleParserAdapter.processLine(AbstractBuiltinSpecsDetector.java:259)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer.processLine(ConsoleOutputSniffer.java:180)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer$ConsoleOutputStream.checkLine(ConsoleOutputSniffer.java:101)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer$ConsoleOutputStream.write(ConsoleOutputSniffer.java:60)
+	at java.base/java.io.OutputStream.write(OutputStream.java:124)
+	at org.eclipse.cdt.internal.core.ProcessClosure$ReaderThread.run(ProcessClosure.java:60)
+
+!ENTRY org.eclipse.cdt.managedbuilder.core 4 0 2026-02-05 17:29:31.441
+!MESSAGE Exception trying to parse option [#include </home/robocon2026/ELECTO_CORE/SOFTWARE/stm32cubeide_1.9.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.linux64_1.0.0.202410170706/tools/bin/../arm-none-eabi/include/newlib-nano>], class CrossBuiltinSpecsDetector
+!STACK 0
+java.util.ConcurrentModificationException
+	at java.base/java.util.HashMap.computeIfAbsent(HashMap.java:1229)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.findContainerForLocationURI(AbstractLanguageSettingsOutputScanner.java:818)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.resolvePathEntryInWorkspace(AbstractLanguageSettingsOutputScanner.java:1241)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.createResolvedPathEntry(AbstractLanguageSettingsOutputScanner.java:1193)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.processLine(AbstractLanguageSettingsOutputScanner.java:606)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractBuiltinSpecsDetector$ConsoleParserAdapter.processLine(AbstractBuiltinSpecsDetector.java:259)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer.processLine(ConsoleOutputSniffer.java:180)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer$ConsoleOutputStream.checkLine(ConsoleOutputSniffer.java:101)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer$ConsoleOutputStream.write(ConsoleOutputSniffer.java:60)
+	at java.base/java.io.OutputStream.write(OutputStream.java:124)
+	at org.eclipse.cdt.internal.core.ProcessClosure$ReaderThread.run(ProcessClosure.java:60)
+
+!ENTRY org.eclipse.cdt.managedbuilder.core 4 0 2026-02-05 17:29:31.443
+!MESSAGE Exception trying to parse option [#include </home/robocon2026/ELECTO_CORE/SOFTWARE/stm32cubeide_1.9.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.linux64_1.0.0.202410170706/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/include>], class CrossBuiltinSpecsDetector
+!STACK 0
+java.util.ConcurrentModificationException
+	at java.base/java.util.HashMap.computeIfAbsent(HashMap.java:1229)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.findContainerForLocationURI(AbstractLanguageSettingsOutputScanner.java:818)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.resolvePathEntryInWorkspace(AbstractLanguageSettingsOutputScanner.java:1241)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.createResolvedPathEntry(AbstractLanguageSettingsOutputScanner.java:1193)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.processLine(AbstractLanguageSettingsOutputScanner.java:606)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractBuiltinSpecsDetector$ConsoleParserAdapter.processLine(AbstractBuiltinSpecsDetector.java:259)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer.processLine(ConsoleOutputSniffer.java:180)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer$ConsoleOutputStream.checkLine(ConsoleOutputSniffer.java:101)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer$ConsoleOutputStream.write(ConsoleOutputSniffer.java:60)
+	at java.base/java.io.OutputStream.write(OutputStream.java:124)
+	at org.eclipse.cdt.internal.core.ProcessClosure$ReaderThread.run(ProcessClosure.java:60)
+
+!ENTRY org.eclipse.cdt.managedbuilder.core 4 0 2026-02-05 17:29:31.443
+!MESSAGE Exception trying to parse option [#include </home/robocon2026/ELECTO_CORE/SOFTWARE/stm32cubeide_1.9.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.linux64_1.0.0.202410170706/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/include>], class CrossBuiltinSpecsDetector
+!STACK 0
+java.util.ConcurrentModificationException
+	at java.base/java.util.HashMap.computeIfAbsent(HashMap.java:1229)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.findContainerForLocationURI(AbstractLanguageSettingsOutputScanner.java:818)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.resolvePathEntryInWorkspace(AbstractLanguageSettingsOutputScanner.java:1241)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.createResolvedPathEntry(AbstractLanguageSettingsOutputScanner.java:1193)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.processLine(AbstractLanguageSettingsOutputScanner.java:606)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractBuiltinSpecsDetector$ConsoleParserAdapter.processLine(AbstractBuiltinSpecsDetector.java:259)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer.processLine(ConsoleOutputSniffer.java:180)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer$ConsoleOutputStream.checkLine(ConsoleOutputSniffer.java:101)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer$ConsoleOutputStream.write(ConsoleOutputSniffer.java:60)
+	at java.base/java.io.OutputStream.write(OutputStream.java:124)
+	at org.eclipse.cdt.internal.core.ProcessClosure$ReaderThread.run(ProcessClosure.java:60)
+
+!ENTRY org.eclipse.cdt.managedbuilder.core 4 0 2026-02-05 17:29:31.445
+!MESSAGE Exception trying to parse option [#include </home/robocon2026/ELECTO_CORE/SOFTWARE/stm32cubeide_1.9.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.linux64_1.0.0.202410170706/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include>], class CrossBuiltinSpecsDetector
+!STACK 0
+java.util.ConcurrentModificationException
+	at java.base/java.util.HashMap.computeIfAbsent(HashMap.java:1229)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.findContainerForLocationURI(AbstractLanguageSettingsOutputScanner.java:818)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.resolvePathEntryInWorkspace(AbstractLanguageSettingsOutputScanner.java:1241)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.createResolvedPathEntry(AbstractLanguageSettingsOutputScanner.java:1193)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.processLine(AbstractLanguageSettingsOutputScanner.java:606)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractBuiltinSpecsDetector$ConsoleParserAdapter.processLine(AbstractBuiltinSpecsDetector.java:259)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer.processLine(ConsoleOutputSniffer.java:180)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer$ConsoleOutputStream.checkLine(ConsoleOutputSniffer.java:101)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer$ConsoleOutputStream.write(ConsoleOutputSniffer.java:60)
+	at java.base/java.io.OutputStream.write(OutputStream.java:124)
+	at org.eclipse.cdt.internal.core.ProcessClosure$ReaderThread.run(ProcessClosure.java:60)
+
+!ENTRY org.eclipse.cdt.managedbuilder.core 4 0 2026-02-05 17:29:31.445
+!MESSAGE Exception trying to parse option [#include </home/robocon2026/ELECTO_CORE/SOFTWARE/stm32cubeide_1.9.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.linux64_1.0.0.202410170706/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include>], class CrossBuiltinSpecsDetector
+!STACK 0
+java.util.ConcurrentModificationException
+	at java.base/java.util.HashMap.computeIfAbsent(HashMap.java:1229)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.findContainerForLocationURI(AbstractLanguageSettingsOutputScanner.java:818)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.resolvePathEntryInWorkspace(AbstractLanguageSettingsOutputScanner.java:1241)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.createResolvedPathEntry(AbstractLanguageSettingsOutputScanner.java:1193)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.processLine(AbstractLanguageSettingsOutputScanner.java:606)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractBuiltinSpecsDetector$ConsoleParserAdapter.processLine(AbstractBuiltinSpecsDetector.java:259)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer.processLine(ConsoleOutputSniffer.java:180)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer$ConsoleOutputStream.checkLine(ConsoleOutputSniffer.java:101)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer$ConsoleOutputStream.write(ConsoleOutputSniffer.java:60)
+	at java.base/java.io.OutputStream.write(OutputStream.java:124)
+	at org.eclipse.cdt.internal.core.ProcessClosure$ReaderThread.run(ProcessClosure.java:60)
+
+!ENTRY org.eclipse.cdt.managedbuilder.core 4 0 2026-02-05 17:29:32.097
+!MESSAGE Exception trying to parse option [#include </home/robocon2026/ELECTO_CORE/SOFTWARE/stm32cubeide_1.9.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.linux64_1.0.0.202410170706/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1>], class CrossBuiltinSpecsDetector
+!STACK 0
+java.util.ConcurrentModificationException
+	at java.base/java.util.HashMap.computeIfAbsent(HashMap.java:1229)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.findContainerForLocationURI(AbstractLanguageSettingsOutputScanner.java:818)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.resolvePathEntryInWorkspace(AbstractLanguageSettingsOutputScanner.java:1241)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.createResolvedPathEntry(AbstractLanguageSettingsOutputScanner.java:1193)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.processLine(AbstractLanguageSettingsOutputScanner.java:606)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractBuiltinSpecsDetector$ConsoleParserAdapter.processLine(AbstractBuiltinSpecsDetector.java:259)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer.processLine(ConsoleOutputSniffer.java:180)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer$ConsoleOutputStream.checkLine(ConsoleOutputSniffer.java:101)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer$ConsoleOutputStream.write(ConsoleOutputSniffer.java:60)
+	at java.base/java.io.OutputStream.write(OutputStream.java:124)
+	at org.eclipse.cdt.internal.core.ProcessClosure$ReaderThread.run(ProcessClosure.java:60)
+
+!ENTRY org.eclipse.cdt.managedbuilder.core 4 0 2026-02-05 17:29:32.097
+!MESSAGE Exception trying to parse option [#include </home/robocon2026/ELECTO_CORE/SOFTWARE/stm32cubeide_1.9.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.linux64_1.0.0.202410170706/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1>], class CrossBuiltinSpecsDetector
+!STACK 0
+java.util.ConcurrentModificationException
+	at java.base/java.util.HashMap.computeIfAbsent(HashMap.java:1229)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.findContainerForLocationURI(AbstractLanguageSettingsOutputScanner.java:818)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.resolvePathEntryInWorkspace(AbstractLanguageSettingsOutputScanner.java:1241)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.createResolvedPathEntry(AbstractLanguageSettingsOutputScanner.java:1193)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.processLine(AbstractLanguageSettingsOutputScanner.java:606)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractBuiltinSpecsDetector$ConsoleParserAdapter.processLine(AbstractBuiltinSpecsDetector.java:259)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer.processLine(ConsoleOutputSniffer.java:180)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer$ConsoleOutputStream.checkLine(ConsoleOutputSniffer.java:101)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer$ConsoleOutputStream.write(ConsoleOutputSniffer.java:60)
+	at java.base/java.io.OutputStream.write(OutputStream.java:124)
+	at org.eclipse.cdt.internal.core.ProcessClosure$ReaderThread.run(ProcessClosure.java:60)
+
+!ENTRY org.eclipse.cdt.managedbuilder.core 4 0 2026-02-05 17:29:32.099
+!MESSAGE Exception trying to parse option [#include </home/robocon2026/ELECTO_CORE/SOFTWARE/stm32cubeide_1.9.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.linux64_1.0.0.202410170706/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/backward>], class CrossBuiltinSpecsDetector
+!STACK 0
+java.util.ConcurrentModificationException
+	at java.base/java.util.HashMap.computeIfAbsent(HashMap.java:1229)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.findContainerForLocationURI(AbstractLanguageSettingsOutputScanner.java:818)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.resolvePathEntryInWorkspace(AbstractLanguageSettingsOutputScanner.java:1241)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.createResolvedPathEntry(AbstractLanguageSettingsOutputScanner.java:1193)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.processLine(AbstractLanguageSettingsOutputScanner.java:606)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractBuiltinSpecsDetector$ConsoleParserAdapter.processLine(AbstractBuiltinSpecsDetector.java:259)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer.processLine(ConsoleOutputSniffer.java:180)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer$ConsoleOutputStream.checkLine(ConsoleOutputSniffer.java:101)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer$ConsoleOutputStream.write(ConsoleOutputSniffer.java:60)
+	at java.base/java.io.OutputStream.write(OutputStream.java:124)
+	at org.eclipse.cdt.internal.core.ProcessClosure$ReaderThread.run(ProcessClosure.java:60)
+
+!ENTRY org.eclipse.cdt.managedbuilder.core 4 0 2026-02-05 17:29:32.099
+!MESSAGE Exception trying to parse option [#include </home/robocon2026/ELECTO_CORE/SOFTWARE/stm32cubeide_1.9.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.linux64_1.0.0.202410170706/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/backward>], class CrossBuiltinSpecsDetector
+!STACK 0
+java.util.ConcurrentModificationException
+	at java.base/java.util.HashMap.computeIfAbsent(HashMap.java:1229)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.findContainerForLocationURI(AbstractLanguageSettingsOutputScanner.java:818)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.resolvePathEntryInWorkspace(AbstractLanguageSettingsOutputScanner.java:1241)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.createResolvedPathEntry(AbstractLanguageSettingsOutputScanner.java:1193)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractLanguageSettingsOutputScanner.processLine(AbstractLanguageSettingsOutputScanner.java:606)
+	at org.eclipse.cdt.managedbuilder.language.settings.providers.AbstractBuiltinSpecsDetector$ConsoleParserAdapter.processLine(AbstractBuiltinSpecsDetector.java:259)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer.processLine(ConsoleOutputSniffer.java:180)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer$ConsoleOutputStream.checkLine(ConsoleOutputSniffer.java:101)
+	at org.eclipse.cdt.internal.core.ConsoleOutputSniffer$ConsoleOutputStream.write(ConsoleOutputSniffer.java:60)
+	at java.base/java.io.OutputStream.write(OutputStream.java:124)
+	at org.eclipse.cdt.internal.core.ProcessClosure$ReaderThread.run(ProcessClosure.java:60)
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-02-05 17:29:38.347
+!MESSAGE Indexed 'test' (34 sources, 136 headers) in 3.38 sec: 14,228 declarations; 70,421 references; 1 unresolved inclusions; 92 syntax errors; 240 unresolved names (0.28%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-02-05 17:29:38.348
+!MESSAGE Indexed 'stm32f407xx.h' (0 sources, 0 headers) in 0 sec: 0 declarations; 0 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-02-05 17:29:39.625
+!MESSAGE Indexed 'locomotion' (40 sources, 146 headers) in 1.27 sec: 17,407 declarations; 97,710 references; 1 unresolved inclusions; 93 syntax errors; 240 unresolved names (0.21%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-02-05 17:29:40.816
+!MESSAGE Indexed 'Integration_code' (40 sources, 146 headers) in 1.19 sec: 17,368 declarations; 97,650 references; 1 unresolved inclusions; 93 syntax errors; 241 unresolved names (0.21%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-02-05 17:29:40.864
+!MESSAGE Indexed 'pwm_empty' (3 sources, 53 headers) in 0.047 sec: 1,954 declarations; 2,863 references; 0 unresolved inclusions; 2 syntax errors; 2 unresolved names (0.042%)

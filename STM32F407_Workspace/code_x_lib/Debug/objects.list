@@ -1,6 +1,5 @@
 "./Drivers/My_Drivers/src/stm32f407xx_gpio.o"
 "./Drivers/My_Drivers/src/stm32f407xx_usart.o"
-"./Drivers/My_Drivers/src/usart.o"
 "./Src/main.o"
 "./Src/syscalls.o"
 "./Src/sysmem.o"

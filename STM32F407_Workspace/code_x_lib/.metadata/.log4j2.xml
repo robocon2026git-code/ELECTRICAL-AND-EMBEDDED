@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info">
+    <ThresholdFilter level="INFO"/>
+    <Appenders>
+        <RollingFile name="DEBUGFILE" fileName="/home/robocon2026/ELECTO_CORE/workspace_git/ELECTRICAL-AND-EMBEDDED/STM32F407_Workspace/code_x_lib/.metadata/.ide.log" filePattern="/home/robocon2026/ELECTO_CORE/workspace_git/ELECTRICAL-AND-EMBEDDED/STM32F407_Workspace/code_x_lib/.metadata/.ide.log-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} [%p] %c{1}:%L - %m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+                <SizeBasedTriggeringPolicy size="50MB"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="ALL">
+            <AppenderRef ref="DEBUGFILE" />
+        </Root>
+    </Loggers>
+</Configuration>

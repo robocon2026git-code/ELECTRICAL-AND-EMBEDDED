@@ -86,15 +86,14 @@ typedef struct {
 
 
 typedef struct {
-	volatile uint32_t GPIOx_MODER;				Status register (USART_SR)
-	volatile uint32_t
-	volatile uint32_t
-	volatile uint32_t
-	volatile uint32_t
-	volatile uint32_t
-	volatile uint32_t
-	volatile uint32_t
-};
+	volatile uint32_t USART_SR;				//Status register (USART_SR)
+	volatile uint32_t USART_DR;				//Data register (USART_DR)
+	volatile uint32_t USART_BRR;			//Baud rate register (USART_BRR)
+	volatile uint32_t USART_CR1;			//Control register 1 (USART_CR1)
+	volatile uint32_t USART_CR2;			//Control register 2 (USART_CR2)
+	volatile uint32_t USART_CR3;			//Control register 3 (USART_CR3)
+	volatile uint32_t USART_GTPR;			//Guard time and prescaler register (USART_GTPR)
+}USART_RegDef_t;
 
 
 
