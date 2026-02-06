@@ -23,18 +23,18 @@ void servo_handler(TIM_HandleTypeDef *timer, uint8_t pos){
 	switch (pos){
 		case POS_UP:
 			HAL_Delay(SERVO_DELAY);
-			Servo_WriteAngle(timer, (curr_angle+=STEP_ANGLE));
+			Servo_WriteAngle(timer, TIM_CHANNEL_2, (curr_angle+=STEP_ANGLE));
 			break;
 
 
 		case POS_DOWN:
 			HAL_Delay(SERVO_DELAY);
-			Servo_WriteAngle(timer, (curr_angle-=STEP_ANGLE));
+			Servo_WriteAngle(timer, TIM_CHANNEL_2, (curr_angle-=STEP_ANGLE));
 			break;
 
 
 		default:
-			Servo_WriteAngle(timer, curr_angle);
+			Servo_WriteAngle(timer, TIM_CHANNEL_2, curr_angle);
 	}
 
 //	if(pos == POS_UP){

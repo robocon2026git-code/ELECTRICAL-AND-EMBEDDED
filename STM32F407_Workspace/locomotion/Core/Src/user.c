@@ -121,14 +121,14 @@ void motor_set_speed255(TIM_HandleTypeDef *htim, uint32_t channel, uint8_t val)
 
 
 //To write servo angle
-void Servo_WriteAngle(TIM_HandleTypeDef *timer, uint8_t angle){
+void Servo_WriteAngle(TIM_HandleTypeDef *timer, uint8_t channel, uint8_t angle){
 	//Clamp value 0-180
 	if(angle > 180)angle=180;
 
 	//Map 0-180 -> 1000 - 2000us
 	uint16_t pulse = 1000 + (angle * 1000)/180;
 
-	__HAL_TIM_SET_COMPARE(timer, TIM_CHANNEL_2, pulse);
+	__HAL_TIM_SET_COMPARE(timer, channel, pulse);
 }
 
 
