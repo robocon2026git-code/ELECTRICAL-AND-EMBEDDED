@@ -10,6 +10,8 @@
 #ifndef INC_ARM_H_
 #define INC_ARM_H_
 
+#define SERVO_TIMER_CH
+
 #define INITIAL_ANGLE					0
 #define STEP_ANGLE						1
 #define MIN_ANGLE						INITIAL_ANGLE

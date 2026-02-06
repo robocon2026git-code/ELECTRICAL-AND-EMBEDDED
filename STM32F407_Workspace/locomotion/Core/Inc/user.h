@@ -63,7 +63,7 @@ void recieve_uart(UART_HandleTypeDef *uart);
 void motor_set_speed(TIM_HandleTypeDef *htim, uint32_t channel, float speed);
 void motor_set_speed255(TIM_HandleTypeDef *htim, uint32_t channel, uint8_t val);
 
-void Servo_WriteAngle(TIM_HandleTypeDef *timer, uint8_t angle);
+void Servo_WriteAngle(TIM_HandleTypeDef *timer, uint8_t channel, uint8_t angle);
 
 
 #endif /* INC_USER_H_ */

@@ -137,21 +137,20 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   printf("STM32 Ready\n");
-  Servo_WriteAngle(&htim2, INITIAL_ANGLE);
+  Servo_WriteAngle(&htim2, TIM_CHANNEL_2, INITIAL_ANGLE);
   while (1)
   {
-	  recieve_uart(&huart2);
+//	  recieve_uart(&huart2);
 
-	  lo_4_wheel_handler(&htim3);
-//	  rx_pkt.lx = 0;
-//	  rx_pkt.ly = 0;
-//	  rx_pkt.ry = 0;
-//	  rx_pkt.ry = 0;
-//
-//	  LX_usr = 0;
-//	  LY_usr = 0;
-//	  RX_usr = 0;
-//	  RY_usr = 0;
+//	  lo_4_wheel_handler(&htim3);
+
+	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, SET);
+
+	  Servo_WriteAngle(&htim2, TIM_CHANNEL_2, 50);
+
+	  HAL_Delay(1000);
+
+	  Servo_WriteAngle(&htim2, TIM_CHANNEL_2, INITIAL_ANGLE);
 
 	  pnuematic_actuation();
     /* USER CODE END WHILE */
