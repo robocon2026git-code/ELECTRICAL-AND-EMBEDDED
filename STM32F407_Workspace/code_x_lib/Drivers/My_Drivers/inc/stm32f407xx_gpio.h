@@ -23,14 +23,70 @@
 #define GPIO_PIN_15							15
 
 
-
+//GPIO MODES
 #define GPIO_INPUT							0
 #define GPIO_OUTPUT							1
 #define GPIO_ALTERNATE_FUNCTION				2
 #define GPIO_ANALOG							3
 
+
+//GPIO ALTERNATE FUNCTIONS
+#define AF0									0
+#define AF1									1
+#define AF2									2
+#define AF3									3
+#define AF4									4
+#define AF5									5
+#define AF6									6
+#define AF7									7
+#define AF8									8
+#define AF9									9
+#define AF10								10
+#define AF11								11
+#define AF12								12
+#define AF13								13
+#define AF14								14
+#define AF15								15
+
+
+//GPIO BIT-FIELDS
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//ALTERNATE FUNCTION LOW REGISTER BIT-FIELDS
+typedef union {
+	struct {
+		uint32_t AFRL0	: 4;
+		uint32_t AFRL1	: 4;
+		uint32_t AFRL2	: 4;
+		uint32_t AFRL3	: 4;
+		uint32_t AFRL4	: 4;
+		uint32_t AFRL5	: 4;
+		uint32_t AFRL6	: 4;
+		uint32_t AFRL7	: 4;
+	}bits;
+}GPIO_AFRL_byte_t;
+
+
+//ALTERNATE FUNCTION HIGH REGISTER BIT-FIELDS
+typedef union {
+	struct {
+		uint32_t AFRL8	: 4;
+		uint32_t AFRL9	: 4;
+		uint32_t AFRL10	: 4;
+		uint32_t AFRL11	: 4;
+		uint32_t AFRL12	: 4;
+		uint32_t AFRL13	: 4;
+		uint32_t AFRL14	: 4;
+		uint32_t AFRL15	: 4;
+	}bits;
+}GPIO_AFRH_byte_t;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//GPIO FUNCTION PROTOTYPES
 void GPIO_WriteToPin(GPIO_RegDef_t *pGPIOx, uint8_t GPIO_PIN, uint8_t val);
 void GPIO_ModeSel(GPIO_RegDef_t *pGPIOx, uint8_t GPIO_PIN, uint8_t mode);
+void GPIO_SelectAlternateFunction(GPIO_RegDef_t *pGPIOx, uint8_t GPIO_PIN, uint16_t AF_Mode);
 
 
 

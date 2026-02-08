@@ -36,24 +36,15 @@ void delay();
 
 int main(void)
 {
-//	*RCC_AHB1ENR |= (1 << 3);			//EN Clock for GPIOD port (AHB1)
-//	*GPIOD_MODER &= ~(3 << 24);		//SET GENERAL PURPOSE OUTPUT MODE for GPIOD12
-//	*GPIOD_MODER |= (1 << 24);		//SET HIGH SPEED for GPIOD12
-//
-//    /* Loop forever */
-//	for(;;){
-//		*GPIOD_ODR &= ~(1 << 12);
-//		*GPIOD_ODR |= (1 << 12);
-//		printf("LED ON\n");
-//		delay();
-//		*GPIOD_ODR &= ~(1 << 12);
-//		printf("LED OFF\n");
-//		delay();
-//	}
-//	RCC->RCC_AHB1ENR |= (1 << 3);
-//	*((uint32_t*)(0x40023800UL + 0x30)) |= (1 << 3);
+	GPIOA_PCLK_EN();
 	GPIOD_PCLK_EN();
+
 	GPIO_ModeSel(GPIOD, GPIO_PIN_13, GPIO_OUTPUT);
+	GPIO_ModeSel(GPIOA, GPIO_PIN_2, GPIO_ALTERNATE_FUNCTION);
+	GPIO_ModeSel(GPIOA, GPIO_PIN_3, GPIO_ALTERNATE_FUNCTION);
+
+	GPIO_SelectAlternateFunction(GPIOA, GPIO_PIN_2, AF7);
+	GPIO_SelectAlternateFunction(GPIOA, GPIO_PIN_3, AF7);
 
 	while (1){
 		GPIO_WriteToPin(GPIOD, GPIO_PIN_13, SET);
