@@ -3,3 +3,4 @@
 int USART_Status(USART_RegDef_t *pUSART) {
 	return pUSART->USART_SR;
 }
+
