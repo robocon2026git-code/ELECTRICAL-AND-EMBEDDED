@@ -2,6 +2,7 @@
 #define INC_STM32F407XX_H
 
 #include <stdint.h>
+#include <stm32f407xx_usart.h>
 
 
 #define SET					1
@@ -85,14 +86,14 @@ typedef struct {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-typedef struct {
-	volatile uint32_t USART_SR;				//Status register (USART_SR)
-	volatile uint32_t USART_DR;				//Data register (USART_DR)
-	volatile uint32_t USART_BRR;			//Baud rate register (USART_BRR)
-	volatile uint32_t USART_CR1;			//Control register 1 (USART_CR1)
-	volatile uint32_t USART_CR2;			//Control register 2 (USART_CR2)
-	volatile uint32_t USART_CR3;			//Control register 3 (USART_CR3)
-	volatile uint32_t USART_GTPR;			//Guard time and prescaler register (USART_GTPR)
+typedef struct USART_RegDef_t{
+	volatile USART_SR_byte_t USART_SR;			//Status register (USART_SR)
+	volatile uint32_t USART_DR;					//Data register (USART_DR)
+	volatile USART_BRR_byte_t USART_BRR;		//Baud rate register (USART_BRR)
+	volatile USART_CR1_byte_t USART_CR1;		//Control register 1 (USART_CR1)
+	volatile USART_CR2_byte_t USART_CR2;		//Control register 2 (USART_CR2)
+	volatile USART_CR3_byte_t USART_CR3;		//Control register 3 (USART_CR3)
+	volatile USART_GTPR_byte_t USART_GTPR;		//Guard time and prescaler register (USART_GTPR)
 }USART_RegDef_t;
 
 
@@ -118,6 +119,9 @@ typedef struct {
 #define GPIOA								((GPIO_RegDef_t*) GPIOA_BASE_ADDR)
 #define GPIOD								((GPIO_RegDef_t*) GPIOD_BASE_ADDR)
 
+#define USART1								((USART_RegDef_t*) USART1_BASE_ADDR)
+#define USART2								((USART_RegDef_t*) USART2_BASE_ADDR)
+
 
 
 
@@ -128,9 +132,18 @@ typedef struct {
 //&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&//&&
 /*________________________________________________________________________________________________________________________________________________________________________________*/
 
+//PERIPHERAL CLOCK ENABLE MACRO DEFINITION
 #define GPIOA_PCLK_EN() 				do { RCC->RCC_AHB1ENR |= (1 << 0); } while(0)
 #define GPIOD_PCLK_EN() 				do { RCC->RCC_AHB1ENR |= (1 << 3); } while(0)
 
+#define USART2_PCLK_EN()				do { RCC->RCC_APB1ENR |= (1 << 17); } while(0);
+
+
+//PERIPHERAL CLOCK DISABLE MACRO DEFINITION
+#define GPIOA_PCLK_DI() 				do { RCC->RCC_AHB1ENR &= ~(1 << 0); } while(0)
+#define GPIOD_PCLK_DI() 				do { RCC->RCC_AHB1ENR &= ~(1 << 3); } while(0)
+
+#define USART2_PCLK_DI()				do { RCC->RCC_APB1ENR &= ~(1 << 17); } while(0);
 
 
 
