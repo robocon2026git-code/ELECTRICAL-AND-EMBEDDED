@@ -49,37 +49,6 @@
 #define AF15								15
 
 
-//GPIO BIT-FIELDS
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//ALTERNATE FUNCTION LOW REGISTER BIT-FIELDS
-typedef union {
-	struct {
-		uint32_t AFRL0	: 4;
-		uint32_t AFRL1	: 4;
-		uint32_t AFRL2	: 4;
-		uint32_t AFRL3	: 4;
-		uint32_t AFRL4	: 4;
-		uint32_t AFRL5	: 4;
-		uint32_t AFRL6	: 4;
-		uint32_t AFRL7	: 4;
-	}bits;
-}GPIO_AFRL_byte_t;
-
-
-//ALTERNATE FUNCTION HIGH REGISTER BIT-FIELDS
-typedef union {
-	struct {
-		uint32_t AFRL8	: 4;
-		uint32_t AFRL9	: 4;
-		uint32_t AFRL10	: 4;
-		uint32_t AFRL11	: 4;
-		uint32_t AFRL12	: 4;
-		uint32_t AFRL13	: 4;
-		uint32_t AFRL14	: 4;
-		uint32_t AFRL15	: 4;
-	}bits;
-}GPIO_AFRH_byte_t;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -88,6 +57,14 @@ void GPIO_WriteToPin(GPIO_RegDef_t *pGPIOx, uint8_t GPIO_PIN, uint8_t val);
 void GPIO_ModeSel(GPIO_RegDef_t *pGPIOx, uint8_t GPIO_PIN, uint8_t mode);
 void GPIO_SelectAlternateFunction(GPIO_RegDef_t *pGPIOx, uint8_t GPIO_PIN, uint16_t AF_Mode);
 
+
+static inline void GPIO_SetPin(GPIO_RegDef_t *pGPIO, uint8_t pin) {
+	pGPIO->GPIOx_BSRR = (1 << pin);
+}
+
+static inline void GPIO_ResetPin(GPIO_RegDef_t *pGPIO, uint8_t pin) {
+	pGPIO->GPIOx_BSRR = (1 << (pin + 16U));
+}
 
 
 #endif

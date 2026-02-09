@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include "stm32f407xx.h"
 #include "stm32f407xx_gpio.h"
+#include "stm32f407xx_usart.h"
 
 #if !defined(__SOFT_FP__) && defined(__ARM_FP)
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
@@ -38,6 +39,7 @@ int main(void)
 {
 	GPIOA_PCLK_EN();
 	GPIOD_PCLK_EN();
+	USART2_PCLK_EN();
 
 	GPIO_ModeSel(GPIOD, GPIO_PIN_13, GPIO_OUTPUT);
 	GPIO_ModeSel(GPIOA, GPIO_PIN_2, GPIO_ALTERNATE_FUNCTION);
@@ -45,6 +47,8 @@ int main(void)
 
 	GPIO_SelectAlternateFunction(GPIOA, GPIO_PIN_2, AF7);
 	GPIO_SelectAlternateFunction(GPIOA, GPIO_PIN_3, AF7);
+
+	USART_SetBaudRate(USART2);
 
 	while (1){
 		GPIO_WriteToPin(GPIOD, GPIO_PIN_13, SET);

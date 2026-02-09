@@ -15,7 +15,6 @@ void GPIO_WriteToPin(GPIO_RegDef_t *pGPIOx, uint8_t GPIO_PIN, uint8_t val) {
 	}
 }
 
-
 void GPIO_SelectAlternateFunction(GPIO_RegDef_t *pGPIOx, uint8_t GPIO_PIN, uint16_t AF_Mode){
 	if(GPIO_PIN <= GPIO_PIN_7) {
 		pGPIOx->GPIOx_AFRL |= AF_Mode << (GPIO_PIN*4);
