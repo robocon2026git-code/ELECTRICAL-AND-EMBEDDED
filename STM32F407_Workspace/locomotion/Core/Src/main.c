@@ -144,7 +144,7 @@ int main(void)
 
 	  lo_4_wheel_handler(&htim3);
 
-//	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, SET);
+//	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, SET);////////
 
 	  Servo_WriteAngle(&htim2, TIM_CHANNEL_2, 50);
 

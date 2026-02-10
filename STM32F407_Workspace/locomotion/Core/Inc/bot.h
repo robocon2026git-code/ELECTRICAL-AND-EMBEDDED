@@ -21,7 +21,7 @@ typedef struct {
 	uint8_t kfs_p2;
 	unit8_t kfs_p3;
 	float kfs_ToF;
-	float bot_speed;
+	float bot_speed;///
 }BOT_Status_t;
 
 
