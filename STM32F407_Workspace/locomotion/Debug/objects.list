@@ -1,4 +1,5 @@
 "./Core/Src/arm.o"
+"./Core/Src/bot.o"
 "./Core/Src/locomotion.o"
 "./Core/Src/main.o"
 "./Core/Src/stm32f4xx_hal_msp.o"

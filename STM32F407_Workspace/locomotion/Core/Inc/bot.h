@@ -19,10 +19,11 @@ typedef struct {
 	uint8_t staff_p3;
 	uint8_t kfs_p1;
 	uint8_t kfs_p2;
-	unit8_t kfs_p3;
+	uint8_t kfs_p3;
 	float kfs_ToF;
 	float bot_speed;///
 }BOT_Status_t;
 
+extern BOT_Status_t war_status;
 
 #endif /* INC_BOT_H_ */

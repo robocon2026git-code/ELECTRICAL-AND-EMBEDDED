@@ -49,7 +49,7 @@ void servo_handler(TIM_HandleTypeDef *timer, uint8_t pos){
 
 
 
-void pnuematic_actuation()
+void Pnuematic_OnOff(uint8_t pneumatic_pin, uint8_t SET_RESET)
 {
 	if(btnStatus.circle == 1){
 		HAL_GPIO_WritePin(PNEUMATIC_PORT, PNEUMATIC_PIN_1, SET);

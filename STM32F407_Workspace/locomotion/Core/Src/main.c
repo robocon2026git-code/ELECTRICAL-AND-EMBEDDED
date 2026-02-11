@@ -132,28 +132,44 @@ int main(void)
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4);
+
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   printf("STM32 Ready\n");
-  Servo_WriteAngle(&htim2, TIM_CHANNEL_2, INITIAL_ANGLE);
+  Bldc_writePulse(&htim2, TIM_CHANNEL_2, 1500);
+//  Servo_WriteAngle(&htim2, TIM_CHANNEL_2, INITIAL_ANGLE);
   while (1)
   {
 	  recieve_uart(&huart2);
 
 	  lo_4_wheel_handler(&htim3);
 
-//	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, SET);////////
+//	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, SET);
 
-	  Servo_WriteAngle(&htim2, TIM_CHANNEL_2, 50);
+//	  Servo_WriteAngle(&htim2, TIM_CHANNEL_2, 50);
+//	  Bldc_writePulse(&htim2, TIM_CHANNEL_2, 1500);
+//
+//	  HAL_Delay(3000);
 
-	  HAL_Delay(1000);
+//	  Bldc_writePulse(&htim2, TIM_CHANNEL_2, 1750);
+//	  HAL_Delay(3000);
+//	  Bldc_writePulse(&htim2, TIM_CHANNEL_2, 1500);
+//	  HAL_Delay(3000);
+//	  Bldc_writePulse(&htim2, TIM_CHANNEL_2,1250);
+//	  HAL_Delay(3000);
+//	  Bldc_writePulse(&htim2, TIM_CHANNEL_2, 1500);
+//	  HAL_Delay(3000);
 
-	  Servo_WriteAngle(&htim2, TIM_CHANNEL_2, INITIAL_ANGLE);
+//	  Servo_WriteAngle(&htim2, TIM_CHANNEL_2, INITIAL_ANGLE);
 
-	  pnuematic_actuation();
+//	  pnuematic_actuation();
 
+	  war_status.bot_speed = 10.5;
+
+	  HAL_UART_Transmit(&huart2, (uint8_t*)&war_status, sizeof(war_status), 10);
 
 	  memset(&rx_pkt, 0, sizeof(rx_pkt));	//Zeroing all the members
     /* USER CODE END WHILE */

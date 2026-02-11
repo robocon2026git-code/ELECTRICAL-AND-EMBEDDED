@@ -39,15 +39,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_macro  00026ef4  00000000  00000000  000354dd  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   00022bb3  00000000  00000000  0005c3d1  2**0
+ 18 .debug_line   00022633  00000000  00000000  0005c3d1  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    000d8f37  00000000  00000000  0007ef84  2**0
+ 19 .debug_str    000d8fa6  00000000  00000000  0007ea04  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .comment      00000043  00000000  00000000  00157ebb  2**0
+ 20 .comment      00000043  00000000  00000000  001579aa  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  00007f00  00000000  00000000  00157f00  2**2
+ 21 .debug_frame  00007f00  00000000  00000000  001579f0  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_line_str 00000078  00000000  00000000  0015fe00  2**0
+ 22 .debug_line_str 00000078  00000000  00000000  0015f8f0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -777,7 +777,7 @@ Disassembly of section .text:
  8000a1a:	e712      	b.n	8000842 <__aeabi_dmul+0x24a>
 
 08000a1c <__gedf2>:
- 8000a1c:	f04f 3cff 	mov.w	ip, #4294967295
+ 8000a1c:	f04f 3cff 	mov.w	ip, #4294967295	@ 0xffffffff
  8000a20:	e006      	b.n	8000a30 <__cmpdf2+0x4>
  8000a22:	bf00      	nop
 
@@ -943,8 +943,8 @@ Disassembly of section .text:
  8000bae:	bf08      	it	eq
  8000bb0:	2800      	cmpeq	r0, #0
  8000bb2:	bf1c      	itt	ne
- 8000bb4:	f04f 31ff 	movne.w	r1, #4294967295
- 8000bb8:	f04f 30ff 	movne.w	r0, #4294967295
+ 8000bb4:	f04f 31ff 	movne.w	r1, #4294967295	@ 0xffffffff
+ 8000bb8:	f04f 30ff 	movne.w	r0, #4294967295	@ 0xffffffff
  8000bbc:	f000 b988 	b.w	8000ed0 <__aeabi_idiv0>
  8000bc0:	f1ad 0c08 	sub.w	ip, sp, #8
  8000bc4:	e96d ce04 	strd	ip, lr, [sp, #-16]!
@@ -983,7 +983,7 @@ Disassembly of section .text:
  8000c22:	429a      	cmp	r2, r3
  8000c24:	d909      	bls.n	8000c3a <__udivmoddi4+0x62>
  8000c26:	18fb      	adds	r3, r7, r3
- 8000c28:	f101 30ff 	add.w	r0, r1, #4294967295
+ 8000c28:	f101 30ff 	add.w	r0, r1, #4294967295	@ 0xffffffff
  8000c2c:	f080 80ea 	bcs.w	8000e04 <__udivmoddi4+0x22c>
  8000c30:	429a      	cmp	r2, r3
  8000c32:	f240 80e7 	bls.w	8000e04 <__udivmoddi4+0x22c>
@@ -998,7 +998,7 @@ Disassembly of section .text:
  8000c4e:	459c      	cmp	ip, r3
  8000c50:	d909      	bls.n	8000c66 <__udivmoddi4+0x8e>
  8000c52:	18fb      	adds	r3, r7, r3
- 8000c54:	f100 32ff 	add.w	r2, r0, #4294967295
+ 8000c54:	f100 32ff 	add.w	r2, r0, #4294967295	@ 0xffffffff
  8000c58:	f080 80d6 	bcs.w	8000e08 <__udivmoddi4+0x230>
  8000c5c:	459c      	cmp	ip, r3
  8000c5e:	f240 80d3 	bls.w	8000e08 <__udivmoddi4+0x230>
@@ -1052,7 +1052,7 @@ Disassembly of section .text:
  8000ce2:	429a      	cmp	r2, r3
  8000ce4:	d907      	bls.n	8000cf6 <__udivmoddi4+0x11e>
  8000ce6:	18fb      	adds	r3, r7, r3
- 8000ce8:	f10c 38ff 	add.w	r8, ip, #4294967295
+ 8000ce8:	f10c 38ff 	add.w	r8, ip, #4294967295	@ 0xffffffff
  8000cec:	d202      	bcs.n	8000cf4 <__udivmoddi4+0x11c>
  8000cee:	429a      	cmp	r2, r3
  8000cf0:	f200 80e0 	bhi.w	8000eb4 <__udivmoddi4+0x2dc>
@@ -1065,7 +1065,7 @@ Disassembly of section .text:
  8000d08:	429c      	cmp	r4, r3
  8000d0a:	d907      	bls.n	8000d1c <__udivmoddi4+0x144>
  8000d0c:	18fb      	adds	r3, r7, r3
- 8000d0e:	f102 30ff 	add.w	r0, r2, #4294967295
+ 8000d0e:	f102 30ff 	add.w	r0, r2, #4294967295	@ 0xffffffff
  8000d12:	d202      	bcs.n	8000d1a <__udivmoddi4+0x142>
  8000d14:	429c      	cmp	r4, r3
  8000d16:	f200 80ca 	bhi.w	8000eae <__udivmoddi4+0x2d6>
@@ -1093,7 +1093,7 @@ Disassembly of section .text:
  8000d5e:	fa02 f201 	lsl.w	r2, r2, r1
  8000d62:	d909      	bls.n	8000d78 <__udivmoddi4+0x1a0>
  8000d64:	193c      	adds	r4, r7, r4
- 8000d66:	f100 3aff 	add.w	sl, r0, #4294967295
+ 8000d66:	f100 3aff 	add.w	sl, r0, #4294967295	@ 0xffffffff
  8000d6a:	f080 809c 	bcs.w	8000ea6 <__udivmoddi4+0x2ce>
  8000d6e:	45a6      	cmp	lr, r4
  8000d70:	f240 8099 	bls.w	8000ea6 <__udivmoddi4+0x2ce>
@@ -1108,7 +1108,7 @@ Disassembly of section .text:
  8000d90:	45a4      	cmp	ip, r4
  8000d92:	d908      	bls.n	8000da6 <__udivmoddi4+0x1ce>
  8000d94:	193c      	adds	r4, r7, r4
- 8000d96:	f103 3eff 	add.w	lr, r3, #4294967295
+ 8000d96:	f103 3eff 	add.w	lr, r3, #4294967295	@ 0xffffffff
  8000d9a:	f080 8082 	bcs.w	8000ea2 <__udivmoddi4+0x2ca>
  8000d9e:	45a4      	cmp	ip, r4
  8000da0:	d97f      	bls.n	8000ea2 <__udivmoddi4+0x2ca>
@@ -1170,7 +1170,7 @@ Disassembly of section .text:
  8000e3e:	b280      	uxth	r0, r0
  8000e40:	d93e      	bls.n	8000ec0 <__udivmoddi4+0x2e8>
  8000e42:	1879      	adds	r1, r7, r1
- 8000e44:	f108 3cff 	add.w	ip, r8, #4294967295
+ 8000e44:	f108 3cff 	add.w	ip, r8, #4294967295	@ 0xffffffff
  8000e48:	d201      	bcs.n	8000e4e <__udivmoddi4+0x276>
  8000e4a:	4589      	cmp	r9, r1
  8000e4c:	d81f      	bhi.n	8000e8e <__udivmoddi4+0x2b6>
@@ -1183,7 +1183,7 @@ Disassembly of section .text:
  8000e64:	4542      	cmp	r2, r8
  8000e66:	d229      	bcs.n	8000ebc <__udivmoddi4+0x2e4>
  8000e68:	18ba      	adds	r2, r7, r2
- 8000e6a:	f109 31ff 	add.w	r1, r9, #4294967295
+ 8000e6a:	f109 31ff 	add.w	r1, r9, #4294967295	@ 0xffffffff
  8000e6e:	d2c4      	bcs.n	8000dfa <__udivmoddi4+0x222>
  8000e70:	4542      	cmp	r2, r8
  8000e72:	d2c2      	bcs.n	8000dfa <__udivmoddi4+0x222>
@@ -3714,49 +3714,30 @@ void OTG_FS_IRQHandler(void)
  8001e04:	20000800 	.word	0x20000800
 
 08001e08 <ITM_SendChar>:
-/* ITM register addresses */
-#define ITM_STIMULUS_PORT0   	*((volatile uint32_t*) 0xE0000000 )
-#define ITM_TRACE_EN          	*((volatile uint32_t*) 0xE0000E00 )
-
-void ITM_SendChar(uint8_t ch)
-{
  8001e08:	b480      	push	{r7}
  8001e0a:	b083      	sub	sp, #12
  8001e0c:	af00      	add	r7, sp, #0
  8001e0e:	4603      	mov	r3, r0
  8001e10:	71fb      	strb	r3, [r7, #7]
-
-	//Enable TRCENA
-	DEMCR |= ( 1 << 24);
  8001e12:	4b0f      	ldr	r3, [pc, #60]	@ (8001e50 <ITM_SendChar+0x48>)
  8001e14:	681b      	ldr	r3, [r3, #0]
  8001e16:	4a0e      	ldr	r2, [pc, #56]	@ (8001e50 <ITM_SendChar+0x48>)
  8001e18:	f043 7380 	orr.w	r3, r3, #16777216	@ 0x1000000
  8001e1c:	6013      	str	r3, [r2, #0]
-
-	//enable stimulus port 0
-	ITM_TRACE_EN |= ( 1 << 0);
  8001e1e:	4b0d      	ldr	r3, [pc, #52]	@ (8001e54 <ITM_SendChar+0x4c>)
  8001e20:	681b      	ldr	r3, [r3, #0]
  8001e22:	4a0c      	ldr	r2, [pc, #48]	@ (8001e54 <ITM_SendChar+0x4c>)
  8001e24:	f043 0301 	orr.w	r3, r3, #1
  8001e28:	6013      	str	r3, [r2, #0]
-
-	// read FIFO status in bit [0]:
-	while(!(ITM_STIMULUS_PORT0 & 1));
  8001e2a:	bf00      	nop
  8001e2c:	f04f 4360 	mov.w	r3, #3758096384	@ 0xe0000000
  8001e30:	681b      	ldr	r3, [r3, #0]
  8001e32:	f003 0301 	and.w	r3, r3, #1
  8001e36:	2b00      	cmp	r3, #0
  8001e38:	d0f8      	beq.n	8001e2c <ITM_SendChar+0x24>
-
-	//Write to ITM stimulus port0
-	ITM_STIMULUS_PORT0 = ch;
  8001e3a:	f04f 4260 	mov.w	r2, #3758096384	@ 0xe0000000
  8001e3e:	79fb      	ldrb	r3, [r7, #7]
  8001e40:	6013      	str	r3, [r2, #0]
-}
  8001e42:	bf00      	nop
  8001e44:	370c      	adds	r7, #12
  8001e46:	46bd      	mov	sp, r7
@@ -3767,82 +3748,51 @@ void ITM_SendChar(uint8_t ch)
  8001e54:	e0000e00 	.word	0xe0000e00
 
 08001e58 <_getpid>:
-void initialise_monitor_handles()
-{
-}
-
-int _getpid(void)
-{
  8001e58:	b480      	push	{r7}
  8001e5a:	af00      	add	r7, sp, #0
-  return 1;
  8001e5c:	2301      	movs	r3, #1
-}
  8001e5e:	4618      	mov	r0, r3
  8001e60:	46bd      	mov	sp, r7
  8001e62:	f85d 7b04 	ldr.w	r7, [sp], #4
  8001e66:	4770      	bx	lr
 
 08001e68 <_kill>:
-
-int _kill(int pid, int sig)
-{
  8001e68:	b580      	push	{r7, lr}
  8001e6a:	b082      	sub	sp, #8
  8001e6c:	af00      	add	r7, sp, #0
  8001e6e:	6078      	str	r0, [r7, #4]
  8001e70:	6039      	str	r1, [r7, #0]
-  (void)pid;
-  (void)sig;
-  errno = EINVAL;
  8001e72:	f009 ffe9 	bl	800be48 <__errno>
  8001e76:	4603      	mov	r3, r0
  8001e78:	2216      	movs	r2, #22
  8001e7a:	601a      	str	r2, [r3, #0]
-  return -1;
- 8001e7c:	f04f 33ff 	mov.w	r3, #4294967295
-}
+ 8001e7c:	f04f 33ff 	mov.w	r3, #4294967295	@ 0xffffffff
  8001e80:	4618      	mov	r0, r3
  8001e82:	3708      	adds	r7, #8
  8001e84:	46bd      	mov	sp, r7
  8001e86:	bd80      	pop	{r7, pc}
 
 08001e88 <_exit>:
-
-void _exit (int status)
-{
  8001e88:	b580      	push	{r7, lr}
  8001e8a:	b082      	sub	sp, #8
  8001e8c:	af00      	add	r7, sp, #0
  8001e8e:	6078      	str	r0, [r7, #4]
-  _kill(status, -1);
- 8001e90:	f04f 31ff 	mov.w	r1, #4294967295
+ 8001e90:	f04f 31ff 	mov.w	r1, #4294967295	@ 0xffffffff
  8001e94:	6878      	ldr	r0, [r7, #4]
  8001e96:	f7ff ffe7 	bl	8001e68 <_kill>
-  while (1) {}    /* Make sure we hang here */
  8001e9a:	bf00      	nop
  8001e9c:	e7fd      	b.n	8001e9a <_exit+0x12>
 
 08001e9e <_read>:
-}
-
-__attribute__((weak)) int _read(int file, char *ptr, int len)
-{
  8001e9e:	b580      	push	{r7, lr}
  8001ea0:	b086      	sub	sp, #24
  8001ea2:	af00      	add	r7, sp, #0
  8001ea4:	60f8      	str	r0, [r7, #12]
  8001ea6:	60b9      	str	r1, [r7, #8]
  8001ea8:	607a      	str	r2, [r7, #4]
-  (void)file;
-  int DataIdx;
-
-  for (DataIdx = 0; DataIdx < len; DataIdx++)
  8001eaa:	2300      	movs	r3, #0
  8001eac:	617b      	str	r3, [r7, #20]
  8001eae:	e00a      	b.n	8001ec6 <_read+0x28>
-  {
-    *ptr++ = __io_getchar();
  8001eb0:	f3af 8000 	nop.w
  8001eb4:	4601      	mov	r1, r0
  8001eb6:	68bb      	ldr	r3, [r7, #8]
@@ -3850,7 +3800,6 @@ __attribute__((weak)) int _read(int file, char *ptr, int len)
  8001eba:	60ba      	str	r2, [r7, #8]
  8001ebc:	b2ca      	uxtb	r2, r1
  8001ebe:	701a      	strb	r2, [r3, #0]
-  for (DataIdx = 0; DataIdx < len; DataIdx++)
  8001ec0:	697b      	ldr	r3, [r7, #20]
  8001ec2:	3301      	adds	r3, #1
  8001ec4:	617b      	str	r3, [r7, #20]
@@ -3858,43 +3807,28 @@ __attribute__((weak)) int _read(int file, char *ptr, int len)
  8001ec8:	687b      	ldr	r3, [r7, #4]
  8001eca:	429a      	cmp	r2, r3
  8001ecc:	dbf0      	blt.n	8001eb0 <_read+0x12>
-  }
-
-  return len;
  8001ece:	687b      	ldr	r3, [r7, #4]
-}
  8001ed0:	4618      	mov	r0, r3
  8001ed2:	3718      	adds	r7, #24
  8001ed4:	46bd      	mov	sp, r7
  8001ed6:	bd80      	pop	{r7, pc}
 
 08001ed8 <_write>:
-
-__attribute__((weak)) int _write(int file, char *ptr, int len)
-{
  8001ed8:	b580      	push	{r7, lr}
  8001eda:	b086      	sub	sp, #24
  8001edc:	af00      	add	r7, sp, #0
  8001ede:	60f8      	str	r0, [r7, #12]
  8001ee0:	60b9      	str	r1, [r7, #8]
  8001ee2:	607a      	str	r2, [r7, #4]
-  (void)file;
-  int DataIdx;
-
-  for (DataIdx = 0; DataIdx < len; DataIdx++)
  8001ee4:	2300      	movs	r3, #0
  8001ee6:	617b      	str	r3, [r7, #20]
  8001ee8:	e009      	b.n	8001efe <_write+0x26>
-  {
-    //__io_putchar(*ptr++);
-    ITM_SendChar(*ptr++);
  8001eea:	68bb      	ldr	r3, [r7, #8]
  8001eec:	1c5a      	adds	r2, r3, #1
  8001eee:	60ba      	str	r2, [r7, #8]
  8001ef0:	781b      	ldrb	r3, [r3, #0]
  8001ef2:	4618      	mov	r0, r3
  8001ef4:	f7ff ff88 	bl	8001e08 <ITM_SendChar>
-  for (DataIdx = 0; DataIdx < len; DataIdx++)
  8001ef8:	697b      	ldr	r3, [r7, #20]
  8001efa:	3301      	adds	r3, #1
  8001efc:	617b      	str	r3, [r7, #20]
@@ -3902,27 +3836,18 @@ __attribute__((weak)) int _write(int file, char *ptr, int len)
  8001f00:	687b      	ldr	r3, [r7, #4]
  8001f02:	429a      	cmp	r2, r3
  8001f04:	dbf1      	blt.n	8001eea <_write+0x12>
-  }
-  return len;
  8001f06:	687b      	ldr	r3, [r7, #4]
-}
  8001f08:	4618      	mov	r0, r3
  8001f0a:	3718      	adds	r7, #24
  8001f0c:	46bd      	mov	sp, r7
  8001f0e:	bd80      	pop	{r7, pc}
 
 08001f10 <_close>:
-
-int _close(int file)
-{
  8001f10:	b480      	push	{r7}
  8001f12:	b083      	sub	sp, #12
  8001f14:	af00      	add	r7, sp, #0
  8001f16:	6078      	str	r0, [r7, #4]
-  (void)file;
-  return -1;
- 8001f18:	f04f 33ff 	mov.w	r3, #4294967295
-}
+ 8001f18:	f04f 33ff 	mov.w	r3, #4294967295	@ 0xffffffff
  8001f1c:	4618      	mov	r0, r3
  8001f1e:	370c      	adds	r7, #12
  8001f20:	46bd      	mov	sp, r7
@@ -3930,23 +3855,15 @@ int _close(int file)
  8001f26:	4770      	bx	lr
 
 08001f28 <_fstat>:
-
-
-int _fstat(int file, struct stat *st)
-{
  8001f28:	b480      	push	{r7}
  8001f2a:	b083      	sub	sp, #12
  8001f2c:	af00      	add	r7, sp, #0
  8001f2e:	6078      	str	r0, [r7, #4]
  8001f30:	6039      	str	r1, [r7, #0]
-  (void)file;
-  st->st_mode = S_IFCHR;
  8001f32:	683b      	ldr	r3, [r7, #0]
  8001f34:	f44f 5200 	mov.w	r2, #8192	@ 0x2000
  8001f38:	605a      	str	r2, [r3, #4]
-  return 0;
  8001f3a:	2300      	movs	r3, #0
-}
  8001f3c:	4618      	mov	r0, r3
  8001f3e:	370c      	adds	r7, #12
  8001f40:	46bd      	mov	sp, r7
@@ -3954,17 +3871,11 @@ int _fstat(int file, struct stat *st)
  8001f46:	4770      	bx	lr
 
 08001f48 <_isatty>:
-
-int _isatty(int file)
-{
  8001f48:	b480      	push	{r7}
  8001f4a:	b083      	sub	sp, #12
  8001f4c:	af00      	add	r7, sp, #0
  8001f4e:	6078      	str	r0, [r7, #4]
-  (void)file;
-  return 1;
  8001f50:	2301      	movs	r3, #1
-}
  8001f52:	4618      	mov	r0, r3
  8001f54:	370c      	adds	r7, #12
  8001f56:	46bd      	mov	sp, r7
@@ -3972,21 +3883,13 @@ int _isatty(int file)
  8001f5c:	4770      	bx	lr
 
 08001f5e <_lseek>:
-
-int _lseek(int file, int ptr, int dir)
-{
  8001f5e:	b480      	push	{r7}
  8001f60:	b085      	sub	sp, #20
  8001f62:	af00      	add	r7, sp, #0
  8001f64:	60f8      	str	r0, [r7, #12]
  8001f66:	60b9      	str	r1, [r7, #8]
  8001f68:	607a      	str	r2, [r7, #4]
-  (void)file;
-  (void)ptr;
-  (void)dir;
-  return 0;
  8001f6a:	2300      	movs	r3, #0
-}
  8001f6c:	4618      	mov	r0, r3
  8001f6e:	3714      	adds	r7, #20
  8001f70:	46bd      	mov	sp, r7
@@ -3994,44 +3897,23 @@ int _lseek(int file, int ptr, int dir)
  8001f76:	4770      	bx	lr
 
 08001f78 <_sbrk>:
- *
- * @param incr Memory size
- * @return Pointer to allocated memory
- */
-void *_sbrk(ptrdiff_t incr)
-{
  8001f78:	b580      	push	{r7, lr}
  8001f7a:	b086      	sub	sp, #24
  8001f7c:	af00      	add	r7, sp, #0
  8001f7e:	6078      	str	r0, [r7, #4]
-  extern uint8_t _end; /* Symbol defined in the linker script */
-  extern uint8_t _estack; /* Symbol defined in the linker script */
-  extern uint32_t _Min_Stack_Size; /* Symbol defined in the linker script */
-  const uint32_t stack_limit = (uint32_t)&_estack - (uint32_t)&_Min_Stack_Size;
  8001f80:	4a14      	ldr	r2, [pc, #80]	@ (8001fd4 <_sbrk+0x5c>)
  8001f82:	4b15      	ldr	r3, [pc, #84]	@ (8001fd8 <_sbrk+0x60>)
  8001f84:	1ad3      	subs	r3, r2, r3
  8001f86:	617b      	str	r3, [r7, #20]
-  const uint8_t *max_heap = (uint8_t *)stack_limit;
  8001f88:	697b      	ldr	r3, [r7, #20]
  8001f8a:	613b      	str	r3, [r7, #16]
-  uint8_t *prev_heap_end;
-
-  /* Initialize heap end at first call */
-  if (NULL == __sbrk_heap_end)
  8001f8c:	4b13      	ldr	r3, [pc, #76]	@ (8001fdc <_sbrk+0x64>)
  8001f8e:	681b      	ldr	r3, [r3, #0]
  8001f90:	2b00      	cmp	r3, #0
  8001f92:	d102      	bne.n	8001f9a <_sbrk+0x22>
-  {
-    __sbrk_heap_end = &_end;
  8001f94:	4b11      	ldr	r3, [pc, #68]	@ (8001fdc <_sbrk+0x64>)
  8001f96:	4a12      	ldr	r2, [pc, #72]	@ (8001fe0 <_sbrk+0x68>)
  8001f98:	601a      	str	r2, [r3, #0]
-  }
-
-  /* Protect heap from growing into the reserved MSP stack */
-  if (__sbrk_heap_end + incr > max_heap)
  8001f9a:	4b10      	ldr	r3, [pc, #64]	@ (8001fdc <_sbrk+0x64>)
  8001f9c:	681a      	ldr	r2, [r3, #0]
  8001f9e:	687b      	ldr	r3, [r7, #4]
@@ -4039,32 +3921,22 @@ void *_sbrk(ptrdiff_t incr)
  8001fa2:	693a      	ldr	r2, [r7, #16]
  8001fa4:	429a      	cmp	r2, r3
  8001fa6:	d207      	bcs.n	8001fb8 <_sbrk+0x40>
-  {
-    errno = ENOMEM;
  8001fa8:	f009 ff4e 	bl	800be48 <__errno>
  8001fac:	4603      	mov	r3, r0
  8001fae:	220c      	movs	r2, #12
  8001fb0:	601a      	str	r2, [r3, #0]
-    return (void *)-1;
- 8001fb2:	f04f 33ff 	mov.w	r3, #4294967295
+ 8001fb2:	f04f 33ff 	mov.w	r3, #4294967295	@ 0xffffffff
  8001fb6:	e009      	b.n	8001fcc <_sbrk+0x54>
-  }
-
-  prev_heap_end = __sbrk_heap_end;
  8001fb8:	4b08      	ldr	r3, [pc, #32]	@ (8001fdc <_sbrk+0x64>)
  8001fba:	681b      	ldr	r3, [r3, #0]
  8001fbc:	60fb      	str	r3, [r7, #12]
-  __sbrk_heap_end += incr;
  8001fbe:	4b07      	ldr	r3, [pc, #28]	@ (8001fdc <_sbrk+0x64>)
  8001fc0:	681a      	ldr	r2, [r3, #0]
  8001fc2:	687b      	ldr	r3, [r7, #4]
  8001fc4:	4413      	add	r3, r2
  8001fc6:	4a05      	ldr	r2, [pc, #20]	@ (8001fdc <_sbrk+0x64>)
  8001fc8:	6013      	str	r3, [r2, #0]
-
-  return (void *)prev_heap_end;
  8001fca:	68fb      	ldr	r3, [r7, #12]
-}
  8001fcc:	4618      	mov	r0, r3
  8001fce:	3718      	adds	r7, #24
  8001fd0:	46bd      	mov	sp, r7
@@ -4131,7 +4003,7 @@ void recieve_uart(UART_HandleTypeDef *uart){
 	while(1){
 		 do {
 			  HAL_UART_Receive(uart, &ch, 1, HAL_MAX_DELAY);
- 8002020:	f04f 33ff 	mov.w	r3, #4294967295
+ 8002020:	f04f 33ff 	mov.w	r3, #4294967295	@ 0xffffffff
  8002024:	2201      	movs	r2, #1
  8002026:	4953      	ldr	r1, [pc, #332]	@ (8002174 <recieve_uart+0x15c>)
  8002028:	6878      	ldr	r0, [r7, #4]
@@ -4144,7 +4016,7 @@ void recieve_uart(UART_HandleTypeDef *uart){
 
 		// Read length
 		HAL_UART_Receive(uart, &len, 1, HAL_MAX_DELAY);
- 8002036:	f04f 33ff 	mov.w	r3, #4294967295
+ 8002036:	f04f 33ff 	mov.w	r3, #4294967295	@ 0xffffffff
  800203a:	2201      	movs	r2, #1
  800203c:	494e      	ldr	r1, [pc, #312]	@ (8002178 <recieve_uart+0x160>)
  800203e:	6878      	ldr	r0, [r7, #4]
@@ -4162,7 +4034,7 @@ void recieve_uart(UART_HandleTypeDef *uart){
  800204c:	4b4a      	ldr	r3, [pc, #296]	@ (8002178 <recieve_uart+0x160>)
  800204e:	781b      	ldrb	r3, [r3, #0]
  8002050:	461a      	mov	r2, r3
- 8002052:	f04f 33ff 	mov.w	r3, #4294967295
+ 8002052:	f04f 33ff 	mov.w	r3, #4294967295	@ 0xffffffff
  8002056:	4949      	ldr	r1, [pc, #292]	@ (800217c <recieve_uart+0x164>)
  8002058:	6878      	ldr	r0, [r7, #4]
  800205a:	f004 febb 	bl	8006dd4 <HAL_UART_Receive>
@@ -4463,104 +4335,46 @@ void Servo_WriteAngle(TIM_HandleTypeDef *timer, uint8_t angle){
  8002274:	b60b60b7 	.word	0xb60b60b7
 
 08002278 <Reset_Handler>:
-
-    .section  .text.Reset_Handler
-  .weak  Reset_Handler
-  .type  Reset_Handler, %function
-Reset_Handler:  
-  ldr   sp, =_estack     /* set stack pointer */
  8002278:	f8df d034 	ldr.w	sp, [pc, #52]	@ 80022b0 <LoopFillZerobss+0xe>
-  
-/* Call the clock system initialization function.*/
-  bl  SystemInit  
  800227c:	f7ff feb2 	bl	8001fe4 <SystemInit>
-
-/* Copy the data segment initializers from flash to SRAM */  
-  ldr r0, =_sdata
  8002280:	480c      	ldr	r0, [pc, #48]	@ (80022b4 <LoopFillZerobss+0x12>)
-  ldr r1, =_edata
  8002282:	490d      	ldr	r1, [pc, #52]	@ (80022b8 <LoopFillZerobss+0x16>)
-  ldr r2, =_sidata
  8002284:	4a0d      	ldr	r2, [pc, #52]	@ (80022bc <LoopFillZerobss+0x1a>)
-  movs r3, #0
  8002286:	2300      	movs	r3, #0
-  b LoopCopyDataInit
  8002288:	e002      	b.n	8002290 <LoopCopyDataInit>
 
 0800228a <CopyDataInit>:
-
-CopyDataInit:
-  ldr r4, [r2, r3]
  800228a:	58d4      	ldr	r4, [r2, r3]
-  str r4, [r0, r3]
  800228c:	50c4      	str	r4, [r0, r3]
-  adds r3, r3, #4
  800228e:	3304      	adds	r3, #4
 
 08002290 <LoopCopyDataInit>:
-
-LoopCopyDataInit:
-  adds r4, r0, r3
  8002290:	18c4      	adds	r4, r0, r3
-  cmp r4, r1
  8002292:	428c      	cmp	r4, r1
-  bcc CopyDataInit
  8002294:	d3f9      	bcc.n	800228a <CopyDataInit>
-  
-/* Zero fill the bss segment. */
-  ldr r2, =_sbss
  8002296:	4a0a      	ldr	r2, [pc, #40]	@ (80022c0 <LoopFillZerobss+0x1e>)
-  ldr r4, =_ebss
  8002298:	4c0a      	ldr	r4, [pc, #40]	@ (80022c4 <LoopFillZerobss+0x22>)
-  movs r3, #0
  800229a:	2300      	movs	r3, #0
-  b LoopFillZerobss
  800229c:	e001      	b.n	80022a2 <LoopFillZerobss>
 
 0800229e <FillZerobss>:
-
-FillZerobss:
-  str  r3, [r2]
  800229e:	6013      	str	r3, [r2, #0]
-  adds r2, r2, #4
  80022a0:	3204      	adds	r2, #4
 
 080022a2 <LoopFillZerobss>:
-
-LoopFillZerobss:
-  cmp r2, r4
  80022a2:	42a2      	cmp	r2, r4
-  bcc FillZerobss
  80022a4:	d3fb      	bcc.n	800229e <FillZerobss>
-
-/* Call static constructors */
-    bl __libc_init_array
  80022a6:	f009 fdd5 	bl	800be54 <__libc_init_array>
-/* Call the application's entry point.*/
-  bl  main
  80022aa:	f7ff f827 	bl	80012fc <main>
-  bx  lr    
  80022ae:	4770      	bx	lr
-  ldr   sp, =_estack     /* set stack pointer */
  80022b0:	20020000 	.word	0x20020000
-  ldr r0, =_sdata
  80022b4:	20000000 	.word	0x20000000
-  ldr r1, =_edata
  80022b8:	200001f4 	.word	0x200001f4
-  ldr r2, =_sidata
  80022bc:	0800ddbc 	.word	0x0800ddbc
-  ldr r2, =_sbss
  80022c0:	200001f4 	.word	0x200001f4
-  ldr r4, =_ebss
  80022c4:	20000d2c 	.word	0x20000d2c
 
 080022c8 <ADC_IRQHandler>:
- * @retval None       
-*/
-    .section  .text.Default_Handler,"ax",%progbits
-Default_Handler:
-Infinite_Loop:
-  b  Infinite_Loop
  80022c8:	e7fe      	b.n	80022c8 <ADC_IRQHandler>
 	...
 
@@ -4605,7 +4419,7 @@ __weak HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
     HAL_NVIC_SetPriority(SysTick_IRQn, TickPriority, 0U);
  8002300:	2200      	movs	r2, #0
  8002302:	6879      	ldr	r1, [r7, #4]
- 8002304:	f04f 30ff 	mov.w	r0, #4294967295
+ 8002304:	f04f 30ff 	mov.w	r0, #4294967295	@ 0xffffffff
  8002308:	f000 f900 	bl	800250c <HAL_NVIC_SetPriority>
     uwTickPrio = TickPriority;
  800230c:	4a06      	ldr	r2, [pc, #24]	@ (8002328 <HAL_InitTick+0x5c>)
@@ -4698,7 +4512,7 @@ __weak void HAL_Delay(uint32_t Delay)
   /* Add a freq to guarantee minimum wait */
   if (wait < HAL_MAX_DELAY)
  800237e:	68fb      	ldr	r3, [r7, #12]
- 8002380:	f1b3 3fff 	cmp.w	r3, #4294967295
+ 8002380:	f1b3 3fff 	cmp.w	r3, #4294967295	@ 0xffffffff
  8002384:	d005      	beq.n	8002392 <HAL_Delay+0x26>
   {
     wait += (uint32_t)(uwTickFreq);
@@ -4883,7 +4697,7 @@ __STATIC_INLINE uint32_t NVIC_EncodePriority (uint32_t PriorityGroup, uint32_t P
 
   return (
            ((PreemptPriority & (uint32_t)((1UL << (PreemptPriorityBits)) - 1UL)) << SubPriorityBits) |
- 8002494:	f04f 32ff 	mov.w	r2, #4294967295
+ 8002494:	f04f 32ff 	mov.w	r2, #4294967295	@ 0xffffffff
  8002498:	69bb      	ldr	r3, [r7, #24]
  800249a:	fa02 f303 	lsl.w	r3, r2, r3
  800249e:	43da      	mvns	r2, r3
@@ -4892,7 +4706,7 @@ __STATIC_INLINE uint32_t NVIC_EncodePriority (uint32_t PriorityGroup, uint32_t P
  80024a4:	697b      	ldr	r3, [r7, #20]
  80024a6:	409a      	lsls	r2, r3
            ((SubPriority     & (uint32_t)((1UL << (SubPriorityBits    )) - 1UL)))
- 80024a8:	f04f 31ff 	mov.w	r1, #4294967295
+ 80024a8:	f04f 31ff 	mov.w	r1, #4294967295	@ 0xffffffff
  80024ac:	697b      	ldr	r3, [r7, #20]
  80024ae:	fa01 f303 	lsl.w	r3, r1, r3
  80024b2:	43d9      	mvns	r1, r3
@@ -4938,7 +4752,7 @@ __STATIC_INLINE uint32_t SysTick_Config(uint32_t ticks)
  80024e4:	6053      	str	r3, [r2, #4]
   NVIC_SetPriority (SysTick_IRQn, (1UL << __NVIC_PRIO_BITS) - 1UL); /* set Priority for Systick Interrupt */
  80024e6:	210f      	movs	r1, #15
- 80024e8:	f04f 30ff 	mov.w	r0, #4294967295
+ 80024e8:	f04f 30ff 	mov.w	r0, #4294967295	@ 0xffffffff
  80024ec:	f7ff ff8e 	bl	800240c <__NVIC_SetPriority>
   SysTick->VAL   = 0UL;                                             /* Load the SysTick Counter Value */
  80024f0:	4b05      	ldr	r3, [pc, #20]	@ (8002508 <SysTick_Config+0x40>)
@@ -17059,7 +16873,7 @@ static HAL_StatusTypeDef UART_WaitOnFlagUntilTimeout(UART_HandleTypeDef *huart, 
     /* Check for the Timeout */
     if (Timeout != HAL_MAX_DELAY)
  8006f14:	6a3b      	ldr	r3, [r7, #32]
- 8006f16:	f1b3 3fff 	cmp.w	r3, #4294967295
+ 8006f16:	f1b3 3fff 	cmp.w	r3, #4294967295	@ 0xffffffff
  8006f1a:	d037      	beq.n	8006f8c <UART_WaitOnFlagUntilTimeout+0x8a>
     {
       if (((HAL_GetTick() - Tickstart) > Timeout) || (Timeout == 0U))
@@ -18806,7 +18620,7 @@ HAL_StatusTypeDef USB_HostInit(USB_OTG_GlobalTypeDef *USBx, USB_OTG_CfgTypeDef c
  8007ab4:	4413      	add	r3, r2
  8007ab6:	f503 63a0 	add.w	r3, r3, #1280	@ 0x500
  8007aba:	461a      	mov	r2, r3
- 8007abc:	f04f 33ff 	mov.w	r3, #4294967295
+ 8007abc:	f04f 33ff 	mov.w	r3, #4294967295	@ 0xffffffff
  8007ac0:	6093      	str	r3, [r2, #8]
     USBx_HC(i)->HCINTMSK = 0U;
  8007ac2:	693b      	ldr	r3, [r7, #16]
@@ -18837,7 +18651,7 @@ HAL_StatusTypeDef USB_HostInit(USB_OTG_GlobalTypeDef *USBx, USB_OTG_CfgTypeDef c
   /* Clear any pending interrupts */
   USBx->GINTSTS = CLEAR_INTERRUPT_MASK;
  8007aec:	687b      	ldr	r3, [r7, #4]
- 8007aee:	f04f 32ff 	mov.w	r2, #4294967295
+ 8007aee:	f04f 32ff 	mov.w	r2, #4294967295	@ 0xffffffff
  8007af2:	615a      	str	r2, [r3, #20]
 #if defined (USB_OTG_HS)
   if (USBx == USB_OTG_HS)
@@ -19228,7 +19042,7 @@ HAL_StatusTypeDef USB_HC_Init(USB_OTG_GlobalTypeDef *USBx, uint8_t ch_num,
  8007d28:	4413      	add	r3, r2
  8007d2a:	f503 63a0 	add.w	r3, r3, #1280	@ 0x500
  8007d2e:	461a      	mov	r2, r3
- 8007d30:	f04f 33ff 	mov.w	r3, #4294967295
+ 8007d30:	f04f 33ff 	mov.w	r3, #4294967295	@ 0xffffffff
  8007d34:	6093      	str	r3, [r2, #8]
 
   /* Enable channel interrupts required for this transfer. */
@@ -20999,11 +20813,11 @@ HAL_StatusTypeDef USB_StopHost(USB_OTG_GlobalTypeDef *USBx)
  8008826:	697b      	ldr	r3, [r7, #20]
  8008828:	f503 6380 	add.w	r3, r3, #1024	@ 0x400
  800882c:	461a      	mov	r2, r3
- 800882e:	f04f 33ff 	mov.w	r3, #4294967295
+ 800882e:	f04f 33ff 	mov.w	r3, #4294967295	@ 0xffffffff
  8008832:	6153      	str	r3, [r2, #20]
   USBx->GINTSTS = CLEAR_INTERRUPT_MASK;
  8008834:	687b      	ldr	r3, [r7, #4]
- 8008836:	f04f 32ff 	mov.w	r2, #4294967295
+ 8008836:	f04f 32ff 	mov.w	r2, #4294967295	@ 0xffffffff
  800883a:	615a      	str	r2, [r3, #20]
 
   (void)USB_EnableGlobalInt(USBx);
@@ -28195,7 +28009,7 @@ void MX_DriverVbusFS(uint8_t state)
  800af7e:	f000 ff41 	bl	800be04 <_sbrk_r>
  800af82:	1c43      	adds	r3, r0, #1
  800af84:	d103      	bne.n	800af8e <sbrk_aligned+0x26>
- 800af86:	f04f 34ff 	mov.w	r4, #4294967295
+ 800af86:	f04f 34ff 	mov.w	r4, #4294967295	@ 0xffffffff
  800af8a:	4620      	mov	r0, r4
  800af8c:	bd70      	pop	{r4, r5, r6, pc}
  800af8e:	1cc4      	adds	r4, r0, #3
@@ -28436,7 +28250,7 @@ void MX_DriverVbusFS(uint8_t state)
  800b1b6:	f802 4c01 	strb.w	r4, [r2, #-1]
  800b1ba:	460c      	mov	r4, r1
  800b1bc:	2c63      	cmp	r4, #99	@ 0x63
- 800b1be:	f103 33ff 	add.w	r3, r3, #4294967295
+ 800b1be:	f103 33ff 	add.w	r3, r3, #4294967295	@ 0xffffffff
  800b1c2:	4631      	mov	r1, r6
  800b1c4:	dcf1      	bgt.n	800b1aa <__exponent+0x1c>
  800b1c6:	3130      	adds	r1, #48	@ 0x30
@@ -28497,12 +28311,12 @@ void MX_DriverVbusFS(uint8_t state)
  800b252:	e9c4 8912 	strd	r8, r9, [r4, #72]	@ 0x48
  800b256:	e9dd 0106 	ldrd	r0, r1, [sp, #24]
  800b25a:	4b9c      	ldr	r3, [pc, #624]	@ (800b4cc <_printf_float+0x2c8>)
- 800b25c:	f04f 32ff 	mov.w	r2, #4294967295
+ 800b25c:	f04f 32ff 	mov.w	r2, #4294967295	@ 0xffffffff
  800b260:	f7f5 fc64 	bl	8000b2c <__aeabi_dcmpun>
  800b264:	bb70      	cbnz	r0, 800b2c4 <_printf_float+0xc0>
  800b266:	e9dd 0106 	ldrd	r0, r1, [sp, #24]
  800b26a:	4b98      	ldr	r3, [pc, #608]	@ (800b4cc <_printf_float+0x2c8>)
- 800b26c:	f04f 32ff 	mov.w	r2, #4294967295
+ 800b26c:	f04f 32ff 	mov.w	r2, #4294967295	@ 0xffffffff
  800b270:	f7f5 fc3e 	bl	8000af0 <__aeabi_dcmple>
  800b274:	bb30      	cbnz	r0, 800b2c4 <_printf_float+0xc0>
  800b276:	2200      	movs	r2, #0
@@ -28532,7 +28346,7 @@ void MX_DriverVbusFS(uint8_t state)
  800b2b0:	f000 f9d2 	bl	800b658 <_printf_common>
  800b2b4:	3001      	adds	r0, #1
  800b2b6:	f040 808d 	bne.w	800b3d4 <_printf_float+0x1d0>
- 800b2ba:	f04f 30ff 	mov.w	r0, #4294967295
+ 800b2ba:	f04f 30ff 	mov.w	r0, #4294967295	@ 0xffffffff
  800b2be:	b00d      	add	sp, #52	@ 0x34
  800b2c0:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
  800b2c4:	4642      	mov	r2, r8
@@ -28691,7 +28505,7 @@ void MX_DriverVbusFS(uint8_t state)
  800b42a:	3001      	adds	r0, #1
  800b42c:	f43f af45 	beq.w	800b2ba <_printf_float+0xb6>
  800b430:	f04f 0900 	mov.w	r9, #0
- 800b434:	f108 38ff 	add.w	r8, r8, #4294967295
+ 800b434:	f108 38ff 	add.w	r8, r8, #4294967295	@ 0xffffffff
  800b438:	f104 0a1a 	add.w	sl, r4, #26
  800b43c:	45c8      	cmp	r8, r9
  800b43e:	dc09      	bgt.n	800b454 <_printf_float+0x250>
@@ -28861,7 +28675,7 @@ void MX_DriverVbusFS(uint8_t state)
  800b5da:	e9d4 0112 	ldrd	r0, r1, [r4, #72]	@ 0x48
  800b5de:	2200      	movs	r2, #0
  800b5e0:	2300      	movs	r3, #0
- 800b5e2:	f10a 3aff 	add.w	sl, sl, #4294967295
+ 800b5e2:	f10a 3aff 	add.w	sl, sl, #4294967295	@ 0xffffffff
  800b5e6:	f7f5 fa6f 	bl	8000ac8 <__aeabi_dcmpeq>
  800b5ea:	b9c0      	cbnz	r0, 800b61e <_printf_float+0x41a>
  800b5ec:	4653      	mov	r3, sl
@@ -28983,7 +28797,7 @@ void MX_DriverVbusFS(uint8_t state)
  800b6f6:	47c8      	blx	r9
  800b6f8:	3001      	adds	r0, #1
  800b6fa:	d103      	bne.n	800b704 <_printf_common+0xac>
- 800b6fc:	f04f 30ff 	mov.w	r0, #4294967295
+ 800b6fc:	f04f 30ff 	mov.w	r0, #4294967295	@ 0xffffffff
  800b700:	e8bd 87f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, pc}
  800b704:	3501      	adds	r5, #1
  800b706:	e7c6      	b.n	800b696 <_printf_common+0x3e>
@@ -29126,7 +28940,7 @@ void MX_DriverVbusFS(uint8_t state)
  800b86a:	bfde      	ittt	le
  800b86c:	2330      	movle	r3, #48	@ 0x30
  800b86e:	f806 3c01 	strble.w	r3, [r6, #-1]
- 800b872:	f106 36ff 	addle.w	r6, r6, #4294967295
+ 800b872:	f106 36ff 	addle.w	r6, r6, #4294967295	@ 0xffffffff
  800b876:	1b92      	subs	r2, r2, r6
  800b878:	6122      	str	r2, [r4, #16]
  800b87a:	f8cd a000 	str.w	sl, [sp]
@@ -29137,7 +28951,7 @@ void MX_DriverVbusFS(uint8_t state)
  800b886:	f7ff fee7 	bl	800b658 <_printf_common>
  800b88a:	3001      	adds	r0, #1
  800b88c:	d14a      	bne.n	800b924 <_printf_i+0x1f0>
- 800b88e:	f04f 30ff 	mov.w	r0, #4294967295
+ 800b88e:	f04f 30ff 	mov.w	r0, #4294967295	@ 0xffffffff
  800b892:	b004      	add	sp, #16
  800b894:	e8bd 87f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, pc}
  800b898:	6823      	ldr	r3, [r4, #0]
@@ -29444,7 +29258,7 @@ void MX_DriverVbusFS(uint8_t state)
  800bb48:	4628      	mov	r0, r5
  800bb4a:	f000 f8c5 	bl	800bcd8 <__swsetup_r>
  800bb4e:	b380      	cbz	r0, 800bbb2 <_puts_r+0x9a>
- 800bb50:	f04f 35ff 	mov.w	r5, #4294967295
+ 800bb50:	f04f 35ff 	mov.w	r5, #4294967295	@ 0xffffffff
  800bb54:	6e63      	ldr	r3, [r4, #100]	@ 0x64
  800bb56:	07da      	lsls	r2, r3, #31
  800bb58:	d405      	bmi.n	800bb66 <_puts_r+0x4e>
@@ -29585,7 +29399,7 @@ void MX_DriverVbusFS(uint8_t state)
  800bc7c:	4628      	mov	r0, r5
  800bc7e:	f000 f82b 	bl	800bcd8 <__swsetup_r>
  800bc82:	b118      	cbz	r0, 800bc8c <__swbuf_r+0x32>
- 800bc84:	f04f 37ff 	mov.w	r7, #4294967295
+ 800bc84:	f04f 37ff 	mov.w	r7, #4294967295	@ 0xffffffff
  800bc88:	4638      	mov	r0, r7
  800bc8a:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
  800bc8c:	6823      	ldr	r3, [r4, #0]
@@ -29644,7 +29458,7 @@ void MX_DriverVbusFS(uint8_t state)
  800bcfa:	602a      	str	r2, [r5, #0]
  800bcfc:	f043 0340 	orr.w	r3, r3, #64	@ 0x40
  800bd00:	81a3      	strh	r3, [r4, #12]
- 800bd02:	f04f 30ff 	mov.w	r0, #4294967295
+ 800bd02:	f04f 30ff 	mov.w	r0, #4294967295	@ 0xffffffff
  800bd06:	e033      	b.n	800bd70 <__swsetup_r+0x98>
  800bd08:	0758      	lsls	r0, r3, #29
  800bd0a:	d512      	bpl.n	800bd32 <__swsetup_r+0x5a>
@@ -30207,7 +30021,7 @@ void MX_DriverVbusFS(uint8_t state)
  800c23a:	2300      	movs	r3, #0
  800c23c:	9307      	str	r3, [sp, #28]
  800c23e:	9409      	str	r4, [sp, #36]	@ 0x24
- 800c240:	f04f 3bff 	mov.w	fp, #4294967295
+ 800c240:	f04f 3bff 	mov.w	fp, #4294967295	@ 0xffffffff
  800c244:	2200      	movs	r2, #0
  800c246:	f8cd b00c 	str.w	fp, [sp, #12]
  800c24a:	2312      	movs	r3, #18
@@ -30322,7 +30136,7 @@ void MX_DriverVbusFS(uint8_t state)
  800c390:	4629      	mov	r1, r5
  800c392:	f7f4 f931 	bl	80005f8 <__aeabi_dmul>
  800c396:	e9cd 0104 	strd	r0, r1, [sp, #16]
- 800c39a:	f107 38ff 	add.w	r8, r7, #4294967295
+ 800c39a:	f107 38ff 	add.w	r8, r7, #4294967295	@ 0xffffffff
  800c39e:	3601      	adds	r6, #1
  800c3a0:	465c      	mov	r4, fp
  800c3a2:	4630      	mov	r0, r6
@@ -30758,7 +30572,7 @@ void MX_DriverVbusFS(uint8_t state)
  800c81e:	f000 fa47 	bl	800ccb0 <__multadd>
  800c822:	9b09      	ldr	r3, [sp, #36]	@ 0x24
  800c824:	9002      	str	r0, [sp, #8]
- 800c826:	f107 38ff 	add.w	r8, r7, #4294967295
+ 800c826:	f107 38ff 	add.w	r8, r7, #4294967295	@ 0xffffffff
  800c82a:	2b00      	cmp	r3, #0
  800c82c:	f000 8177 	beq.w	800cb1e <_dtoa_r+0xb66>
  800c830:	4629      	mov	r1, r5
@@ -30907,7 +30721,7 @@ void MX_DriverVbusFS(uint8_t state)
  800c984:	9b00      	ldr	r3, [sp, #0]
  800c986:	9802      	ldr	r0, [sp, #8]
  800c988:	4621      	mov	r1, r4
- 800c98a:	f103 3bff 	add.w	fp, r3, #4294967295
+ 800c98a:	f103 3bff 	add.w	fp, r3, #4294967295	@ 0xffffffff
  800c98e:	f7ff fa88 	bl	800bea2 <quorem>
  800c992:	4603      	mov	r3, r0
  800c994:	3330      	adds	r3, #48	@ 0x30
@@ -31687,7 +31501,7 @@ void MX_DriverVbusFS(uint8_t state)
  800d0f0:	4295      	cmp	r5, r2
  800d0f2:	d003      	beq.n	800d0fc <__mcmp+0x2c>
  800d0f4:	d205      	bcs.n	800d102 <__mcmp+0x32>
- 800d0f6:	f04f 30ff 	mov.w	r0, #4294967295
+ 800d0f6:	f04f 30ff 	mov.w	r0, #4294967295	@ 0xffffffff
  800d0fa:	bd30      	pop	{r4, r5, pc}
  800d0fc:	42a3      	cmp	r3, r4
  800d0fe:	d3f3      	bcc.n	800d0e8 <__mcmp+0x18>
@@ -31947,7 +31761,7 @@ void MX_DriverVbusFS(uint8_t state)
  800d372:	6e6b      	ldr	r3, [r5, #100]	@ 0x64
  800d374:	07dc      	lsls	r4, r3, #31
  800d376:	d504      	bpl.n	800d382 <_vfiprintf_r+0x4e>
- 800d378:	f04f 30ff 	mov.w	r0, #4294967295
+ 800d378:	f04f 30ff 	mov.w	r0, #4294967295	@ 0xffffffff
  800d37c:	b01d      	add	sp, #116	@ 0x74
  800d37e:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
  800d382:	89ab      	ldrh	r3, [r5, #12]
@@ -31987,7 +31801,7 @@ void MX_DriverVbusFS(uint8_t state)
  800d3dc:	2b00      	cmp	r3, #0
  800d3de:	f000 809f 	beq.w	800d520 <_vfiprintf_r+0x1ec>
  800d3e2:	2300      	movs	r3, #0
- 800d3e4:	f04f 32ff 	mov.w	r2, #4294967295
+ 800d3e4:	f04f 32ff 	mov.w	r2, #4294967295	@ 0xffffffff
  800d3e8:	e9cd 2305 	strd	r2, r3, [sp, #20]
  800d3ec:	f10a 0a01 	add.w	sl, sl, #1
  800d3f0:	9304      	str	r3, [sp, #16]
@@ -32258,7 +32072,7 @@ void MX_DriverVbusFS(uint8_t state)
  800d64e:	f9b4 300c 	ldrsh.w	r3, [r4, #12]
  800d652:	f043 0340 	orr.w	r3, r3, #64	@ 0x40
  800d656:	81a3      	strh	r3, [r4, #12]
- 800d658:	f04f 30ff 	mov.w	r0, #4294967295
+ 800d658:	f04f 30ff 	mov.w	r0, #4294967295	@ 0xffffffff
  800d65c:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
  800d660:	4407      	add	r7, r0
  800d662:	eba8 0800 	sub.w	r8, r8, r0
@@ -32421,7 +32235,7 @@ void MX_DriverVbusFS(uint8_t state)
 0800d7c4 <memcpy>:
  800d7c4:	440a      	add	r2, r1
  800d7c6:	4291      	cmp	r1, r2
- 800d7c8:	f100 33ff 	add.w	r3, r0, #4294967295
+ 800d7c8:	f100 33ff 	add.w	r3, r0, #4294967295	@ 0xffffffff
  800d7cc:	d100      	bne.n	800d7d0 <memcpy+0xc>
  800d7ce:	4770      	bx	lr
  800d7d0:	b510      	push	{r4, lr}
@@ -32502,7 +32316,7 @@ void MX_DriverVbusFS(uint8_t state)
  800d870:	d904      	bls.n	800d87c <__ascii_wctomb+0x14>
  800d872:	228a      	movs	r2, #138	@ 0x8a
  800d874:	601a      	str	r2, [r3, #0]
- 800d876:	f04f 30ff 	mov.w	r0, #4294967295
+ 800d876:	f04f 30ff 	mov.w	r0, #4294967295	@ 0xffffffff
  800d87a:	4770      	bx	lr
  800d87c:	700a      	strb	r2, [r1, #0]
  800d87e:	2001      	movs	r0, #1
@@ -32540,7 +32354,7 @@ void MX_DriverVbusFS(uint8_t state)
  800d8be:	d904      	bls.n	800d8ca <_raise_r+0x14>
  800d8c0:	2316      	movs	r3, #22
  800d8c2:	6003      	str	r3, [r0, #0]
- 800d8c4:	f04f 30ff 	mov.w	r0, #4294967295
+ 800d8c4:	f04f 30ff 	mov.w	r0, #4294967295	@ 0xffffffff
  800d8c8:	bd38      	pop	{r3, r4, r5, pc}
  800d8ca:	6bc2      	ldr	r2, [r0, #60]	@ 0x3c
  800d8cc:	b112      	cbz	r2, 800d8d4 <_raise_r+0x1e>
