@@ -30,7 +30,7 @@ typedef struct {
     uint8_t up        :1;
     uint8_t down      :1;
     uint8_t left      :1;
-    uint8_t right     :1;
+    uint8_t right     :1;//
     uint8_t triangle  :1;
     uint8_t cross     :1;
     uint8_t square    :1;
@@ -59,6 +59,7 @@ uint32_t millis(void);
 int bldc_maping(int val, int stop, int max_fw, int max_rw);
 
 void recieve_uart(UART_HandleTypeDef *uart);
+void parse_uart_data();
 
 void motor_set_speed(TIM_HandleTypeDef *htim, uint32_t channel, float speed);
 void motor_set_speed255(TIM_HandleTypeDef *htim, uint32_t channel, uint8_t val);

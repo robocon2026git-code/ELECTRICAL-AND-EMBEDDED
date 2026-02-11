@@ -140,11 +140,11 @@ int main(void)
   Servo_WriteAngle(&htim2, TIM_CHANNEL_2, INITIAL_ANGLE);
   while (1)
   {
-//	  recieve_uart(&huart2);
+	  recieve_uart(&huart2);
 
-//	  lo_4_wheel_handler(&htim3);
+	  lo_4_wheel_handler(&htim3);
 
-	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, SET);
+//	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, SET);////////
 
 	  Servo_WriteAngle(&htim2, TIM_CHANNEL_2, 50);
 
@@ -153,6 +153,9 @@ int main(void)
 	  Servo_WriteAngle(&htim2, TIM_CHANNEL_2, INITIAL_ANGLE);
 
 	  pnuematic_actuation();
+
+
+	  memset(&rx_pkt, 0, sizeof(rx_pkt));	//Zeroing all the members
     /* USER CODE END WHILE */
     MX_USB_HOST_Process();
 

@@ -4,8 +4,7 @@
  *  Created on: Jan 25, 2026
  *      Author: Admin
  */
-
-
+/////
 #include <user.h>
 
 
@@ -47,6 +46,11 @@ void recieve_uart(UART_HandleTypeDef *uart){
 		HAL_UART_Receive(uart, (uint8_t*)&rx_pkt, len, HAL_MAX_DELAY);
 		break;
 	}
+	parse_uart_data();
+}
+
+
+void parse_uart_data() {
 	// Use values directly
 	if (rx_pkt.btn_flag & (1 << 7)) {
 		printf("Circle pressed\n");
@@ -86,11 +90,8 @@ void recieve_uart(UART_HandleTypeDef *uart){
 	RX_usr = rx_pkt.rx;
 	RY_usr = rx_pkt.ry;
 
-//	printf("FLAG = %02X | LX = %.2f | LY = %.2f | RX = %.2f | RY = %.2f\n", rx_pkt.btn_flag,  rx_pkt.lx, rx_pkt.ly, rx_pkt.rx, rx_pkt.ry);
+	//	printf("FLAG = %02X | LX = %.2f | LY = %.2f | RX = %.2f | RY = %.2f\n", rx_pkt.btn_flag,  rx_pkt.lx, rx_pkt.ly, rx_pkt.rx, rx_pkt.ry);
 }
-
-
-
 
 
 //Speed value 0.0 <--> 1.0
