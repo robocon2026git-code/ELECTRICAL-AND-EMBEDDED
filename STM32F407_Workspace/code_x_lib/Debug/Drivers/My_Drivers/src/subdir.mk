@@ -19,7 +19,7 @@ C_DEPS += \
 
 # Each subdirectory must supply rules for building sources it contributes
 Drivers/My_Drivers/src/%.o Drivers/My_Drivers/src/%.su Drivers/My_Drivers/src/%.cyclo: ../Drivers/My_Drivers/src/%.c Drivers/My_Drivers/src/subdir.mk
-	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I"E:/WorkSpace/ELECTRICAL-AND-EMBEDDED/STM32F407_Workspace/code_x_lib/Drivers/My_Drivers/inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
+	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I"/home/robocon2026/ELECTO_CORE/workspace_git/ELECTRICAL-AND-EMBEDDED/STM32F407_Workspace/code_x_lib/Drivers/My_Drivers/inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
 
 clean: clean-Drivers-2f-My_Drivers-2f-src
 

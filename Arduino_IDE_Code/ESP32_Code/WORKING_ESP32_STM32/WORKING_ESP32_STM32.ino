@@ -1,13 +1,6 @@
-#include <string.h>
-#include <stdint.h>
-#include <BluetoothSerial.h>
-#include <ps5Controller.h>
-#include <math.h> // for fabsf()
+#include "Esp32Telemetry.h"
 
 #define BUTTON_DEBOUNCING_DELAY   50
-
-#define TXD2              19
-#define RXD2              21
 
 #define BT_PIN            7
 
@@ -16,34 +9,6 @@
 
 #define ANALOG_ERROR      2
 
-#define STX               0xAA
-
-typedef union{
-  uint8_t byte;
-  struct{
-    uint8_t up        :1;
-    uint8_t down      :1;
-    uint8_t left      :1;
-    uint8_t right     :1;
-    uint8_t triangle  :1;
-    uint8_t cross     :1;
-    uint8_t square    :1;
-    uint8_t circle    :1;
-  } bits;
-} ButtonField;
-
-typedef struct __attribute__((packed)) {
-    uint8_t  btn_flag;     // 1 byte
-    float    lx;       // 4 bytes
-    float    ly;       // 4 bytes
-    float    rx;       // 4 bytes
-    float    ry;       // 4 bytes
-} Packet;
-
-
-BluetoothSerial SerialBT;
-HardwareSerial commSerial(1);
-
 int btn_click = 0;
 
 char data[8] = {0};
@@ -51,6 +16,7 @@ int i = 0;
 
 ButtonField button;
 Packet pkt;
+BOT_Status_t war_status;
 
 
 bool valid_val = false;
@@ -70,6 +36,8 @@ void onDisconnect();
 void send_uart_data(const char *data);
 void send_uart_analog_data(const float data);
 void send_uart_val(const int *val);
+void send_packet(uint8_t btn_flag, float lx_val, float ly_val, float rx_val, float ry_val);
+// void receive_pkt();
 
 
 void setup() {
@@ -89,7 +57,8 @@ void setup() {
   ps5.attachOnDisconnect(onDisconnect);
 
   // ps5.begin("14:3A:9A:91:49:EE");         //Black colour
-  ps5.begin("E8:47:3A:36:ED:CA");         //White colour
+  // ps5.begin("E8:47:3A:36:ED:CA");         //White colour
+  ps5.begin("90:B6:85:64:59:2B");           //Camofledge colour
 
 
   while(ps5.isConnected() == false){
@@ -109,10 +78,11 @@ void setup() {
 }
 
 void loop() {
-  // Prepare "ON" in the buffer
-  bt_handler();
+  // Prepare "ON" in the buffer 
+  // bt_handler();
   notify();
   //send_uart_val(button.byte);
+  receive_pkt();
   button.byte = 0x00;
 }
 
@@ -134,24 +104,33 @@ void send_uart_analog_data(const float data){
 }
 
 void send_packet(uint8_t btn_flag, float lx_val, float ly_val, float rx_val, float ry_val) {
-    pkt.btn_flag = btn_flag;
-    pkt.lx = lx_val;
-    pkt.ly = ly_val;
-    pkt.rx = rx_val;
-    pkt.ry = ry_val;
+  pkt.btn_flag = btn_flag;
+  pkt.lx = lx_val;
+  pkt.ly = ly_val;
+  pkt.rx = rx_val;
+  pkt.ry = ry_val;
 
-    commSerial.write(STX);
-    commSerial.write(sizeof(Packet));
-    commSerial.write((uint8_t*)&pkt, sizeof(Packet));   // send raw bytes
-    Serial.printf("btn flag --> %02X | LX -->  %.2f | LY  --> %.2f | RX -->  %.2f | RY --> %.2f\n", btn_flag, lx_val, ly_val, rx_val, ry_val);
+  commSerial.write(STX);
+  commSerial.write(sizeof(Packet));
+  commSerial.write((uint8_t*)&pkt, sizeof(Packet));   // send raw bytes
+  // Serial.printf("btn flag --> %02X | LX -->  %.2f | LY  --> %.2f | RX -->  %.2f | RY --> %.2f\n", btn_flag, lx_val, ly_val, rx_val, ry_val);
 
-    button.byte = 0x00;
-    pkt.lx = lx_val = 0;
-    pkt.ly = ly_val = 0;
-    pkt.rx = rx_val = 0;
-    pkt.ry = ry_val = 0;
+  button.byte = 0x00;
+  pkt.lx = lx_val = 0;
+  pkt.ly = ly_val = 0;
+  pkt.rx = rx_val = 0;
+  pkt.ry = ry_val = 0;
 }
 
+void receive_pkt()
+{
+    if (commSerial.available() >= sizeof(BOT_Status_t))
+    {
+        commSerial.readBytes((char*)&war_status, sizeof(BOT_Status_t));
+        Serial.print("Bot Speed: ");
+        Serial.println(war_status.bot_speed);
+    }
+}
 
 
 void notify(){

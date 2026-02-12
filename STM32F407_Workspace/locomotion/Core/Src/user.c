@@ -132,6 +132,13 @@ void Servo_WriteAngle(TIM_HandleTypeDef *timer, uint8_t channel, uint8_t angle){
 	__HAL_TIM_SET_COMPARE(timer, channel, pulse);
 }
 
+void Bldc_writePulse(TIM_HandleTypeDef *timer, uint32_t channel, uint16_t pulse) {
+	if((pulse < 1000) || (pulse > 2000)) {
+		return;
+	}
+
+	__HAL_TIM_SET_COMPARE(timer, channel, pulse);
+}
 
 
 

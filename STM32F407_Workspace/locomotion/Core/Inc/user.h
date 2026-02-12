@@ -66,5 +66,7 @@ void motor_set_speed255(TIM_HandleTypeDef *htim, uint32_t channel, uint8_t val);
 
 void Servo_WriteAngle(TIM_HandleTypeDef *timer, uint8_t channel, uint8_t angle);
 
+void Bldc_writePulse(TIM_HandleTypeDef *timer, uint32_t channel, uint16_t pulse);
+
 
 #endif /* INC_USER_H_ */
