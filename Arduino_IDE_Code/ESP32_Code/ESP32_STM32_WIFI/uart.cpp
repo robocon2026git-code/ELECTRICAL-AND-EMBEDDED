@@ -23,8 +23,9 @@ void receive_pkt()
     if (commSerial.available() >= sizeof(BOT_Status_t))
     {
         commSerial.readBytes((char*)&war_status, sizeof(BOT_Status_t));
-        Serial.print("Bot Speed: ");
-        Serial.println(war_status.bot_speed);
+        // Serial.print("Bot Speed: ");
+        Serial.println(war_status.kfs_ToF);
+        Send_BotStatusWifi();
     }
 }
 

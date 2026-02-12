@@ -5,6 +5,7 @@
 
 #define BT_PIN            7
 
+void setup_bt();
 
 void bt_handler();
 

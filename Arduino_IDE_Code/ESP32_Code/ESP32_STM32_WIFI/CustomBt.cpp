@@ -4,6 +4,22 @@
 char data[8] = {0};
 int i = 0;
 
+
+void setup_bt(){
+  SerialBT.begin("ESP32_UART_TST");
+  Serial.println("ESP32 Ready To Pair With BT");
+
+  while(SerialBT.connected() == false){
+    Serial.println("ESP32 BT Not Connected");
+    delay(500);
+  }
+
+  if(SerialBT.connected()){
+    Serial.println("ESP32 Connected To BT");
+    digitalWrite(BT_PIN, HIGH);
+  }
+}
+
 void bt_handler(){
   if(SerialBT.connected()){
     digitalWrite(BT_PIN, HIGH);
