@@ -167,7 +167,9 @@ int main(void)
 
 //	  pnuematic_actuation();
 
-	  war_status.bot_speed = 10.5;
+//	  war_status.bot_speed = 10.5;
+
+	  system_status();
 
 	  HAL_UART_Transmit(&huart2, (uint8_t*)&war_status, sizeof(war_status), 10);
 

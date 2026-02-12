@@ -26,4 +26,6 @@ typedef struct {
 
 extern BOT_Status_t war_status;
 
+int system_status();
+
 #endif /* INC_BOT_H_ */
