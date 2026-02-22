@@ -33,17 +33,6 @@ typedef struct __attribute__((packed)) {
     float    ry;       // 4 bytes
 } Packet;
 
-typedef struct __attribute__((packed)) {
-	uint8_t staff_p1;
-	uint8_t staff_p2;
-	uint8_t staff_p3;
-	uint8_t kfs_p1;
-	uint8_t kfs_p2;
-	uint8_t kfs_p3;
-	float kfs_ToF;
-	float bot_speed;
-}BOT_Status_t;
-
 
 void notify();
 void send_uart_data(const char *data);
@@ -57,7 +46,6 @@ extern HardwareSerial commSerial;
 
 extern ButtonField button;
 extern Packet pkt;
-extern BOT_Status_t war_status;
 
 extern uint8_t flag;
 extern float lx_val;
