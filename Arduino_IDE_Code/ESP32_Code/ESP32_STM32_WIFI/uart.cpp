@@ -5,7 +5,6 @@ HardwareSerial commSerial(1);
 
 ButtonField button;
 Packet pkt;
-BOT_Status_t war_status;
 
 uint8_t flag;
 float lx_val;
