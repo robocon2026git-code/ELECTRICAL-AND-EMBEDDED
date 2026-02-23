@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -60,7 +60,7 @@ static void MX_SPI1_Init(void);
 void MX_USB_HOST_Process(void);
 
 /* USER CODE BEGIN PFP */
-
+void ResetReason();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -107,6 +107,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  printf("STM32 READY\n");
   while (1)
   {
     /* USER CODE END WHILE */
@@ -367,6 +368,21 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void ResetReason(){
+	if(__HAL_RCC_GET_FLAG(RCC_FLAG_BORRST)){
+		printf("Brown Out Reset\n");
+	}if(__HAL_RCC_GET_FLAG(RCC_FLAG_PINRST)){
+		printf("Reset from the NRST pin occurs\n");
+	}if(__HAL_RCC_GET_FLAG(RCC_FLAG_SFTRST)){
+		printf("Software Reset\n");
+	}if(__HAL_RCC_GET_FLAG(RCC_FLAG_IWDGRST)){
+		printf("Independent Watchdog Reset\n");
+	}if(__HAL_RCC_GET_FLAG(RCC_FLAG_WWDGRST)){
+		printf("Window Watchdog Reset\n");
+	}if(__HAL_RCC_GET_FLAG(RCC_FLAG_LPWRRST)){
+		printf("Low Power Reset\n");
+	}
+}
 
 /* USER CODE END 4 */
 

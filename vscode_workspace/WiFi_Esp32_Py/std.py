@@ -1,14 +1,20 @@
-import tkinter as tk
-from stream_class.myclass import MyContainer
+import sys
+from PyQt6.QtWidgets import *
 
-root = tk.Tk()
-root.title("BOT STATUS MONITOR")
-root.geometry("1200x1000")
+app = QApplication(sys.argv)
 
-label = tk.Label(root, text="WAR STATUS", font=("Arial", 14))
-label.pack(pady=5)
+window = QWidget()
+window.setWindowTitle("SYSTEM STATUS")
+window.resize(400, 300)
 
-rt_container = MyContainer(root)
-rt_container.pack(expand = True, fill = "both", padx=10, pady=1)
+# layout = QVBoxLayout()
+layout1 = QHBoxLayout()
 
-root.mainloop()
+# layout.addWidget(QPushButton("Start"))
+# layout.addWidget(QPushButton("Stop"))
+# layout.addWidget(QPushButton("Reset"))
+
+# window.setLayout(layout)
+
+window.show()
+app.exec()
