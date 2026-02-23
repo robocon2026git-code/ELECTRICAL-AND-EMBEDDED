@@ -11,4 +11,6 @@ int system_status() {
 	war_status.kfs_p3 = 0;
 	war_status.kfs_ToF = 43;
 	war_status.bot_speed = 0;
+
+	return 0;
 }
