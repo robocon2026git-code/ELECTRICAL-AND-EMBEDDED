@@ -1,2 +1,0 @@
-../Core/Src/arm.c:12:6:servo_handler	16	static
-../Core/Src/arm.c:52:6:Pnuematic_OnOff	16	static
