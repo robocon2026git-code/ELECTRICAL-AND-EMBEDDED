@@ -1,7 +1,7 @@
-"./Core/Src/arm.o"
 "./Core/Src/bot.o"
 "./Core/Src/locomotion.o"
 "./Core/Src/main.o"
+"./Core/Src/staff_arm_control.o"
 "./Core/Src/stm32f4xx_hal_msp.o"
 "./Core/Src/stm32f4xx_it.o"
 "./Core/Src/syscalls.o"

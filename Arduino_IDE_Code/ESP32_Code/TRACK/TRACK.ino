@@ -1,8 +1,8 @@
 #include <ps5Controller.h>
 
-#define L_PWM_PIN   25
+#define L_PWM_PIN   14
 #define R_PWM_PIN   27
-#define DIR_L1      14
+#define DIR_L1      25
 #define DIR_R1      26
 #define DIR_L2      32
 #define DIR_R2      33
@@ -16,8 +16,8 @@ void setup() {
 
   pinMode(L_PWM_PIN, OUTPUT);
   pinMode(R_PWM_PIN, OUTPUT);
-  pinMode(DIR_L, OUTPUT);
-  pinMode(DIR_R, OUTPUT);
+  pinMode(DIR_L1, OUTPUT);
+  pinMode(DIR_R1, OUTPUT);
 
   ps5.begin("14:3a:9a:91:49:ee");
   Serial.println("Waiting for PS5 controller...");
@@ -37,8 +37,8 @@ void loop() {
   if (ps5.Triangle()) {           // Forward
     digitalWrite(DIR_L1, LOW);
     digitalWrite(DIR_R1, LOW);
-    digitalWrite(DIR_L2, HIGH);
-    digitalWrite(DIR_R2, HIGH);
+    // digitalWrite(DIR_L2, HIGH);
+    // digitalWrite(DIR_R2, HIGH);
     analogWrite(L_PWM_PIN, pwm);
     analogWrite(R_PWM_PIN, pwm);
     Serial.print("Forward PWM: ");
@@ -47,8 +47,8 @@ void loop() {
   } else if (ps5.Cross()) {       // Backward
     digitalWrite(DIR_L1, HIGH);
     digitalWrite(DIR_R1, HIGH);
-    digitalWrite(DIR_L2, LOW);
-    digitalWrite(DIR_R2, LOW);
+    // digitalWrite(DIR_L2, LOW);
+    // digitalWrite(DIR_R2, LOW);
     analogWrite(L_PWM_PIN, pwm);
     analogWrite(R_PWM_PIN, pwm);
     Serial.print("Reverse PWM: ");

@@ -1,5 +1,6 @@
-Core/Src/bot.o: ../Core/Src/bot.c ../Core/Inc/bot.h ../Core/Inc/user.h \
- ../Core/Inc/main.h ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
+Core/Src/bot.o: ../Core/Src/bot.c ../Core/Inc/bot.h \
+ ../Core/Inc/staff_arm_control.h ../Core/Inc/user.h ../Core/Inc/main.h \
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h \
@@ -34,8 +35,9 @@ Core/Src/bot.o: ../Core/Src/bot.c ../Core/Inc/bot.h ../Core/Inc/user.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_hcd.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h \
- ../Core/Inc/locomotion.h ../Core/Inc/arm.h
+ ../Core/Inc/locomotion.h
 ../Core/Inc/bot.h:
+../Core/Inc/staff_arm_control.h:
 ../Core/Inc/user.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -74,4 +76,3 @@ Core/Src/bot.o: ../Core/Src/bot.c ../Core/Inc/bot.h ../Core/Inc/user.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_hcd.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h:
 ../Core/Inc/locomotion.h:
-../Core/Inc/arm.h:

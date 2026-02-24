@@ -8,9 +8,9 @@
 #ifndef INC_BOT_H_
 #define INC_BOT_H_
 
+#include <staff_arm_control.h>
 #include "user.h"
 #include "locomotion.h"
-#include "arm.h"
 
 
 typedef struct {
