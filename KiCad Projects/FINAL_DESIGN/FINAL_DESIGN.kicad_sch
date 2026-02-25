@@ -17701,7 +17701,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 231.14 97.282 0)
+			(at 231.14 97.536 0)
 			(effects
 				(font
 					(size 1.27 1.27)
