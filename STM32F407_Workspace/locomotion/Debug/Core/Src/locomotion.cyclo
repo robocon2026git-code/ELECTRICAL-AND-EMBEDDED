@@ -2,4 +2,5 @@
 ../Core/Src/locomotion.c:66:5:lo_4_wheel_calculation	6
 ../Core/Src/locomotion.c:102:6:lo_4_wheel_run	2
 ../Core/Src/locomotion.c:115:6:lo_4_wheel_run_bldc	3
-../Core/Src/locomotion.c:127:6:esc_set_pulse_us	4
+../Core/Src/locomotion.c:127:5:track_run	6
+../Core/Src/locomotion.c:187:6:esc_set_pulse_us	4

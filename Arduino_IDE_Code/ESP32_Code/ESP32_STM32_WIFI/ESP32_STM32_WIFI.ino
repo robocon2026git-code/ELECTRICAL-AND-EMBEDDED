@@ -40,7 +40,7 @@ void loop() {
   // bt_handler();
   notify();
   //send_uart_val(button.byte);
-  receive_pkt();
+  // receive_pkt();
   button.byte = 0x00;
 }
 

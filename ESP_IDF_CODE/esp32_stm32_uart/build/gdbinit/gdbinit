@@ -1,0 +1,2 @@
+source E:/WorkSpace/ELECTRICAL-AND-EMBEDDED/ESP_IDF_CODE/esp32_stm32_uart/build/gdbinit/symbols
+source E:/WorkSpace/ELECTRICAL-AND-EMBEDDED/ESP_IDF_CODE/esp32_stm32_uart/build/gdbinit/connect

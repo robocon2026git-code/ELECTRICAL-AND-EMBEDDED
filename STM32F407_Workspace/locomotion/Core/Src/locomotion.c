@@ -123,6 +123,66 @@ void lo_4_wheel_run_bldc(TIM_HandleTypeDef *htim, uint8_t esc_channel, float pwm
 }
 
 
+//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**
+int track_run() {
+
+	float lx_val = rx_pkt.ly;
+	float speed;
+
+	speed = abs(lx_val);
+
+	if( abs(lx_val) < TRACK_LOCOMOTION_ERR) {speed = 0;}
+
+//	printf("Before: %.2f | ", speed);
+	speed = map(speed, 0, 127, 0, TRACK_BLDC_SPEED);
+//	printf("After: %.2f\n", speed);
+//
+	int fw_bldc_lm_pulse = (TRACK_BLDC_NEUTRAL + speed);
+	int fw_bldc_rm_pulse = (TRACK_BLDC_NEUTRAL + speed);
+
+	int rw_bldc_lm_pulse = (TRACK_BLDC_NEUTRAL - speed);
+	int rw_bldc_rm_pulse = (TRACK_BLDC_NEUTRAL - speed);
+
+	int lt_bldc_lm_pulse = (TRACK_BLDC_NEUTRAL + speed);
+	int lt_bldc_rm_pulse = (TRACK_BLDC_NEUTRAL - speed);
+
+	int rt_bldc_lm_pulse = (TRACK_BLDC_NEUTRAL - speed);
+	int rt_bldc_rm_pulse = (TRACK_BLDC_NEUTRAL + speed);
+
+
+	if(btnStatus.triangle == 1) {
+		Bldc_writePulse(&htim2, TIM_CHANNEL_2, fw_bldc_lm_pulse);
+		Bldc_writePulse(&htim2, TIM_CHANNEL_4, fw_bldc_rm_pulse);
+		btnStatus.triangle = 0;
+		printf("Forward -> Left Motor Pulse: %d | Right Motor Pulse: %d\n", fw_bldc_lm_pulse, fw_bldc_rm_pulse);
+	}
+	else if(btnStatus.cross == 1) {
+		Bldc_writePulse(&htim2, TIM_CHANNEL_2, fw_bldc_lm_pulse);
+		Bldc_writePulse(&htim2, TIM_CHANNEL_4, fw_bldc_rm_pulse);
+		btnStatus.cross = 0;
+		printf("Reverse -> Left Motor Pulse: %d | Right Motor Pulse: %d\n", rw_bldc_lm_pulse, rw_bldc_rm_pulse);
+	}
+	else if(btnStatus.square == 1) {
+		Bldc_writePulse(&htim2, TIM_CHANNEL_2, fw_bldc_lm_pulse);
+		Bldc_writePulse(&htim2, TIM_CHANNEL_4, fw_bldc_rm_pulse);
+		btnStatus.square = 0;
+		printf("Left -> Left Motor Pulse: %d | Right Motor Pulse: %d\n", lt_bldc_lm_pulse, lt_bldc_rm_pulse);
+	}
+	else if(btnStatus.circle == 1) {
+		Bldc_writePulse(&htim2, TIM_CHANNEL_2, fw_bldc_lm_pulse);
+		Bldc_writePulse(&htim2, TIM_CHANNEL_4, fw_bldc_rm_pulse);
+		btnStatus.circle = 0;
+		printf("Right -> Left Motor Pulse: %d | Right Motor Pulse: %d\n", rt_bldc_lm_pulse, rt_bldc_rm_pulse);
+	}
+	else {
+		Bldc_writePulse(&htim2, TIM_CHANNEL_2, TRACK_BLDC_NEUTRAL);
+		Bldc_writePulse(&htim2, TIM_CHANNEL_4, TRACK_BLDC_NEUTRAL);
+	}
+
+	return 0;
+}
+
+//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**
 
 void esc_set_pulse_us(TIM_HandleTypeDef *htim, uint8_t channel, uint16_t pulse_us){
     __HAL_TIM_SET_COMPARE(htim, channel, pulse_us);
