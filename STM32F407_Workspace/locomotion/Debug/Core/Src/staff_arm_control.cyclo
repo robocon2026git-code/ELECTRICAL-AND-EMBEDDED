@@ -1,2 +1,5 @@
-../Core/Src/staff_arm_control.c:26:6:servo_handler	5
-../Core/Src/staff_arm_control.c:66:6:Pnuematic_OnOff	3
+../Core/Src/staff_arm_control.c:13:5:staff_arm_p1_ctrl	1
+../Core/Src/staff_arm_control.c:18:5:staff_arm_p2_ctrl	1
+../Core/Src/staff_arm_control.c:23:5:staff_arm_p3_ctrl	1
+../Core/Src/staff_arm_control.c:34:6:servo_handler	5
+../Core/Src/staff_arm_control.c:74:6:Pnuematic_OnOff	3

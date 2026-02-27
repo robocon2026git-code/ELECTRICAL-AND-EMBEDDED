@@ -8,6 +8,7 @@
 #ifndef INC_BOT_H_
 #define INC_BOT_H_
 
+#include <string.h>
 #include <staff_arm_control.h>
 #include "user.h"
 #include "locomotion.h"
@@ -26,6 +27,16 @@ typedef struct {
 
 extern BOT_Status_t war_status;
 
+extern TIM_HandleTypeDef htim2;
+extern TIM_HandleTypeDef htim3;
+extern TIM_HandleTypeDef htim4;
+extern TIM_HandleTypeDef htim9;
+extern TIM_HandleTypeDef htim12;
+
+extern UART_HandleTypeDef huart2;
+
 int system_status();
+
+int odu();
 
 #endif /* INC_BOT_H_ */

@@ -1,0 +1,87 @@
+Command: C:\Espressif\python_env\idf5.5_py3.11_env\Scripts\python.exe C:\Espressif\frameworks\esp-idf-v5.5.3\tools/idf_monitor.py -p com5 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 0 E:\WorkSpace\ELECTRICAL-AND-EMBEDDED\ESP_IDF_CODE\esp32_stm32_uart\build\esp32_stm32_uart.elf E:\WorkSpace\ELECTRICAL-AND-EMBEDDED\ESP_IDF_CODE\esp32_stm32_uart\build\bootloader\bootloader.elf --force-color -m 'C:\Espressif\python_env\idf5.5_py3.11_env\Scripts\python.exe' 'C:\Espressif\frameworks\esp-idf-v5.5.3\tools\idf.py' '-p' 'com5'
+ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:6280
+load:0x40078000,len:15864
+load:0x40080400,len:3920
+entry 0x40080644
+[0;32mI (27) boot: ESP-IDF v5.5.3 2nd stage bootloader[0m
+[0;32mI (27) boot: compile time Feb 27 2026 09:49:25[0m
+[0;32mI (28) boot: Multicore bootloader[0m
+[0;32mI (29) boot: chip revision: v3.1[0m
+[0;32mI (32) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (35) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (39) boot.esp32: SPI Flash Size : 2MB[0m
+[0;32mI (42) boot: Enabling RNG early entropy source...[0m
+[0;32mI (47) boot: Partition Table:[0m
+[0;32mI (49) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (56) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (62) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (69) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (75) boot: End of partition table[0m
+[0;32mI (79) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=247ech (149484) map[0m
+[0;32mI (137) esp_image: segment 1: paddr=00034814 vaddr=3ffbdb60 size=04c64h ( 19556) load[0m
+[0;32mI (145) esp_image: segment 2: paddr=00039480 vaddr=40080000 size=06b98h ( 27544) load[0m
+[0;32mI (156) esp_image: segment 3: paddr=00040020 vaddr=400d0020 size=8ff90h (589712) map[0m
+[0;32mI (357) esp_image: segment 4: paddr=000cffb8 vaddr=40086b98 size=12fa0h ( 77728) load[0m
+[0;32mI (388) esp_image: segment 5: paddr=000e2f60 vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (401) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (401) boot: Disabling RNG early entropy source...[0m
+[0;32mI (411) cpu_start: Multicore app[0m
+[0;32mI (420) cpu_start: GPIO 3 and 1 are used as console UART I/O pins[0m
+[0;32mI (420) cpu_start: Pro cpu start user code[0m
+[0;32mI (420) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (422) app_init: Application information:[0m
+[0;32mI (426) app_init: Project name:     esp32_stm32_uart[0m
+[0;32mI (430) app_init: App version:      2632de6-dirty[0m
+[0;32mI (435) app_init: Compile time:     Feb 27 2026 09:49:18[0m
+[0;32mI (440) app_init: ELF file SHA256:  8e468f811...[0m
+[0;32mI (444) app_init: ESP-IDF:          v5.5.3[0m
+[0;32mI (448) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (452) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (456) efuse_init: Chip rev:         v3.1[0m
+[0;32mI (460) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (466) heap_init: At 3FFAFF10 len 000000F0 (0 KiB): DRAM[0m
+[0;32mI (471) heap_init: At 3FFB6388 len 00001C78 (7 KiB): DRAM[0m
+[0;32mI (476) heap_init: At 3FFB9A20 len 00004108 (16 KiB): DRAM[0m
+[0;32mI (481) heap_init: At 3FFC8530 len 00017AD0 (94 KiB): DRAM[0m
+[0;32mI (486) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (492) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (497) heap_init: At 40099B38 len 000064C8 (25 KiB): IRAM[0m
+[0;33mW (504) spi_flash: Detected boya flash chip but using generic driver. For optimal functionality, enable `SPI_FLASH_SUPPORT_BOYA_CHIP` in menuconfig[0m
+[0;32mI (516) spi_flash: detected chip: generic[0m
+[0;32mI (519) spi_flash: flash io: dio[0m
+[0;33mW (522) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (535) coexist: coex firmware version: 093e3d2[0m
+[0;32mI (539) main_task: Started on CPU0[0m
+[0;32mI (549) main_task: Calling app_main()[0m
+[0;32mI (549) BTDM_INIT: BT controller compile version [045a658][0m
+[0;32mI (549) BTDM_INIT: Using main XTAL as clock source[0m
+[0;32mI (549) BTDM_INIT: Bluetooth MAC: ac:15:18:d5:d0:a6[0m
+[0;32mI (559) phy_init: phy_version 4863,a3a4459,Oct 28 2025,14:30:06[0m
+[1;31mE (559) phy_init: esp_phy_load_cal_data_from_nvs: NVS has not been initialized. Call nvs_flash_init before starting WiFi/BT.[0m
+[0;33mW (569) phy_init: failed to load RF calibration data (0x1101), falling back to full calibration[0m
+[0;32mI (649) phy_init: Saving new calibration data due to checksum failure or outdated calibration data, mode(2)[0m
+[1;31mE (1139) BT_OSI: config_new: NVS not initialized. Call nvs_flash_init before initializing bluetooth.[0m
+[0;33mW (1139) BT_BTC: btc_config_init unable to load config file; starting unconfigured.[0m
+
+[1;31mE (1139) BT_OSI: config_save: NVS not initialized. Call nvs_flash_init before initializing bluetooth.[0m
+[1;31mE (1149) BT_OSI: config_save, err_code: 0x2[0m
+
+[1;31mE (1269) BT_OSI: config_save: NVS not initialized. Call nvs_flash_init before initializing bluetooth.[0m
+[1;31mE (1279) BT_OSI: config_save, err_code: 0x2[0m
+
+[1;31mE (1279) BT_OSI: config_save: NVS not initialized. Call nvs_flash_init before initializing bluetooth.[0m
+[1;31mE (1289) BT_OSI: config_save, err_code: 0x2[0m
+
+[1;31mE (1289) BT_OSI: config_save: NVS not initialized. Call nvs_flash_init before initializing bluetooth.[0m
+[1;31mE (1299) BT_OSI: config_save, err_code: 0x2[0m
+
+[1;31mE (1299) BT_OSI: config_save: NVS not initialized. Call nvs_flash_init before initializing bluetooth.[0m
+[1;31mE (1309) BT_OSI: config_save, err_code: 0x2[0m
+
+Bluetooth Initialized Successfully
