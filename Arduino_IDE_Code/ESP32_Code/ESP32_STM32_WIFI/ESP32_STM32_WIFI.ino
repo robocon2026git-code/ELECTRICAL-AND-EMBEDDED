@@ -24,9 +24,9 @@ void setup() {
   ps5.attachOnConnect(onConnect);
   ps5.attachOnDisconnect(onDisconnect);
 
-  // ps5.begin("14:3A:9A:91:49:EE");         //Black colour
+  ps5.begin("14:3A:9A:91:49:EE");         //Black colour
   // ps5.begin("E8:47:3A:36:ED:CA");         //White colour
-  ps5.begin("90:B6:85:64:59:2B");           //Camofledge colour
+  // ps5.begin("90:B6:85:64:59:2B");         //Camofledge colour
 
 
   while(ps5.isConnected() == false){

@@ -154,31 +154,39 @@ int track_run() {
 		Bldc_writePulse(&htim2, TIM_CHANNEL_2, fw_bldc_lm_pulse);
 		Bldc_writePulse(&htim2, TIM_CHANNEL_4, fw_bldc_rm_pulse);
 		btnStatus.triangle = 0;
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, SET);
 		printf("Forward -> Left Motor Pulse: %d | Right Motor Pulse: %d\n", fw_bldc_lm_pulse, fw_bldc_rm_pulse);
 	}
 	else if(btnStatus.cross == 1) {
 		Bldc_writePulse(&htim2, TIM_CHANNEL_2, fw_bldc_lm_pulse);
 		Bldc_writePulse(&htim2, TIM_CHANNEL_4, fw_bldc_rm_pulse);
 		btnStatus.cross = 0;
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, SET);
 		printf("Reverse -> Left Motor Pulse: %d | Right Motor Pulse: %d\n", rw_bldc_lm_pulse, rw_bldc_rm_pulse);
 	}
 	else if(btnStatus.square == 1) {
 		Bldc_writePulse(&htim2, TIM_CHANNEL_2, fw_bldc_lm_pulse);
 		Bldc_writePulse(&htim2, TIM_CHANNEL_4, fw_bldc_rm_pulse);
 		btnStatus.square = 0;
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, SET);
 		printf("Left -> Left Motor Pulse: %d | Right Motor Pulse: %d\n", lt_bldc_lm_pulse, lt_bldc_rm_pulse);
 	}
 	else if(btnStatus.circle == 1) {
 		Bldc_writePulse(&htim2, TIM_CHANNEL_2, fw_bldc_lm_pulse);
 		Bldc_writePulse(&htim2, TIM_CHANNEL_4, fw_bldc_rm_pulse);
 		btnStatus.circle = 0;
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, SET);
 		printf("Right -> Left Motor Pulse: %d | Right Motor Pulse: %d\n", rt_bldc_lm_pulse, rt_bldc_rm_pulse);
 	}
 	else {
 		Bldc_writePulse(&htim2, TIM_CHANNEL_2, TRACK_BLDC_NEUTRAL);
 		Bldc_writePulse(&htim2, TIM_CHANNEL_4, TRACK_BLDC_NEUTRAL);
-	}
 
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, RESET);
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, RESET);
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, RESET);
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, RESET);
+	}
 	return 0;
 }
 
