@@ -1,0 +1,198 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    max-width: 100%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: white;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Header with logo */
+.header {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.logo {
+    width: 200px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+}
+
+/* Animated Title */
+.animated-title {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 3rem;
+    font-weight: bold;
+    color: #00ffff;
+    text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+    animation: glow 2s ease-in-out infinite alternate;
+    z-index: 999;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 20px rgba(0, 255, 255, 0.8), 0 0 40px rgba(0, 255, 255, 0.6);
+        transform: translateX(-50%) scale(1);
+    }
+    to {
+        text-shadow: 0 0 30px rgba(0, 255, 255, 1), 0 0 60px rgba(0, 255, 255, 0.8);
+        transform: translateX(-50%) scale(1.05);
+    }
+}
+
+/* Main container */
+.main-container {
+    display: flex;
+    height: 100vh;
+    padding-top: 100px;
+}
+
+/* Left side - Live Video */
+.video-section {
+    flex: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border-right: 2px solid rgba(0, 255, 255, 0.3);
+}
+
+.video-title {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    color: #00ffff;
+    text-align: center;
+}
+
+.video-container {
+    width: 100%;
+    max-width: 800px;
+    aspect-ratio: 16/9;
+    background: #000;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.video-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(45deg, #333, #555);
+    font-size: 1.4rem;
+    color: #ccc;
+}
+
+/* Right side - Live Data */
+.data-section {
+    flex: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.data-title {
+    font-size: 1.8rem;
+    margin-bottom: 35px;
+    color: #00ffff;
+    text-align: center;
+}
+
+.data-container {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    width: 100%;
+    max-width: 500px;
+}
+
+.data-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border-left: 4px solid #00ffff;
+    transition: all 0.3s ease;
+}
+
+.data-item:hover {
+    background: rgba(0, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.data-label {
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.data-value {
+    color: #00ffff;
+    font-weight: bold;
+    font-size: 1.1rem;
+    animation: pulse 2s infinite;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+        padding-top: 100px;
+    }
+
+    .video-section,
+    .data-section {
+        flex: none;
+        height: 50vh;
+    }
+
+    .animated-title {
+        font-size: 2rem;
+    }
+
+    .logo {
+        width: 150px;
+    }
+
+    .video-section {
+        border-right: none;
+        border-bottom: 2px solid rgba(0, 255, 255, 0.3);
+    }
+}
+
+/* Pulse animation for live data */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+}

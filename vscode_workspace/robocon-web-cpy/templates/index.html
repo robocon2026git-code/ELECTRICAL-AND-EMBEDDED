@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robocon 2026</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="header">
+        <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="Qbotix Logo" class="logo">
+    </div>
+
+    <div class="animated-title">Robocon 2026</div>
+
+    <div class="main-container">
+        <div class="video-section">
+            <h2 class="video-title">Live Video Feed</h2>
+            <div class="video-container">
+                <img src="{{ url_for('video_feed') }}" style="width:100%; height:100%; object-fit:cover;" />
+            </div>
+        </div>
+
+        <div class="data-section">
+            <h2 class="data-title">Live Data</h2>
+            <div class="data-container">
+                <div class="data-item">
+                    <span class="data-label">Distance:</span>
+                    <span class="data-value" id="x-value">--</span>
+                </div>
+                <div class="data-item">
+                    <span class="data-label">Yaw:</span>
+                    <span class="data-value" id="y-value">--</span>
+                </div>
+                <div class="data-item">
+                    <span class="data-label">Velocity:</span>
+                    <span class="data-value" id="z-value">--</span>
+                </div>
+                <div class="data-item">
+                    <span class="data-label">Speed:</span>
+                    <span class="data-value" id="z-value">--</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateData() {
+            document.getElementById('x-value').textContent = (Math.random() * 10).toFixed(2);
+            document.getElementById('y-value').textContent = (Math.random() * 10).toFixed(2);
+            document.getElementById('z-value').textContent = (Math.random() * 10).toFixed(2);
+        }
+        setInterval(updateData, 2000);
+        updateData();
+    </script>
+</body>
+</html>
