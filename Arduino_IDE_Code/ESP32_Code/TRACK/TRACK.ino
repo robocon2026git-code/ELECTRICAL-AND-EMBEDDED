@@ -7,11 +7,11 @@
 
 #define MAX_BOT_SPEED_BLDC    200U
 
-#define L_PWM_PIN             14
-#define R_PWM_PIN             27
+#define L_PWM_PIN             21
+#define R_PWM_PIN             18
 
-#define DIR_L1                25
-#define DIR_R1                26
+#define DIR_L1                22
+#define DIR_R1                17
 #define DIR_L2                32
 #define DIR_R2                33
 
@@ -32,9 +32,9 @@ void setup() {
   run_track_dcm_init();
   run_track_bldcm_init();
 
-  ps5.begin("14:3A:9A:91:49:EE");         //Black colour
+  //ps5.begin("14:3A:9A:91:49:EE");         //Black colour
   // ps5.begin("E8:47:3A:36:ED:CA");         //White colour
-  // ps5.begin("90:B6:85:64:59:2B");         //Camofledge colour
+   ps5.begin("90:B6:85:64:59:2B");         //Camofledge colour
 
   while (ps5.isConnected() == false) {
     Serial.println("Waiting for PS5 Controller....");
