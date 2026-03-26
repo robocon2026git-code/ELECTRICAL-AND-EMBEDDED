@@ -12,8 +12,8 @@
 
 #define DIR_L1                22
 #define DIR_R1                17
-// #define DIR_L2                32
-// #define DIR_R2                33
+#define DIR_L2                32
+#define DIR_R2                33
 
 #define ERROR                 15
 
