@@ -151,8 +151,8 @@ int main(void)
   while (1)
   {
 	  recieve_uart(&huart2);
-//	  odu();
-	  track_run();
+	  odu();
+//	  track_run();
     /* USER CODE END WHILE */
     MX_USB_HOST_Process();
 
