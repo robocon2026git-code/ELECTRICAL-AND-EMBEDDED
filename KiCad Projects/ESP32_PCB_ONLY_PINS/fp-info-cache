@@ -1,4 +1,11 @@
-27227888620052551
+27236761175501945
+1N5824
+DIOAD1898W129L762D1143
+
+
+0
+2
+2
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -71826,6 +71833,13 @@ Yellow 5381 Series LED
 0
 2
 2
+LOGO
+LOGO
+
+
+0
+0
+0
 Module
 A20_OLINUXINO_LIME2
 A20 Olinuxino LIME2, 1.2GHz, 512-1024MB RAM, Micro-SD, NAND or eMMC, 1000Mbit Ethernet
@@ -95066,6 +95080,13 @@ Potentiometer vertical vishay
 0
 3
 3
+QBOTIX_LOGO
+QBOTIX_LOGO
+
+
+0
+0
+0
 RC0805FR-07330RL
 RESC2012X60N
 
@@ -96368,6 +96389,13 @@ WiFi IEEE802.11 b/g/n
 0
 44
 44
+ROBOCON2026_LOGO
+ROBOCON 2026 LOGO
+
+
+0
+0
+0
 Relay_SMD
 Relay_2P2T_10x6mm_TE_IMxxG
 Signal Relay, 10x6mm, 2 Form C, Gull Wings, https://www.te.com/commerce/DocumentDelivery/DDEController?Action=showdoc&DocId=Data+Sheet%7F108-98001%7FZ.1%7Fpdf%7FEnglish%7FENG_DS_108-98001_Z.1.pdf
@@ -100799,6 +100827,13 @@ Logo WEEE
 0
 0
 0
+TB010-508-P19BK
+CUI_TB010-508-P19BK
+
+
+0
+19
+19
 TerminalBlock
 TerminalBlock_MaiXu_MX126-5.0-02P_1x02_P5.00mm
 terminal block MaiXu MX126-5.0-02P, 2 pins, pitch 5mm, size 10.5x7.8mm, drill diameter 1.3mm, pad diameter 2.8mm, https://www.lcsc.com/datasheet/lcsc_datasheet_2309150913_MAX-MX126-5-0-03P-GN01-Cu-S-A_C5188435.pdf, script-generated using https://gitlab.com/kicad/libraries/kicad-footprint-generator/-/tree/master/scripts/TerminalBlock_MaiXu
