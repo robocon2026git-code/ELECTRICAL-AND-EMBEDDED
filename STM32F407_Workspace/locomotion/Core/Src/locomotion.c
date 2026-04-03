@@ -91,7 +91,7 @@ int lo_4_wheel_calculation(int vx, int vy, int omega){
 //		printf("m2 = %f", m2_pwm);
 //		printf("m3 = %f", m3_pwm);
 //		printf("m4 = %f", m4_pwm);
-//		printf("m1 = %.2f  |  m2 = %.2f  |  m3 = %.2f |  m4 = %.2f\n", m1_pwm, m2_pwm, m3_pwm, m4_pwm);
+		printf("m1 = %.2f  |  m2 = %.2f  |  m3 = %.2f |  m4 = %.2f\n", m1_pwm, m2_pwm, m3_pwm, m4_pwm);
 		previous = millis();
 	}
 
@@ -101,9 +101,9 @@ int lo_4_wheel_calculation(int vx, int vy, int omega){
 
 void lo_4_wheel_run(TIM_HandleTypeDef *htim, uint16_t dir_pin, uint8_t mot_pin, float pwm){
 	if(pwm > 0){
-		HAL_GPIO_WritePin(GPIOD, dir_pin, SET);
+		HAL_GPIO_WritePin(GPIOC, dir_pin, SET);
 	}else{
-		HAL_GPIO_WritePin(GPIOD, dir_pin, RESET);
+		HAL_GPIO_WritePin(GPIOC, dir_pin, RESET);
 		pwm = abs(pwm);
 	}
 //	printf("pwm = %.2f\n", pwm);
