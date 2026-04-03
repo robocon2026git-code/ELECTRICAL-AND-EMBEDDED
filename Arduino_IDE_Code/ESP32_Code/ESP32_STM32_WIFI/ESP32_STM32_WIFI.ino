@@ -14,7 +14,7 @@ void setup() {
 
   button.byte = 0X00;
 
-  Setup_StreamWifi();
+  // Setup_StreamWifi();
   commSerial.begin(BAUD_RATE, SERIAL_8N1, RXD2, TXD2);
   Serial.println("Serial 2 has Started at" + String(BAUD_RATE) + "baud rate");
 

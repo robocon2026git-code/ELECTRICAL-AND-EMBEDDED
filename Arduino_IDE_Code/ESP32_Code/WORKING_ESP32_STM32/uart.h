@@ -41,10 +41,8 @@ typedef struct {
 	float bot_speed;
 }BOT_Status_t;
 
-
-BluetoothSerial SerialBT;
-HardwareSerial commSerial(1);
-
+extern BluetoothSerial SerialBT;
+extern HardwareSerial commSerial;
 
 
 #endif
