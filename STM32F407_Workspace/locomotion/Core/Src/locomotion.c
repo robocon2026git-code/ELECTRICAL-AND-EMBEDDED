@@ -28,10 +28,10 @@ int lo_4_wheel_handler(TIM_HandleTypeDef *timer){
 
     lo_4_wheel_calculation(vx, vy, omega);
 
-    lo_4_wheel_run(timer, m1_dir_pin, m1_pwm_pin, m1_pwm);
-    lo_4_wheel_run(timer, m2_dir_pin, m2_pwm_pin, m2_pwm);
-    lo_4_wheel_run(timer, m3_dir_pin, m3_pwm_pin, m3_pwm);
-    lo_4_wheel_run(timer, m4_dir_pin, m4_pwm_pin, m4_pwm);
+    lo_4_wheel_run(timer, m1_dir_pin, m1_pwm_pin, m1_pwm, m1_ind_pin);
+    lo_4_wheel_run(timer, m2_dir_pin, m2_pwm_pin, m2_pwm, m2_ind_pin);
+    lo_4_wheel_run(timer, m3_dir_pin, m3_pwm_pin, m3_pwm, m3_ind_pin);
+    lo_4_wheel_run(timer, m4_dir_pin, m4_pwm_pin, m4_pwm, m4_ind_pin);
     return 0;
 }
 
@@ -99,11 +99,13 @@ int lo_4_wheel_calculation(int vx, int vy, int omega){
 	return 0;
 }
 
-void lo_4_wheel_run(TIM_HandleTypeDef *htim, uint16_t dir_pin, uint8_t mot_pin, float pwm){
+void lo_4_wheel_run(TIM_HandleTypeDef *htim, uint16_t dir_pin, uint8_t mot_pin, float pwm, uint16_t ind_pin){
 	if(pwm > 0){
 		HAL_GPIO_WritePin(GPIOC, dir_pin, SET);
+		HAL_GPIO_WritePin(GPIOC, ind_pin, SET);
 	}else{
 		HAL_GPIO_WritePin(GPIOC, dir_pin, RESET);
+		HAL_GPIO_WritePin(GPIOC, ind_pin, RESET);
 		pwm = abs(pwm);
 	}
 //	printf("pwm = %.2f\n", pwm);
