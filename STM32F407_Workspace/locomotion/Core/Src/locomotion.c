@@ -65,9 +65,9 @@ int lo_4_wheel_handler(TIM_HandleTypeDef *timer){
 
 int lo_4_wheel_calculation(int vx, int vy, int omega){
 	m1_pwm = (vx+vy+omega);
-	m2_pwm = (vx-vy-omega);
-	m3_pwm = (-vx-vy+omega);
-	m4_pwm = (-vx+vy-omega);
+	m2_pwm = (vx-vy+omega);
+	m3_pwm = (vx+vy-omega);
+	m4_pwm = (vx-vy-omega);
 
 	// ---------- NORMALIZATION (CRTT) ----------
 	float maxraw_1 = MAX(fabs(m1_pwm), fabs(m2_pwm));
