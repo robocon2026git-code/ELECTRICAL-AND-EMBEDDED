@@ -1,2 +1,3 @@
 ../Core/Src/bot.c:5:5:system_status	4	static
 ../Core/Src/bot.c:19:5:odu	8	static
+../Core/Src/bot.c:34:6:bot_setup	8	static

@@ -15,27 +15,47 @@
 #include <stdio.h>
 #include "main.h"
 
+typedef struct {
+    uint16_t up        	:1;
+    uint16_t down      	:1;
+    uint16_t left      	:1;
+    uint16_t right     	:1;//
+    uint16_t triangle  	:1;
+    uint16_t cross     	:1;
+    uint16_t square    	:1;
+    uint16_t circle    	:1;
+    uint16_t l1        	:1;
+    uint16_t r1        	:1;
+    uint16_t reserved	:6;
+}BitfieldButtonStatusUsr;
+
 typedef struct __attribute__((packed)) {
-    uint8_t btn_flag;   // 1 byte
-    float   lx;         // 4 bytes
-    float   ly;         // 4 bytes
-    float   rx;         // 4 bytes
-    float   ry;         // 4 bytes
+    uint16_t btn_flag;   // 2 bytes
+    float    lx;         // 4 bytes
+    float    ly;         // 4 bytes
+    float    rx;         // 4 bytes
+    float    ry;         // 4 bytes
+    float    l2;	     // 4 bytes
+    float    r2;	     // 4 bytes
 } Packet;
 
-_Static_assert(sizeof(Packet) == 17, "Packet size mismatch");
+_Static_assert(sizeof(Packet) == 26, "Packet size mismatch");
+
+
+typedef enum {
+    CW = 0,
+    CCW = 1
+} Stepper_Dir_t;
+
 
 
 typedef struct {
-    uint8_t up        :1;
-    uint8_t down      :1;
-    uint8_t left      :1;
-    uint8_t right     :1;//
-    uint8_t triangle  :1;
-    uint8_t cross     :1;
-    uint8_t square    :1;
-    uint8_t circle    :1;
-}BitfieldButtonStatusUsr;
+    float currentAngle;  // Current position
+    float targetAngle;   // Where we want to go
+    float stepSize;      // How many degrees to move per "tick" (smaller = slower)
+    uint32_t speedDelay; // How many ms to wait between steps
+    uint32_t lastTick;   // Timestamp of last movement
+} SmoothServo_t;
 
 
 #define MAX(a,b) ((a) > (b) ? (a) : (b));
@@ -50,6 +70,8 @@ extern float LX_usr;
 extern float LY_usr;
 extern float RX_usr;
 extern float RY_usr;
+extern float L2_usr;
+extern float R2_usr;
 
 extern BitfieldButtonStatusUsr btnStatus;
 
@@ -66,7 +88,13 @@ void motor_set_speed255(TIM_HandleTypeDef *htim, uint32_t channel, uint8_t val);
 
 void Servo_WriteAngle(TIM_HandleTypeDef *timer, uint8_t channel, uint8_t angle);
 
+void Servo_SmoothHandler(SmoothServo_t *s, TIM_HandleTypeDef *htim, uint32_t channel);
+
 void Bldc_writePulse(TIM_HandleTypeDef *timer, uint32_t channel, uint16_t pulse);
+
+void Stepper_SetDirection(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, Stepper_Dir_t dir);
+
+void Stepper_SetSpeed(TIM_HandleTypeDef *htim, uint32_t channel, uint32_t hz);
 
 
 #endif /* INC_USER_H_ */

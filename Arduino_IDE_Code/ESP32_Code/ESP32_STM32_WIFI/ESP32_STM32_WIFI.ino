@@ -12,7 +12,7 @@ void setup() {
   
   pinMode(2, OUTPUT);
 
-  button.byte = 0X00;
+  button.halfword = 0X00;
 
   // Setup_StreamWifi();
   commSerial.begin(BAUD_RATE, SERIAL_8N1, RXD2, TXD2);
@@ -41,7 +41,7 @@ void loop() {
   notify();
   //send_uart_val(button.byte);
   // receive_pkt();
-  button.byte = 0x00;
+  button.halfword = 0x00;
 }
 
 void Set_BotStatusTemp(){

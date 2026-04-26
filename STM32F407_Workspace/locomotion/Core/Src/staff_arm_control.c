@@ -10,66 +10,58 @@
 /**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
 /**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
 
-int staff_arm_p1_ctrl(uint8_t angle){
-	Servo_WriteAngle(&htim12, TIM_CHANNEL_1, angle);
-	return 0;
-}
-
-int staff_arm_p2_ctrl(uint8_t angle){
-	Servo_WriteAngle(&htim9, TIM_CHANNEL_1, angle);
-	return 0;
-}
-
-int staff_arm_p3_ctrl(uint8_t angle){
-	Servo_WriteAngle(&htim9, TIM_CHANNEL_1, angle);
-	return 0;
-}
-
 /**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
 /**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
+int current_angle_p2 = STAFF_ARM_P2_INITIAL_ANGLE;
+
+void staff_arm_setup() {
+	Stepper_SetDirection(STAFF_ARM_P1_DIR_PORT, STAFF_ARM_P1_DIR_PIN, CW);
+	Stepper_SetSpeed(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE, 1000);
+	HAL_TIM_PWM_Start(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE);
+
+	Servo_WriteAngle(&STAFF_ARM_P2_TIM_N, STAFF_ARM_P2_PULSE, STAFF_ARM_P2_INITIAL_ANGLE);
+	Servo_WriteAngle(&STAFF_ARM_P3_TIM_N, STAFF_ARM_P3_PULSE, STAFF_ARM_P3_INITIAL_ANGLE);
 
 
-uint8_t curr_angle = 0;
-
-void servo_handler(TIM_HandleTypeDef *timer, uint8_t pos){
-	if(curr_angle >= MAX_ANGLE){
-	  curr_angle = MAX_ANGLE;
-	  printf("Current Angle: %d\n", curr_angle);
-	}
-	if(curr_angle <= MIN_ANGLE){
-	  curr_angle = MIN_ANGLE;
-	  printf("Current Angle: %d\n", curr_angle);
-	}
-
-
-	switch (pos){
-		case POS_UP:
-			HAL_Delay(SERVO_DELAY);
-			Servo_WriteAngle(timer, TIM_CHANNEL_2, (curr_angle+=STEP_ANGLE));
-			break;
-
-
-		case POS_DOWN:
-			HAL_Delay(SERVO_DELAY);
-			Servo_WriteAngle(timer, TIM_CHANNEL_2, (curr_angle-=STEP_ANGLE));
-			break;
-
-
-		default:
-			Servo_WriteAngle(timer, TIM_CHANNEL_2, curr_angle);
-	}
-
-//	if(pos == POS_UP){
-//		HAL_Delay(SERVO_DELAY);
-//		Servo_WriteAngle(timer, (curr_angle+=STEP_ANGLE));
-//	}
-//	if(pos == POS_DOWN){
-//		HAL_Delay(SERVO_DELAY);
-//		Servo_WriteAngle(timer, (curr_angle-=STEP_ANGLE));
-//	}
+	HAL_Delay(50);
 }
 
+void staff_arm_control() {
+    uint32_t now = HAL_GetTick();
+    static uint32_t last_servo_time = 0;
 
+    // --- STEPPER CONTROL (On/Off Logic) ---
+    if(btnStatus.triangle && btnStatus.l1) {
+        Stepper_SetDirection(STAFF_ARM_P1_DIR_PORT, STAFF_ARM_P1_DIR_PIN, CW);
+        Stepper_SetSpeed(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE, 1000);
+        HAL_TIM_PWM_Start(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE); // Ensure it's running
+    } else if(btnStatus.cross && btnStatus.l1) {
+        Stepper_SetDirection(STAFF_ARM_P1_DIR_PORT, STAFF_ARM_P1_DIR_PIN, CCW);
+        Stepper_SetSpeed(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE, 1000);
+        HAL_TIM_PWM_Start(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE);
+    } else {
+        HAL_TIM_PWM_Stop(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE); // Stop if no buttons pressed
+    }
+
+    // --- SERVO CONTROL (Smooth Incremental Logic) ---
+    // Only update every 20ms for smooth 50Hz movement
+    if (now - last_servo_time >= 20) {
+        last_servo_time = now;
+
+        if(btnStatus.up && btnStatus.r1) {
+            current_angle_p2 += STAFF_ARM_P2_STEP_ANGLE;
+        } else if(btnStatus.down && btnStatus.r1) {
+            current_angle_p2 -= STAFF_ARM_P2_STEP_ANGLE;
+        }
+
+        // Constraints: Keep angle between 0 and 180
+        if (current_angle_p2 > 180.0f) current_angle_p2 = 180.0f;
+        if (current_angle_p2 < 0.0f)   current_angle_p2 = 0.0f;
+
+        // Apply to hardware
+        Servo_WriteAngle(&STAFF_ARM_P2_TIM_N, STAFF_ARM_P2_PULSE, (uint8_t)current_angle_p2);
+    }
+}
 
 void Pnuematic_OnOff(uint8_t pneumatic_pin, uint8_t SET_RESET)
 {

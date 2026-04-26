@@ -16,6 +16,8 @@ float LX_usr;
 float LY_usr;
 float RX_usr;
 float RY_usr;
+float L2_usr;
+float R2_usr;
 
 BitfieldButtonStatusUsr btnStatus;
 
@@ -52,6 +54,14 @@ void recieve_uart(UART_HandleTypeDef *uart){
 
 void parse_uart_data() {
 	// Use values directly
+	if (rx_pkt.btn_flag & (1 << 9)) {
+		printf("R1 pressed\n");
+		btnStatus.r1 = 1;
+	}
+	if (rx_pkt.btn_flag & (1 << 8)) {
+		printf("L1 pressed\n");
+		btnStatus.l1 = 1;
+	}
 	if (rx_pkt.btn_flag & (1 << 7)) {
 		printf("Circle pressed\n");
 		btnStatus.circle = 1;
@@ -89,9 +99,11 @@ void parse_uart_data() {
 	LY_usr = rx_pkt.ly;
 	RX_usr = rx_pkt.rx;
 	RY_usr = rx_pkt.ry;
+	L2_usr = rx_pkt.l2;
+	R2_usr = rx_pkt.r2;
 
 //	printf("FLAG = %02X | LX = %.2f | LY = %.2f | RX = %.2f | RY = %.2f\n", rx_pkt.btn_flag,  rx_pkt.lx, rx_pkt.ly, rx_pkt.rx, rx_pkt.ry);
-//	printf("FLAG = %02X | LX = %.2f | LY = %.2f | RX = %.2f | RY = %.2f\n", rx_pkt.btn_flag,  LX_usr, LY_usr, RX_usr, RY_usr);
+	printf("FLAG = %02X | LX = %.2f | LY = %.2f | RX = %.2f | RY = %.2f | L2 = %.2f | R2 = %.2f\n", rx_pkt.btn_flag,  LX_usr, LY_usr, RX_usr, RY_usr, L2_usr, R2_usr);
 }
 
 
@@ -162,3 +174,36 @@ int bldc_maping(int val, int stop, int max_fw, int max_rw){
 long map(long val, long in_min, long in_max, long out_min, long out_max) {
   return (val - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
+
+
+
+
+void Stepper_SetDirection(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, Stepper_Dir_t dir) {
+    if(dir == CW) {
+        HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_SET);
+    } else {
+        HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_RESET);
+    }
+}
+
+
+
+void Stepper_SetSpeed(TIM_HandleTypeDef *htim, uint32_t channel, uint32_t hz) {
+    if (hz < 10) hz = 10;
+
+    // Calculate ARR based on 1MHz timer clock (PSC=83)
+    uint32_t new_arr = (1000000 / hz) - 1;
+
+    // Update Timer registers using the pointer
+    __HAL_TIM_SET_AUTORELOAD(htim, new_arr);
+
+    // Keep 50% Duty Cycle (new_arr / 2)
+    __HAL_TIM_SET_COMPARE(htim, channel, new_arr / 2);
+
+    /* IMPORTANT: If you change ARR while the timer is running,
+       you should force an update or ensure 'Preload' is enabled
+       in CubeMX to prevent a glitchy "long pulse".
+    */
+}
+
+

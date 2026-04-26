@@ -60,8 +60,8 @@ all: main-build
 main-build: code_x_lib.elf secondary-outputs
 
 # Tool invocations
-code_x_lib.elf code_x_lib.map: $(OBJS) $(USER_OBJS) /home/robocon2026/ELECTO_CORE/workspace_git/ELECTRICAL-AND-EMBEDDED/STM32F407_Workspace/code_x_lib/STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "code_x_lib.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/robocon2026/ELECTO_CORE/workspace_git/ELECTRICAL-AND-EMBEDDED/STM32F407_Workspace/code_x_lib/STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="code_x_lib.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+code_x_lib.elf code_x_lib.map: $(OBJS) $(USER_OBJS) E:\WorkSpace\ELECTRICAL-AND-EMBEDDED\STM32F407_Workspace\code_x_lib\STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "code_x_lib.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"E:\WorkSpace\ELECTRICAL-AND-EMBEDDED\STM32F407_Workspace\code_x_lib\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="code_x_lib.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

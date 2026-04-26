@@ -6,11 +6,13 @@ HardwareSerial commSerial(1);
 ButtonField button;
 Packet pkt;
 
-uint8_t flag;
+uint16_t flag;
 float lx_val;
 float ly_val;
 float rx_val;
 float ry_val;
+float l2_val;
+float r2_val;
 
 char tx_buffer[BUFFER_SIZE];
 float tx_buffer_analog;
@@ -28,19 +30,21 @@ void receive_pkt()
     }
 }
 
-void send_packet(uint8_t btn_flag, float lx_val, float ly_val, float rx_val, float ry_val) {
+void send_packet(uint16_t btn_flag, float lx_val, float ly_val, float rx_val, float ry_val, float l2_val, float r2_val) {
   pkt.btn_flag = btn_flag;
   pkt.lx = lx_val;
   pkt.ly = ly_val;
   pkt.rx = rx_val;
   pkt.ry = ry_val;
+  pkt.l2 = l2_val;
+  pkt.r2 = r2_val;
 
   commSerial.write(STX);
   commSerial.write(sizeof(Packet));
   commSerial.write((uint8_t*)&pkt, sizeof(Packet));   // send raw bytes
-  // Serial.printf("btn flag --> %02X | LX -->  %.2f | LY  --> %.2f | RX -->  %.2f | RY --> %.2f\n", btn_flag, lx_val, ly_val, rx_val, ry_val);
+  Serial.printf("btn flag --> %02X | LX -->  %.2f | LY  --> %.2f | RX -->  %.2f | RY --> %.2f\n", btn_flag, lx_val, ly_val, rx_val, ry_val);
 
-  button.byte = 0x00;
+  button.halfword = 0x00;
   pkt.lx = lx_val = 0;
   pkt.ly = ly_val = 0;
   pkt.rx = rx_val = 0;
@@ -110,10 +114,22 @@ void notify(){
     valid_val = true;
   }
   if(ps5.data.button.right){
-    valid_val = true;
     ps5.data.button.right = 0;
     delay(BUTTON_DEBOUNCING_DELAY);
     button.bits.right = 1;
+    valid_val = true;
+  }
+  if(ps5.data.button.l1){
+    ps5.data.button.l1 = 0;
+    delay(BUTTON_DEBOUNCING_DELAY);
+    button.bits.l1 = 1;
+    valid_val = true;
+  }
+  if(ps5.data.button.r1){
+    ps5.data.button.r1 = 0;
+    delay(BUTTON_DEBOUNCING_DELAY);
+    button.bits.r1 = 1;
+    valid_val = true;
   }
   if(fabsf(ps5.data.analog.stick.lx) > ANALOG_ERROR){
     lx_val = ps5.data.analog.stick.lx;
@@ -131,10 +147,18 @@ void notify(){
     ry_val = ps5.data.analog.stick.ry;
     valid_val = true;
   }
+  if(fabsf(ps5.data.analog.button.l2) > ANALOG_ERROR){
+    l2_val = ps5.data.analog.button.l2;
+    valid_val = true;
+  }
+  if(fabsf(ps5.data.analog.button.r2) > ANALOG_ERROR){
+    r2_val = ps5.data.analog.button.r2;
+    valid_val = true;
+  }
 
-  flag = button.byte;
+  flag = button.halfword;
   if(valid_val == true){
-    send_packet(flag, lx_val, ly_val, rx_val, ry_val);
+    send_packet(flag, lx_val, ly_val, rx_val, ry_val, l2_val, r2_val);
     valid_val = false;
   }
 }
