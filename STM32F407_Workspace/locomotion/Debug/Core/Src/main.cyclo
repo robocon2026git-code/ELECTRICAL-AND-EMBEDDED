@@ -6,8 +6,8 @@
 ../Core/Src/main.c:366:13:MX_TIM2_Init	6
 ../Core/Src/main.c:423:13:MX_TIM3_Init	7
 ../Core/Src/main.c:484:13:MX_TIM4_Init	7
-../Core/Src/main.c:545:13:MX_TIM9_Init	4
-../Core/Src/main.c:591:13:MX_TIM12_Init	3
-../Core/Src/main.c:633:13:MX_USART2_UART_Init	2
-../Core/Src/main.c:666:13:MX_GPIO_Init	1
-../Core/Src/main.c:775:6:Error_Handler	1
+../Core/Src/main.c:547:13:MX_TIM9_Init	4
+../Core/Src/main.c:593:13:MX_TIM12_Init	3
+../Core/Src/main.c:635:13:MX_USART2_UART_Init	2
+../Core/Src/main.c:668:13:MX_GPIO_Init	1
+../Core/Src/main.c:777:6:Error_Handler	1

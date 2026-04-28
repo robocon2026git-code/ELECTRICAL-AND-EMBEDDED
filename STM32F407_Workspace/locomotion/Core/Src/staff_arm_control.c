@@ -24,14 +24,30 @@ uint32_t last_stepper_tick = 0;
 // usually declared as 'static' inside the function, which is also fine.
 
 void staff_arm_setup() {
-	Stepper_SetDirection(STAFF_ARM_P1_DIR_PORT, STAFF_ARM_P1_DIR_PIN, CW);
-	Stepper_SetSpeed(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE, 1000);
+    // 1. Set Stepper Direction and Speed
+    Stepper_SetDirection(STAFF_ARM_P1_DIR_PORT, STAFF_ARM_P1_DIR_PIN, CW);
+    Stepper_SetSpeed(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE, 1000);
 
-	Servo_WriteAngle(&STAFF_ARM_P2_TIM_N, STAFF_ARM_P2_PULSE, STAFF_ARM_P2_INITIAL_ANGLE);
-	Servo_WriteAngle(&STAFF_ARM_P3_TIM_N, STAFF_ARM_P3_PULSE, STAFF_ARM_P3_INITIAL_ANGLE);
+    // Note: Do NOT Start Stepper PWM here if you want it to wait for a button press.
 
+    // 2. Synchronize Logic Variables with Hardware
+    current_angle_p2 = STAFF_ARM_P2_INITIAL_ANGLE;
+    current_angle_p3 = STAFF_ARM_P3_INITIAL_ANGLE;
+    target_steps_1 = 0;
+    current_steps_1 = 0;
 
-	HAL_Delay(50);
+    // 3. Set and Start Servo P2
+    Servo_WriteAngle(&STAFF_ARM_P2_TIM_N, STAFF_ARM_P2_PULSE, (uint8_t)current_angle_p2);
+    HAL_TIM_PWM_Start(&STAFF_ARM_P2_TIM_N, STAFF_ARM_P2_PULSE);
+    HAL_Delay(150); // Wait for P2 to reach position and current to stabilize
+
+    // 4. Set and Start Servo P3
+    Servo_WriteAngle(&STAFF_ARM_P3_TIM_N, STAFF_ARM_P3_PULSE, (uint8_t)current_angle_p3);
+    HAL_TIM_PWM_Start(&STAFF_ARM_P3_TIM_N, STAFF_ARM_P3_PULSE);
+    HAL_Delay(150);
+
+    // 5. If using TIM1 or TIM8 (Advanced Timers), enable Main Output
+    // __HAL_TIM_MOE_ENABLE(&STAFF_ARM_P2_TIM_N);
 }
 
 void staff_arm_control() {
