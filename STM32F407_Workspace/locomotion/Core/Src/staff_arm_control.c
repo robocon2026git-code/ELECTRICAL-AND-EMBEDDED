@@ -25,8 +25,8 @@ uint32_t last_stepper_tick = 0;
 
 void staff_arm_setup() {
     // 1. Set Stepper Direction and Speed
-    Stepper_SetDirection(STAFF_ARM_P1_DIR_PORT, STAFF_ARM_P1_DIR_PIN, CW);
-    Stepper_SetSpeed(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE, 1000);
+//    Stepper_SetDirection(STAFF_ARM_P1_DIR_PORT, STAFF_ARM_P1_DIR_PIN, CW);
+//    Stepper_SetSpeed(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE, 1000);
 
     // Note: Do NOT Start Stepper PWM here if you want it to wait for a button press.
 
@@ -41,70 +41,84 @@ void staff_arm_setup() {
     HAL_TIM_PWM_Start(&STAFF_ARM_P2_TIM_N, STAFF_ARM_P2_PULSE);
     HAL_Delay(150); // Wait for P2 to reach position and current to stabilize
 
+
     // 4. Set and Start Servo P3
     Servo_WriteAngle(&STAFF_ARM_P3_TIM_N, STAFF_ARM_P3_PULSE, (uint8_t)current_angle_p3);
     HAL_TIM_PWM_Start(&STAFF_ARM_P3_TIM_N, STAFF_ARM_P3_PULSE);
     HAL_Delay(150);
-
     // 5. If using TIM1 or TIM8 (Advanced Timers), enable Main Output
     // __HAL_TIM_MOE_ENABLE(&STAFF_ARM_P2_TIM_N);
 }
 
 void staff_arm_control() {
     uint32_t now = HAL_GetTick();
-    static uint32_t last_stepper_tick = 0;
     static uint32_t last_servo_time = 0;
-    static uint32_t last_step_increment_tick = 0;
+    static uint32_t last_step_tick = 0;
+    static bool pwm_running = false;
+    static bool last_dir_cw = true;  // track last direction
 
-    // --- 1. TARGET UPDATE (Every 40ms) ---
-    if (now - last_stepper_tick >= 40) {
-        last_stepper_tick = now;
+    // --- 1. STEPPER CONTROL ---
+    bool move_cw  = (btnStatus.up   && btnStatus.l1);
+    bool move_ccw = (btnStatus.down && btnStatus.l1);
 
-        // Stepper Target Logic
-        if (btnStatus.up && btnStatus.l1)    target_steps_1 += 20;
-        if (btnStatus.down && btnStatus.l1)  target_steps_1 -= 20;
+    if (move_cw || move_ccw) {
+        bool dir_changed = (move_cw != last_dir_cw);
 
-        // Stepper Limits (671 steps based on your gear ratio)
-        int32_t limit = 671;
-        if (target_steps_1 > limit)  target_steps_1 = limit;
-        if (target_steps_1 < -limit) target_steps_1 = -limit;
-
-        // Servo P3 Target Logic (Left/Right)
-        if (btnStatus.left && btnStatus.r1)  current_angle_p3 += STAFF_ARM_P3_STEP_ANGLE;
-        if (btnStatus.right && btnStatus.r1) current_angle_p3 -= STAFF_ARM_P3_STEP_ANGLE;
-    }
-
-    // --- 2. STEPPER EXECUTION (Hardware Pulse Logic) ---
-    if (current_steps_1 != target_steps_1) {
-        uint32_t freq = 1500; // 1500 Hz
-        Stepper_SetDirection(STAFF_ARM_P1_DIR_PORT, STAFF_ARM_P1_DIR_PIN, (current_steps_1 < target_steps_1) ? CW : CCW);
-        Stepper_SetSpeed(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE, freq);
-        HAL_TIM_PWM_Start(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE);
-
-        // Sync current_steps to real time (1500Hz = 1 step every ~0.66ms)
-        uint32_t step_interval = 1000 / freq;
-        if (now - last_step_increment_tick >= step_interval) {
-            last_step_increment_tick = now;
-            if (current_steps_1 < target_steps_1) current_steps_1++;
-            else current_steps_1--;
+        // If direction changed, stop PWM first
+        if (dir_changed && pwm_running) {
+            HAL_TIM_PWM_Stop(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE);
+            pwm_running = false;
+            HAL_Delay(1);  // Small delay for driver to latch new direction
         }
+
+        // Set direction
+        if (move_cw) {
+            Stepper_SetDirection(STAFF_ARM_P1_DIR_PORT, STAFF_ARM_P1_DIR_PIN, CW);
+            last_dir_cw = true;
+        } else {
+            Stepper_SetDirection(STAFF_ARM_P1_DIR_PORT, STAFF_ARM_P1_DIR_PIN, CCW);
+            last_dir_cw = false;
+        }
+
+        // Start PWM if not running
+        if (!pwm_running) {
+            Stepper_SetSpeed(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE, 1500);
+            HAL_TIM_PWM_Start(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE);
+            pwm_running = true;
+        }
+
+        // Track position
+        if (now - last_step_tick >= 1) {
+            last_step_tick = now;
+            if (move_cw) {
+                if (current_steps_1 < 671)  current_steps_1++;
+            } else {
+                if (current_steps_1 > -671) current_steps_1--;
+            }
+        }
+
     } else {
-        HAL_TIM_PWM_Stop(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE);
+        // Button released — stop motor
+        if (pwm_running) {
+            HAL_TIM_PWM_Stop(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE);
+            pwm_running = false;
+        }
+        target_steps_1 = current_steps_1;
     }
 
-    // --- 3. SERVO CONTROL (Every 20ms) ---
+    // --- 2. SERVO CONTROL (Every 20ms) ---
     if (now - last_servo_time >= 20) {
         last_servo_time = now;
 
-        // P2 (Up/Down)
-        if(btnStatus.up && btnStatus.r1)   current_angle_p2 += STAFF_ARM_P2_STEP_ANGLE;
-        if(btnStatus.down && btnStatus.r1) current_angle_p2 -= STAFF_ARM_P2_STEP_ANGLE;
+        if (btnStatus.up   && btnStatus.r1) current_angle_p2 += STAFF_ARM_P2_STEP_ANGLE;
+        if (btnStatus.down && btnStatus.r1) current_angle_p2 -= STAFF_ARM_P2_STEP_ANGLE;
+        if (btnStatus.left  && btnStatus.r1) current_angle_p3 += STAFF_ARM_P3_STEP_ANGLE;
+        if (btnStatus.right && btnStatus.r1) current_angle_p3 -= STAFF_ARM_P3_STEP_ANGLE;
 
-        // Constraints and Hardware Write
-        if (current_angle_p2 > 170.0f) current_angle_p2 = 170.0f;
-        if (current_angle_p2 < 10.0f)  current_angle_p2 = 10.0f;
-        if (current_angle_p3 > 180.0f) current_angle_p3 = 180.0f;
-        if (current_angle_p3 < 0.0f)   current_angle_p3 = 0.0f;
+        if (current_angle_p2 > 170) current_angle_p2 = 170;
+        if (current_angle_p2 < 10)  current_angle_p2 = 10;
+        if (current_angle_p3 > 180) current_angle_p3 = 180;
+        if (current_angle_p3 < 0)   current_angle_p3 = 0;
 
         Servo_WriteAngle(&STAFF_ARM_P2_TIM_N, STAFF_ARM_P2_PULSE, (uint8_t)current_angle_p2);
         Servo_WriteAngle(&STAFF_ARM_P3_TIM_N, STAFF_ARM_P3_PULSE, (uint8_t)current_angle_p3);

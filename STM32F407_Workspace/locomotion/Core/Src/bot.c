@@ -23,6 +23,8 @@ int odu() {
 
 	  kfs_arm_handler();
 
+	  staff_arm_control();
+
 //	  system_status();
 
 //	  HAL_UART_Transmit(&huart2, (uint8_t*)&war_status, sizeof(war_status), 10);

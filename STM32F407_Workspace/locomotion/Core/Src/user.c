@@ -191,19 +191,13 @@ void Stepper_SetDirection(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, Stepper_Dir_t 
 void Stepper_SetSpeed(TIM_HandleTypeDef *htim, uint32_t channel, uint32_t hz) {
     if (hz < 10) hz = 10;
 
-    // Calculate ARR based on 1MHz timer clock (PSC=83)
     uint32_t new_arr = (1000000 / hz) - 1;
 
-    // Update Timer registers using the pointer
     __HAL_TIM_SET_AUTORELOAD(htim, new_arr);
-
-    // Keep 50% Duty Cycle (new_arr / 2)
     __HAL_TIM_SET_COMPARE(htim, channel, new_arr / 2);
 
-    /* IMPORTANT: If you change ARR while the timer is running,
-       you should force an update or ensure 'Preload' is enabled
-       in CubeMX to prevent a glitchy "long pulse".
-    */
+    // Force register update so ARR and CCR take effect immediately
+    htim->Instance->EGR = TIM_EGR_UG;
 }
 
 

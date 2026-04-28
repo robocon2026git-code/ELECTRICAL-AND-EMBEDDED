@@ -43,8 +43,8 @@ _Static_assert(sizeof(Packet) == 26, "Packet size mismatch");
 
 
 typedef enum {
-    CW = 0,
-    CCW = 1
+    CW = 1,
+    CCW = 0
 } Stepper_Dir_t;
 
 

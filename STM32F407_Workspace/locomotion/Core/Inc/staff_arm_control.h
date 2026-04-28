@@ -40,6 +40,8 @@
 #define STAFF_ARM_P3_TIM_N				htim9
 
 void Pnuematic_OnOff(uint8_t pneumatic_pin, uint8_t SET_RESET);
+void staff_arm_setup();
+void staff_arm_control();
 
 
 #endif /* INC_ARM_H_ */
