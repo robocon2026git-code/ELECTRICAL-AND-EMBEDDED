@@ -1,3 +1,2 @@
-../Core/Src/staff_arm_control.c:26:6:staff_arm_setup	8	static
-../Core/Src/staff_arm_control.c:53:6:staff_arm_control	16	static
-../Core/Src/staff_arm_control.c:128:6:Pnuematic_OnOff	16	static
+../Core/Src/staff_arm_control.c:11:6:staff_arm_setup	8	static
+../Core/Src/staff_arm_control.c:23:6:staff_arm_control	16	static

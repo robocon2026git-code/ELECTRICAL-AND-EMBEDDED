@@ -27,39 +27,31 @@ int odu() {
     recieve_uart(&huart2);
     lo_4_wheel_handler(&htim3);
 
-    // 1. BULLETPROOF EDGE DETECTION
-    // We read bit 10 directly from the raw UART packet. This prevents any struct mapping bugs!
     uint8_t current_options_state = (rx_pkt.btn_flag & (1 << 10)) ? 1 : 0;
 
     if (current_options_state == 1 && last_options_state == 0) {
-        is_staff_mode = !is_staff_mode; // Flip the mode
+        is_staff_mode = !is_staff_mode;
 
-        // Print loudly to the terminal so we know it worked
-        printf("\r\n==================================\r\n");
-        printf("   MODE SWITCHED TO: %s   \r\n", is_staff_mode ? "STAFF" : "KFS");
-        printf("==================================\r\n\n");
+        // REMOVE OR MINIMIZE THIS:
+        // printf is the likely killer of your timing.
 
-        if (is_staff_mode == 1) {
-            HAL_GPIO_WritePin(LED_RED_PORT, LED_RED_PIN, GPIO_PIN_SET);   // Red ON
+        if (is_staff_mode) {
+            HAL_GPIO_WritePin(LED_RED_PORT, LED_RED_PIN, GPIO_PIN_SET);
         } else {
-            HAL_GPIO_WritePin(LED_RED_PORT, LED_RED_PIN, GPIO_PIN_RESET); // Red OFF
-            HAL_GPIO_WritePin(LED_BLUE_PORT, LED_BLUE_PIN, GPIO_PIN_RESET); // Blue OFF
+            HAL_GPIO_WritePin(LED_RED_PORT, LED_RED_PIN, GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(LED_BLUE_PORT, LED_BLUE_PIN, GPIO_PIN_RESET);
         }
     }
     last_options_state = current_options_state;
 
-    // 2. Execute Modes
-    if (is_staff_mode == 1) {
-        // --- STAFF MODE ---
+    if (is_staff_mode) {
         staff_arm_control();
-
-        // Blink Blue LED every 500ms safely without blocking
+        // Safe non-blocking blink
         if (HAL_GetTick() - last_blue_blink >= 500) {
             HAL_GPIO_TogglePin(LED_BLUE_PORT, LED_BLUE_PIN);
             last_blue_blink = HAL_GetTick();
         }
     } else {
-        // --- KFS MODE ---
         kfs_arm_handler();
     }
 
