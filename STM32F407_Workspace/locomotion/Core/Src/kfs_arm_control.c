@@ -37,7 +37,7 @@ void kfs_arm_handler(){
 	//	printf("Current Triangle: %d\n", currentTriangle);
 	//	HAL_Delay(1000);
 
-	bool currentCross = btnStatus.circle;
+	bool currentCross = btnStatus.cross;
 
 	if (currentCross && !lastCross) {
 	  kfs_state.kfs_s2_state = !kfs_state.kfs_s2_state;

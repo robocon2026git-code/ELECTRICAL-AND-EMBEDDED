@@ -91,7 +91,7 @@ int lo_4_wheel_calculation(int vx, int vy, int omega){
 //		printf("m2 = %f", m2_pwm);
 //		printf("m3 = %f", m3_pwm);
 //		printf("m4 = %f", m4_pwm);
-		printf("m1 = %.2f  |  m2 = %.2f  |  m3 = %.2f |  m4 = %.2f\n", m1_pwm, m2_pwm, m3_pwm, m4_pwm);
+//		printf("m1 = %.2f  |  m2 = %.2f  |  m3 = %.2f |  m4 = %.2f\n", m1_pwm, m2_pwm, m3_pwm, m4_pwm);
 		previous = millis();
 	}
 

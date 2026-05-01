@@ -8,27 +8,32 @@
 #ifndef INC_USER_H_
 #define INC_USER_H_
 
-
 #include <stdint.h>
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
 #include "main.h"
 
+// Updated Bitfield to include all 14 buttons and 2 reserved bits (16 bits total)
 typedef struct {
     uint16_t up        	:1;
     uint16_t down      	:1;
     uint16_t left      	:1;
-    uint16_t right     	:1;//
+    uint16_t right     	:1;
     uint16_t triangle  	:1;
     uint16_t cross     	:1;
     uint16_t square    	:1;
     uint16_t circle    	:1;
     uint16_t l1        	:1;
     uint16_t r1        	:1;
-    uint16_t reserved	:6;
-}BitfieldButtonStatusUsr;
+    uint16_t options    :1; // ADDED
+    uint16_t ps         :1; // ADDED
+    uint16_t share      :1; // ADDED
+    uint16_t touchpad   :1; // ADDED
+    uint16_t reserved	:2; // CHANGED from 6 to 2 to maintain 16-bit size
+} BitfieldButtonStatusUsr;
 
+// Packet struct remains perfect
 typedef struct __attribute__((packed)) {
     uint16_t btn_flag;   // 2 bytes
     float    lx;         // 4 bytes
@@ -41,13 +46,10 @@ typedef struct __attribute__((packed)) {
 
 _Static_assert(sizeof(Packet) == 26, "Packet size mismatch");
 
-
 typedef enum {
     CW = 1,
     CCW = 0
 } Stepper_Dir_t;
-
-
 
 typedef struct {
     float currentAngle;  // Current position
@@ -57,8 +59,7 @@ typedef struct {
     uint32_t lastTick;   // Timestamp of last movement
 } SmoothServo_t;
 
-
-#define MAX(a,b) ((a) > (b) ? (a) : (b));
+#define MAX(a,b) ((a) > (b) ? (a) : (b)) // Removed trailing semicolon from your original code (bug fix!)
 
 #define STX								0xAA
 
@@ -95,6 +96,5 @@ void Bldc_writePulse(TIM_HandleTypeDef *timer, uint32_t channel, uint16_t pulse)
 void Stepper_SetDirection(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, Stepper_Dir_t dir);
 
 void Stepper_SetSpeed(TIM_HandleTypeDef *htim, uint32_t channel, uint32_t hz);
-
 
 #endif /* INC_USER_H_ */

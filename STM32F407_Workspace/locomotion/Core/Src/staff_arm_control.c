@@ -58,8 +58,8 @@ void staff_arm_control() {
     static bool last_dir_cw = true;  // track last direction
 
     // --- 1. STEPPER CONTROL ---
-    bool move_cw  = (btnStatus.up   && btnStatus.l1);
-    bool move_ccw = (btnStatus.down && btnStatus.l1);
+    bool move_cw  = (btnStatus.triangle);
+    bool move_ccw = (btnStatus.cross);
 
     if (move_cw || move_ccw) {
         bool dir_changed = (move_cw != last_dir_cw);
@@ -110,10 +110,10 @@ void staff_arm_control() {
     if (now - last_servo_time >= 20) {
         last_servo_time = now;
 
-        if (btnStatus.up   && btnStatus.r1) current_angle_p2 += STAFF_ARM_P2_STEP_ANGLE;
-        if (btnStatus.down && btnStatus.r1) current_angle_p2 -= STAFF_ARM_P2_STEP_ANGLE;
-        if (btnStatus.left  && btnStatus.r1) current_angle_p3 += STAFF_ARM_P3_STEP_ANGLE;
-        if (btnStatus.right && btnStatus.r1) current_angle_p3 -= STAFF_ARM_P3_STEP_ANGLE;
+        if (btnStatus.up) current_angle_p2 += STAFF_ARM_P2_STEP_ANGLE;
+        if (btnStatus.down) current_angle_p2 -= STAFF_ARM_P2_STEP_ANGLE;
+        if (btnStatus.left) current_angle_p3 += STAFF_ARM_P3_STEP_ANGLE;
+        if (btnStatus.right) current_angle_p3 -= STAFF_ARM_P3_STEP_ANGLE;
 
         if (current_angle_p2 > 170) current_angle_p2 = 170;
         if (current_angle_p2 < 10)  current_angle_p2 = 10;
