@@ -1,8 +1,7 @@
 /*
  * user.c
- *
- *  Created on: Jan 25, 2026
- *      Author: Admin
+ *  Fixed: Removed printf from parse_uart_data (was blocking 5-20ms every packet)
+ *         Changed UART to interrupt-driven (non-blocking)
  */
 
 #include "user.h"
@@ -20,69 +19,76 @@ float R2_usr;
 
 BitfieldButtonStatusUsr btnStatus;
 
+// --- UART Interrupt State Machine ---
+typedef enum {
+    UART_WAIT_STX = 0,
+    UART_WAIT_LEN,
+    UART_WAIT_DATA
+} UART_State_t;
+
+static UART_State_t uart_state = UART_WAIT_STX;
+static uint8_t      uart_rx_byte = 0;
+static uint8_t      uart_data_buf[sizeof(Packet)];
+static uint8_t      uart_data_index = 0;
+static uint8_t      uart_expected_len = 0;
+
+// Call once in main after MX_USART2_UART_Init()
+void uart_start_receive(UART_HandleTypeDef *uart) {
+    HAL_UART_Receive_IT(uart, &uart_rx_byte, 1);
+}
+
+// Call this from HAL_UART_RxCpltCallback in stm32f4xx_it.c
+void uart_rx_callback(UART_HandleTypeDef *uart) {
+    switch (uart_state) {
+        case UART_WAIT_STX:
+            if (uart_rx_byte == STX) {
+                uart_state = UART_WAIT_LEN;
+            }
+            break;
+
+        case UART_WAIT_LEN:
+            uart_expected_len = uart_rx_byte;
+            if (uart_expected_len == sizeof(Packet)) {
+                uart_data_index = 0;
+                uart_state = UART_WAIT_DATA;
+            } else {
+                uart_state = UART_WAIT_STX; // bad length, reset
+            }
+            break;
+
+        case UART_WAIT_DATA:
+            uart_data_buf[uart_data_index++] = uart_rx_byte;
+            if (uart_data_index >= uart_expected_len) {
+                memcpy(&rx_pkt, uart_data_buf, sizeof(Packet));
+                parse_uart_data();
+                uart_state = UART_WAIT_STX;
+            }
+            break;
+    }
+
+    // Re-arm for next byte
+    HAL_UART_Receive_IT(uart, &uart_rx_byte, 1);
+}
+
 // --- Utility Functions ---
-uint32_t millis(void){
+uint32_t millis(void) {
     return HAL_GetTick();
 }
 
 long map(long val, long in_min, long in_max, long out_min, long out_max) {
-  return (val - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    return (val - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-// --- UART Communication ---
-// NON-BLOCKING UART (Will not freeze motors)
-void recieve_uart(UART_HandleTypeDef *uart) {
-    if (HAL_UART_Receive(uart, &ch, 1, 5) != HAL_OK) return;
-
-    if (ch == STX) {
-        if (HAL_UART_Receive(uart, &len, 1, 5) == HAL_OK) {
-            if (len == sizeof(Packet)) {
-                if (HAL_UART_Receive(uart, (uint8_t*)&rx_pkt, len, 10) == HAL_OK) {
-                    parse_uart_data();
-                }
-            }
-        }
-    }
-}
-
+// --- UART Parse (NO printf - was causing 5-20ms block every packet) ---
 void parse_uart_data() {
-    // MAGIC ONE-LINER (Struct Version)
     *((uint16_t*)&btnStatus) = rx_pkt.btn_flag;
 
-    // Analog Values
     LX_usr = rx_pkt.lx;
     LY_usr = rx_pkt.ly;
     RX_usr = rx_pkt.rx;
     RY_usr = rx_pkt.ry;
     L2_usr = rx_pkt.l2;
     R2_usr = rx_pkt.r2;
-
-    // ==========================================
-    // STM32 TERMINAL PRINTING LOGIC
-    // ==========================================
-
-    // 1. Print the Joysticks and Triggers
-    printf("FLAG: %04X | L(%5.0f,%5.0f) R(%5.0f,%5.0f) | T(%5.0f,%5.0f) | BTNS: ",
-           rx_pkt.btn_flag, LX_usr, LY_usr, RX_usr, RY_usr, L2_usr, R2_usr);
-
-    // 2. Print out the names of whatever digital buttons are currently pressed
-    if(btnStatus.up)       printf("UP ");
-    if(btnStatus.down)     printf("DOWN ");
-    if(btnStatus.left)     printf("LEFT ");
-    if(btnStatus.right)    printf("RIGHT ");
-    if(btnStatus.triangle) printf("TRIANGLE ");
-    if(btnStatus.cross)    printf("CROSS ");
-    if(btnStatus.square)   printf("SQUARE ");
-    if(btnStatus.circle)   printf("CIRCLE ");
-    if(btnStatus.l1)       printf("L1 ");
-    if(btnStatus.r1)       printf("R1 ");
-    if(btnStatus.options)  printf("OPTIONS ");
-    if(btnStatus.ps)       printf("PS ");
-    if(btnStatus.share)    printf("SHARE ");
-    if(btnStatus.touchpad) printf("TOUCHPAD ");
-
-    // 3. New line carriage return for the terminal
-    printf("\r\n");
 }
 
 // --- DC Motor Control ---
@@ -102,28 +108,28 @@ void motor_set_speed255(TIM_HandleTypeDef *htim, uint32_t channel, uint8_t val) 
 
 // --- Servo Control ---
 void Servo_WriteAngle(TIM_HandleTypeDef *timer, uint8_t channel, uint8_t angle) {
-    if(angle > 180) angle = 180;
+    if (angle > 180) angle = 180;
     uint16_t pulse = 1000 + (angle * 1000) / 180;
     __HAL_TIM_SET_COMPARE(timer, channel, pulse);
 }
 
 // --- BLDC Control ---
 void Bldc_writePulse(TIM_HandleTypeDef *timer, uint32_t channel, uint16_t pulse) {
-    if((pulse < 1000) || (pulse > 2000)) return;
+    if ((pulse < 1000) || (pulse > 2000)) return;
     __HAL_TIM_SET_COMPARE(timer, channel, pulse);
 }
 
 int bldc_maping(int val, int stop, int max_fw, int max_rw) {
-    if(val == 0) return stop;
-    if(val < 0)  return map(val, -127, -1, max_rw, stop);
-    if(val > 0)  return map(val, 1, 127, stop, max_fw);
+    if (val == 0) return stop;
+    if (val < 0)  return map(val, -127, -1, max_rw, stop);
+    if (val > 0)  return map(val, 1, 127, stop, max_fw);
     return 0;
 }
 
 // --- Stepper Control ---
 void Stepper_SetDirection(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, Stepper_Dir_t dir) {
-    if(dir == CW) HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_SET);
-    else          HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_RESET);
+    if (dir == CW) HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_SET);
+    else           HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_RESET);
 }
 
 void Stepper_SetSpeed(TIM_HandleTypeDef *htim, uint32_t channel, uint32_t hz) {
@@ -131,4 +137,5 @@ void Stepper_SetSpeed(TIM_HandleTypeDef *htim, uint32_t channel, uint32_t hz) {
     uint32_t new_arr = (1000000 / hz) - 1;
     __HAL_TIM_SET_AUTORELOAD(htim, new_arr);
     __HAL_TIM_SET_COMPARE(htim, channel, new_arr / 2);
+    htim->Instance->EGR = TIM_EGR_UG; // Force register update
 }

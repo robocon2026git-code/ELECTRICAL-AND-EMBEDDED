@@ -1,8 +1,7 @@
 /*
  * user.h
- *
- *  Created on: Jan 25, 2026
- *      Author: Admin
+ *  Fixed: Added uart_start_receive and uart_rx_callback declarations
+ *         Removed recieve_uart (replaced by interrupt-driven approach)
  */
 
 #ifndef INC_USER_H_
@@ -12,58 +11,55 @@
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
+#include <string.h>
 #include "main.h"
 
-// Updated Bitfield to include all 14 buttons and 2 reserved bits (16 bits total)
 typedef struct {
-    uint16_t up        	:1;
-    uint16_t down      	:1;
-    uint16_t left      	:1;
-    uint16_t right     	:1;
-    uint16_t triangle  	:1;
-    uint16_t cross     	:1;
-    uint16_t square    	:1;
-    uint16_t circle    	:1;
-    uint16_t l1        	:1;
-    uint16_t r1        	:1;
-    uint16_t options    :1; // ADDED
-    uint16_t ps         :1; // ADDED
-    uint16_t share      :1; // ADDED
-    uint16_t touchpad   :1; // ADDED
-    uint16_t reserved	:2; // CHANGED from 6 to 2 to maintain 16-bit size
+    uint16_t up        :1;
+    uint16_t down      :1;
+    uint16_t left      :1;
+    uint16_t right     :1;
+    uint16_t triangle  :1;
+    uint16_t cross     :1;
+    uint16_t square    :1;
+    uint16_t circle    :1;
+    uint16_t l1        :1;
+    uint16_t r1        :1;
+    uint16_t options   :1;
+    uint16_t ps        :1;
+    uint16_t share     :1;
+    uint16_t touchpad  :1;
+    uint16_t reserved  :2;
 } BitfieldButtonStatusUsr;
 
-// Packet struct remains perfect
 typedef struct __attribute__((packed)) {
-    uint16_t btn_flag;   // 2 bytes
-    float    lx;         // 4 bytes
-    float    ly;         // 4 bytes
-    float    rx;         // 4 bytes
-    float    ry;         // 4 bytes
-    float    l2;	     // 4 bytes
-    float    r2;	     // 4 bytes
+    uint16_t btn_flag;
+    float    lx;
+    float    ly;
+    float    rx;
+    float    ry;
+    float    l2;
+    float    r2;
 } Packet;
 
 _Static_assert(sizeof(Packet) == 26, "Packet size mismatch");
 
 typedef enum {
-    CW = 1,
+    CW  = 1,
     CCW = 0
 } Stepper_Dir_t;
 
 typedef struct {
-    float currentAngle;  // Current position
-    float targetAngle;   // Where we want to go
-    float stepSize;      // How many degrees to move per "tick" (smaller = slower)
-    uint32_t speedDelay; // How many ms to wait between steps
-    uint32_t lastTick;   // Timestamp of last movement
+    float currentAngle;
+    float targetAngle;
+    float stepSize;
+    uint32_t speedDelay;
+    uint32_t lastTick;
 } SmoothServo_t;
 
-#define MAX(a,b) ((a) > (b) ? (a) : (b)) // Removed trailing semicolon from your original code (bug fix!)
+#define MAX(a,b) ((a) > (b) ? (a) : (b))
+#define STX  0xAA
 
-#define STX								0xAA
-
-extern uint8_t rx_val;
 extern Packet rx_pkt;
 extern uint8_t ch, len;
 
@@ -76,25 +72,26 @@ extern float R2_usr;
 
 extern BitfieldButtonStatusUsr btnStatus;
 
+// UART interrupt-driven API
+void uart_start_receive(UART_HandleTypeDef *uart);
+void uart_rx_callback(UART_HandleTypeDef *uart);
+
 long map(long val, long in_min, long in_max, long out_min, long out_max);
 uint32_t millis(void);
 
-int bldc_maping(int val, int stop, int max_fw, int max_rw);
+void parse_uart_data(void);
 
-void recieve_uart(UART_HandleTypeDef *uart);
-void parse_uart_data();
+int bldc_maping(int val, int stop, int max_fw, int max_rw);
 
 void motor_set_speed(TIM_HandleTypeDef *htim, uint32_t channel, float speed);
 void motor_set_speed255(TIM_HandleTypeDef *htim, uint32_t channel, uint8_t val);
 
 void Servo_WriteAngle(TIM_HandleTypeDef *timer, uint8_t channel, uint8_t angle);
-
 void Servo_SmoothHandler(SmoothServo_t *s, TIM_HandleTypeDef *htim, uint32_t channel);
 
 void Bldc_writePulse(TIM_HandleTypeDef *timer, uint32_t channel, uint16_t pulse);
 
 void Stepper_SetDirection(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, Stepper_Dir_t dir);
-
 void Stepper_SetSpeed(TIM_HandleTypeDef *htim, uint32_t channel, uint32_t hz);
 
 #endif /* INC_USER_H_ */

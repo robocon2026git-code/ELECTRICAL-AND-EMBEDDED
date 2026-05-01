@@ -51,7 +51,7 @@ P3 -> TIM2 CH2 - PA1
 
 LFT -> TIM1 CH1 -> PE9
 
-EXT -> TIM1 CH2 -> PE11
+EXT -> TIM1 CH2 -> PE11		PE10
 
 //P3 -> TIM4 CH3 - PB8 (Changded to staff arm)
 

@@ -146,13 +146,18 @@ int main(void)
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
 
+  // Set SPARK to neutral BEFORE starting timer
+  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 1500);  // SPARK neutral
+  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 0);     // OFFSET off
+
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+  HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_2);
   __HAL_TIM_MOE_ENABLE(&htim1);
 
   HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_2);
 
+  uart_start_receive(&huart2);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -170,8 +175,6 @@ int main(void)
     MX_USB_HOST_Process();
 
     /* USER CODE BEGIN 3 */
-    memset(&btnStatus, 0, sizeof(btnStatus));
-    LX_usr = 0; LY_usr = 0; RX_usr = 0; RY_usr = 0;
   }
   /* USER CODE END 3 */
 }
@@ -330,13 +333,18 @@ static void MX_TIM1_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 0;
+  sConfigOC.Pulse = 1500;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
   sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
   if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.Pulse = 0;
+  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
   {
     Error_Handler();
   }
@@ -681,7 +689,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOE, CS_I2C_SPI_Pin|GPIO_PIN_12, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOE, CS_I2C_SPI_Pin|GPIO_PIN_7|GPIO_PIN_12, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(OTG_FS_PowerSwitchOn_GPIO_Port, OTG_FS_PowerSwitchOn_Pin, GPIO_PIN_SET);
@@ -697,8 +705,8 @@ static void MX_GPIO_Init(void)
                           |LD5_Pin|LD6_Pin|GPIO_PIN_0|GPIO_PIN_1
                           |GPIO_PIN_3|Audio_RST_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : CS_I2C_SPI_Pin PE12 */
-  GPIO_InitStruct.Pin = CS_I2C_SPI_Pin|GPIO_PIN_12;
+  /*Configure GPIO pins : CS_I2C_SPI_Pin PE7 PE12 */
+  GPIO_InitStruct.Pin = CS_I2C_SPI_Pin|GPIO_PIN_7|GPIO_PIN_12;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

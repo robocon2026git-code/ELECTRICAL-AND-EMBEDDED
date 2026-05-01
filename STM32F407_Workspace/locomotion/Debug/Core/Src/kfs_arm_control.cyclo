@@ -1,2 +1,2 @@
 ../Core/Src/kfs_arm_control.c:10:6:kfs_arm_setup	1
-../Core/Src/kfs_arm_control.c:20:6:kfs_arm_handler	12
+../Core/Src/kfs_arm_control.c:25:6:kfs_arm_handler	12

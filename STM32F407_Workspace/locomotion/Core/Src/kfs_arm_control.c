@@ -1,16 +1,21 @@
 #include "kfs_arm_control.h"
 
-int t2_K_pos_1 = 80,  t3_K_pos_1 = 105,  t1_K_pos_1 = 33;
-int t2_K_pos_2 = 100, t3_K_pos_2 = 85, t1_K_pos_2 = 97;
+int t3_K_pos_1 = 173,  t1_K_pos_1 = 0, t2_K_pos_1 = 65;
+int t3_K_pos_2 = 145, t1_K_pos_2 = 97, t2_K_pos_2 = 90;
 
 kfs_state_t kfs_state;
 bool lastTriangle = false;
 bool lastCross = false;
 
-void kfs_arm_setup(){
+void kfs_arm_setup() {
     kfs_state.kfs_s1_state = 0;
     kfs_state.kfs_s2_state = 0;
     kfs_state.kfs_s3_state = 0;
+
+    // Send neutral and HOLD for 3 seconds — ESC needs this to arm
+    // You will hear: beep beep (startup) then one confirmation beep
+    Bldc_writePulse(&SPARK_PULSE_TIM_N, SPARK_PULSE_PIN, SPARK_STOP);
+    HAL_Delay(3000);   // ← THIS IS THE FIX — was missing before
 
     Servo_WriteAngle(&PIVOT_1_K_TIM_N, PIVOT_1_K, t1_K_pos_1);
     Servo_WriteAngle(&PIVOT_2_K_TIM_N, PIVOT_2_K, t2_K_pos_1);

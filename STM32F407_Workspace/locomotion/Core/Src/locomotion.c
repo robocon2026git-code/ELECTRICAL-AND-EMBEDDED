@@ -13,18 +13,50 @@ unsigned long current = 0, previous = 0;
 
 
 //For DC Motors
-int lo_4_wheel_handler(TIM_HandleTypeDef *timer){
-	int x = LY_usr;
-	int y = LX_usr;
-	int w = RX_usr;
+int lo_4_wheel_handler(TIM_HandleTypeDef *timer) {
 
-    if(abs(x) < 20) x = 0;
-    if(abs(y) < 20) y = 0;
-    if(abs(w) < 20) w = 0;
+    int x = LY_usr;  // forward/back
+    int y = LX_usr;  // rotate
+    int w = RX_usr;  // rotate (alternative)
 
-    int vx = (x * 255) / 127;
-    int vy = (y * 255) / 127;
-    int omega = (w * 255) / 127;
+    // ================================================================
+    // CHANGE: Deadzone threshold (increase if stick drifts)
+    // ================================================================
+    if (abs(x) < 20) x = 0;
+    if (abs(y) < 20) y = 0;
+    if (abs(w) < 20) w = 0;
+
+    int vx = 0, vy = 0, omega = 0;
+
+    // ================================================================
+    // STRAFE RIGHT: LY + R1
+    // CHANGE: strafe speed = 200 (0-255)
+    // ================================================================
+    if (btnStatus.r1 && abs(x) > 20) {
+        vx    = 0;
+        vy    = 50;   // CHANGE: strafe speed
+        omega = 0;
+    }
+
+    // ================================================================
+    // STRAFE LEFT: LY + L1
+    // CHANGE: strafe speed = 200 (0-255)
+    // ================================================================
+    else if (btnStatus.l1 && abs(x) > 20) {
+        vx    = 0;
+        vy    = -50;  // CHANGE: strafe speed (keep same value as above)
+        omega = 0;
+    }
+
+    // ================================================================
+    // FORWARD / BACKWARD: LY alone
+    // CHANGE: max speed scaling (255 = full, 200 = reduced)
+    // ================================================================
+    else {
+        vx    = (x * 255) / 127;  // CHANGE: forward/back max speed
+        vy    = 0;
+        omega = (y * 255) / 127;  // LX rotates while moving
+    }
 
     lo_4_wheel_calculation(vx, vy, omega);
 
@@ -32,6 +64,7 @@ int lo_4_wheel_handler(TIM_HandleTypeDef *timer){
     lo_4_wheel_run(timer, m2_dir_pin, m2_pwm_pin, m2_pwm, m2_ind_pin);
     lo_4_wheel_run(timer, m3_dir_pin, m3_pwm_pin, m3_pwm, m3_ind_pin);
     lo_4_wheel_run(timer, m4_dir_pin, m4_pwm_pin, m4_pwm, m4_ind_pin);
+
     return 0;
 }
 
