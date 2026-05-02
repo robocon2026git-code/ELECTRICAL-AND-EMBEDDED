@@ -11,9 +11,9 @@
 #define PIVOT_2_K_TIM_N		htim2	//TIM2 CH4
 #define PIVOT_3_K_TIM_N		htim2	//TIM2 CH2
 
-#define SPARK_PULSE_PIN		TIM_CHANNEL_1	//PE9
+#define SPARK_PULSE_PIN		TIM_CHANNEL_1	//PE9	PB14
 
-#define SPARK_PULSE_TIM_N	htim1	//TIM1 CH1
+#define SPARK_PULSE_TIM_N	htim12	//TIM1 CH1
 
 #define OFFSET_PWM_PIN		TIM_CHANNEL_2	//PE11 PE10
 #define OFFSET_DIR_PIN		GPIO_PIN_7	//PE7
@@ -23,9 +23,9 @@
 
 #define OFFSET_PWM_VAL		200
 
-#define SPARK_UP_SPEED    	1700
-#define SPARK_STOP        	1500
-#define SPARK_DOWN_SPEED  	1300
+#define SPARK_UP_SPEED    	1700U
+#define SPARK_STOP        	1500U
+#define SPARK_DOWN_SPEED  	1300U
 
 void kfs_arm_setup();
 void kfs_arm_handler();

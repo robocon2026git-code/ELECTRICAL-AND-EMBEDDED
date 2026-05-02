@@ -15,51 +15,50 @@ unsigned long current = 0, previous = 0;
 //For DC Motors
 int lo_4_wheel_handler(TIM_HandleTypeDef *timer) {
 
-    int x = LY_usr;  // forward/back
-    int y = LX_usr;  // rotate
-    int w = RX_usr;  // rotate (alternative)
+    int x = LY_usr;   // forward/back
+    int y = LX_usr;   // strafe (LEFT/RIGHT)
+    int w = RX_usr;   // rotation
 
-    // ================================================================
-    // CHANGE: Deadzone threshold (increase if stick drifts)
-    // ================================================================
+    // Deadzone
     if (abs(x) < 20) x = 0;
     if (abs(y) < 20) y = 0;
     if (abs(w) < 20) w = 0;
 
     int vx = 0, vy = 0, omega = 0;
 
-    // ================================================================
-    // STRAFE RIGHT: LY + R1
-    // CHANGE: strafe speed = 200 (0-255)
-    // ================================================================
+    // ==============================
+    // STRAFE RIGHT
+    // ==============================
     if (btnStatus.r1 && abs(x) > 20) {
         vx    = 0;
-        vy    = 50;   // CHANGE: strafe speed
+        vy    = -50;   // 🔥 FIXED (was +50)
         omega = 0;
     }
 
-    // ================================================================
-    // STRAFE LEFT: LY + L1
-    // CHANGE: strafe speed = 200 (0-255)
-    // ================================================================
+    // ==============================
+    // STRAFE LEFT
+    // ==============================
     else if (btnStatus.l1 && abs(x) > 20) {
         vx    = 0;
-        vy    = -50;  // CHANGE: strafe speed (keep same value as above)
+        vy    = 50;    // 🔥 FIXED (was -50)
         omega = 0;
     }
 
-    // ================================================================
-    // FORWARD / BACKWARD: LY alone
-    // CHANGE: max speed scaling (255 = full, 200 = reduced)
-    // ================================================================
+    // ==============================
+    // NORMAL MOVEMENT
+    // ==============================
     else {
-        vx    = (x * 255) / 127;  // CHANGE: forward/back max speed
-        vy    = 0;
-        omega = (y * 255) / 127;  // LX rotates while moving
+        vx    = (x * 255) / 127;
+
+        // 🔥 MAIN FIX → invert Y axis
+        vy    = -(y * 255) / 127;
+
+        omega = (w * 255) / 127;
     }
 
     lo_4_wheel_calculation(vx, vy, omega);
 
+    // Run motors
     lo_4_wheel_run(timer, m1_dir_pin, m1_pwm_pin, m1_pwm, m1_ind_pin);
     lo_4_wheel_run(timer, m2_dir_pin, m2_pwm_pin, m2_pwm, m2_ind_pin);
     lo_4_wheel_run(timer, m3_dir_pin, m3_pwm_pin, m3_pwm, m3_ind_pin);
@@ -97,10 +96,10 @@ int lo_4_wheel_handler(TIM_HandleTypeDef *timer) {
 
 
 int lo_4_wheel_calculation(int vx, int vy, int omega){
-	m1_pwm = (vx+vy+omega);
-	m2_pwm = (vx-vy+omega);
-	m3_pwm = (vx+vy-omega);
-	m4_pwm = (vx-vy-omega);
+	m1_pwm = (vx+vy-omega);
+	m2_pwm = (vx-vy-omega);
+	m3_pwm = (vx+vy+omega);
+	m4_pwm = (vx-vy+omega);
 
 	// ---------- NORMALIZATION (CRTT) ----------
 	float maxraw_1 = MAX(fabs(m1_pwm), fabs(m2_pwm));
