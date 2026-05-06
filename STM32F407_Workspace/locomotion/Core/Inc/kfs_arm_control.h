@@ -23,9 +23,9 @@
 
 #define OFFSET_PWM_VAL		200
 
-#define SPARK_UP_SPEED    	1700U
+#define SPARK_UP_SPEED    	1850U
 #define SPARK_STOP        	1500U
-#define SPARK_DOWN_SPEED  	1300U
+#define SPARK_DOWN_SPEED  	1150U
 
 void kfs_arm_setup();
 void kfs_arm_handler();

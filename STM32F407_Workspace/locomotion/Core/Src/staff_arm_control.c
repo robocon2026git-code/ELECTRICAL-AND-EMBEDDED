@@ -42,7 +42,7 @@ void staff_arm_setup(void) {
     HAL_Delay(150);
 
     // Init Servo P3
-    Servo_WriteAngle(&STAFF_ARM_P3_TIM_N, STAFF_ARM_P3_PULSE, (uint8_t)current_angle_p3);
+    Servo_WriteAngle_168Mhz(&STAFF_ARM_P3_TIM_N, STAFF_ARM_P3_PULSE, (uint8_t)current_angle_p3);
     HAL_TIM_PWM_Start(&STAFF_ARM_P3_TIM_N, STAFF_ARM_P3_PULSE);
     HAL_Delay(150);
 }
@@ -59,8 +59,8 @@ void staff_arm_control(void) {
     // ----------------------------------------------------------------
     // 1. STEPPER — runs while button held, stops instantly on release
     // ----------------------------------------------------------------
-    bool move_cw  = (btnStatus.triangle);
-    bool move_ccw = (btnStatus.cross);
+    bool move_ccw  = (btnStatus.triangle);
+    bool move_cw = (btnStatus.cross);
 
     if (move_cw || move_ccw) {
 
@@ -129,8 +129,8 @@ void staff_arm_control(void) {
         last_servo_time = now;
 
         // P2 Up/Down
-        if (btnStatus.up) current_angle_p2 += STAFF_ARM_P2_STEP_ANGLE;
-        if (btnStatus.down) current_angle_p2 -= STAFF_ARM_P2_STEP_ANGLE;
+        if (btnStatus.down) current_angle_p2 += STAFF_ARM_P2_STEP_ANGLE;
+        if (btnStatus.up) current_angle_p2 -= STAFF_ARM_P2_STEP_ANGLE;
 
         // P3 Left/Right
         if (btnStatus.left) current_angle_p3 += STAFF_ARM_P3_STEP_ANGLE;
@@ -146,8 +146,11 @@ void staff_arm_control(void) {
 
         // Write
         Servo_WriteAngle(&STAFF_ARM_P2_TIM_N, STAFF_ARM_P2_PULSE, (uint8_t)current_angle_p2);
-        Servo_WriteAngle(&STAFF_ARM_P3_TIM_N, STAFF_ARM_P3_PULSE, (uint8_t)current_angle_p3);
+        Servo_WriteAngle_168Mhz(&STAFF_ARM_P3_TIM_N, STAFF_ARM_P3_PULSE, (uint8_t)current_angle_p3);
     }
+
+
+    Pnuematic_OnOff();
 }
 
 // -----------------------------------------------------------------------

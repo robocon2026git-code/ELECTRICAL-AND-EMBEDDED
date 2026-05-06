@@ -1,59 +1,47 @@
-/*
- * locomotion.c
- *
- *  Created on: Jan 25, 2026
- *      Author: Admin
- */
 #include "locomotion.h"
 
-
 float  m1_pwm, m2_pwm, m3_pwm, m4_pwm;
+
+// 🔥 GLOBAL SPEED LIMIT
+int locomotion_max_pwm = 200;
 
 unsigned long current = 0, previous = 0;
 
 
-//For DC Motors
+// ==============================
+// MAIN HANDLER
+// ==============================
 int lo_4_wheel_handler(TIM_HandleTypeDef *timer) {
 
     int x = LY_usr;   // forward/back
-    int y = LX_usr;   // strafe (LEFT/RIGHT)
-    int w = RX_usr;   // rotation
+    int y = LX_usr;   // left/right
 
     // Deadzone
     if (abs(x) < 20) x = 0;
     if (abs(y) < 20) y = 0;
-    if (abs(w) < 20) w = 0;
 
     int vx = 0, vy = 0, omega = 0;
 
     // ==============================
-    // STRAFE RIGHT
+    // 🔥 ROTATION (HIGHEST PRIORITY)
     // ==============================
-    if (btnStatus.r1 && abs(x) > 20) {
-        vx    = 0;
-        vy    = -50;   // 🔥 FIXED (was +50)
-        omega = 0;
+    if (btnStatus.l1) {
+        vx = 0;
+        vy = 0;
+        omega = locomotion_max_pwm;    // rotate left
     }
-
-    // ==============================
-    // STRAFE LEFT
-    // ==============================
-    else if (btnStatus.l1 && abs(x) > 20) {
-        vx    = 0;
-        vy    = 50;    // 🔥 FIXED (was -50)
-        omega = 0;
+    else if (btnStatus.r1) {
+        vx = 0;
+        vy = 0;
+        omega = -locomotion_max_pwm;   // rotate right
     }
-
-    // ==============================
-    // NORMAL MOVEMENT
-    // ==============================
     else {
-        vx    = (x * 255) / 127;
-
-        // 🔥 MAIN FIX → invert Y axis
-        vy    = -(y * 255) / 127;
-
-        omega = (w * 255) / 127;
+        // ==============================
+        // NORMAL MOVEMENT
+        // ==============================
+        vx = (x * locomotion_max_pwm) / 127;   // forward/back
+        vy = (y * locomotion_max_pwm) / 127;   // 🔥 FIXED (no minus)
+        omega = 0;
     }
 
     lo_4_wheel_calculation(vx, vy, omega);
@@ -68,167 +56,59 @@ int lo_4_wheel_handler(TIM_HandleTypeDef *timer) {
 }
 
 
-
-//For BLDC Motor C
-//int lo_4_wheel_handler(TIM_HandleTypeDef *timer){
-//    int x = LY_usr;
-//    int y = LX_usr;
-//    int w = RX_usr;
-//
-//    if(abs(x) < 20) x = 0;
-//    if(abs(y) < 20) y = 0;
-//    if(abs(w) < 20) w = 0;
-//
-//    int vx = (x * 255) / 127;
-//    int vy = (y * 255) / 127;
-//    int omega = (w * 255) / 127;
-//
-//    lo_4_wheel_calculation(vx, vy, omega);
-//
-//    lo_4_wheel_run_bldc(timer, m1_pwm_pin, m1_pwm);
-//    lo_4_wheel_run_bldc(timer, m2_pwm_pin, m2_pwm);
-//    lo_4_wheel_run_bldc(timer, m3_pwm_pin, m3_pwm);
-//    lo_4_wheel_run_bldc(timer, m4_pwm_pin, m4_pwm);
-//
-//    return 0;
-//}
-
-
-
+// ==============================
+// KINEMATICS (FINAL FIXED)
+// ==============================
 int lo_4_wheel_calculation(int vx, int vy, int omega){
-	m1_pwm = (vx+vy-omega);
-	m2_pwm = (vx-vy-omega);
-	m3_pwm = (vx+vy+omega);
-	m4_pwm = (vx-vy+omega);
 
-	// ---------- NORMALIZATION (CRTT) ----------
-	float maxraw_1 = MAX(fabs(m1_pwm), fabs(m2_pwm));
-	float maxraw_2 = MAX(fabs(m3_pwm), fabs(m4_pwm));
-	float maxraw = MAX(maxraw_1, maxraw_2);
+    // Standard mecanum equations
+    float t1 = (-vx - vy - omega);   // m1
+    float t2 = (-vx + vy - omega);   // m2
+    float t3 = (-vx - vy + omega);   // m3
+    float t4 = (-vx + vy + omega);   // m4
 
-	if(maxraw > 255.0){
-	float scale = 255.0 / maxraw;
-	m1_pwm = (m1_pwm * scale);
-	m2_pwm = (m2_pwm * scale);
-	m3_pwm = (m3_pwm * scale);
-	m4_pwm = (m4_pwm * scale);
-	}
-	// -----------------------------------------
+    // 🔥 FINAL MOTOR POLARITY FIX
+    m1_pwm =  t1;
+    m2_pwm = -t2;
+    m3_pwm =  t3;
+    m4_pwm = -t4;
 
+    // ==============================
+    // NORMALIZATION
+    // ==============================
+    float maxraw_1 = MAX(fabs(m1_pwm), fabs(m2_pwm));
+    float maxraw_2 = MAX(fabs(m3_pwm), fabs(m4_pwm));
+    float maxraw   = MAX(maxraw_1, maxraw_2);
 
-	current = millis();
-	if(current-previous >= 1000)
-	{
-//		printf("m1 = %f", m1_pwm);
-//		printf("m2 = %f", m2_pwm);
-//		printf("m3 = %f", m3_pwm);
-//		printf("m4 = %f", m4_pwm);
-//		printf("m1 = %.2f  |  m2 = %.2f  |  m3 = %.2f |  m4 = %.2f\n", m1_pwm, m2_pwm, m3_pwm, m4_pwm);
-		previous = millis();
-	}
+    if(maxraw > locomotion_max_pwm){
+        float scale = locomotion_max_pwm / maxraw;
+        m1_pwm *= scale;
+        m2_pwm *= scale;
+        m3_pwm *= scale;
+        m4_pwm *= scale;
+    }
 
-//	printf("m1 = %f  |  m2 = %f  |  m3 = %f |  m4 = %f", m1_pwm, m2_pwm, m3_pwm, m4_pwm);
-	return 0;
-}
-
-void lo_4_wheel_run(TIM_HandleTypeDef *htim, uint16_t dir_pin, uint8_t mot_pin, float pwm, uint16_t ind_pin){
-	if(pwm > 0){
-		HAL_GPIO_WritePin(GPIOC, dir_pin, SET);
-		HAL_GPIO_WritePin(GPIOC, ind_pin, SET);
-	}else{
-		HAL_GPIO_WritePin(GPIOC, dir_pin, RESET);
-		HAL_GPIO_WritePin(GPIOC, ind_pin, RESET);
-		pwm = abs(pwm);
-	}
-//	printf("pwm = %.2f\n", pwm);
-	motor_set_speed255(htim, mot_pin, pwm);
+    return 0;
 }
 
 
+// ==============================
+// MOTOR DRIVER
+// ==============================
+void lo_4_wheel_run(TIM_HandleTypeDef *htim,
+                    uint16_t dir_pin,
+                    uint8_t mot_pin,
+                    float pwm,
+                    uint16_t ind_pin){
 
-void lo_4_wheel_run_bldc(TIM_HandleTypeDef *htim, uint8_t esc_channel, float pwm){
-    // pwm range: -255 to +255
-    float pulse = ESC_NEUTRAL + (pwm * 500.0f / 255.0f);
+    if(pwm > 0){
+        HAL_GPIO_WritePin(GPIOC, dir_pin, SET);
+        HAL_GPIO_WritePin(GPIOC, ind_pin, SET);
+    } else {
+        HAL_GPIO_WritePin(GPIOC, dir_pin, RESET);
+        HAL_GPIO_WritePin(GPIOC, ind_pin, RESET);
+        pwm = abs(pwm);
+    }
 
-    if(pulse > ESC_MAX) pulse = ESC_MAX;
-    if(pulse < ESC_MIN) pulse = ESC_MIN;
-
-    esc_set_pulse_us(htim, esc_channel, (uint16_t)pulse);
+    motor_set_speed255(htim, mot_pin, pwm);
 }
-
-
-//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**
-int track_run() {
-
-	float lx_val = rx_pkt.ly;
-	float speed;
-
-	speed = abs(lx_val);
-
-	if( abs(lx_val) < TRACK_LOCOMOTION_ERR) {speed = 0;}
-
-//	printf("Before: %.2f | ", speed);
-	speed = map(speed, 0, 127, 0, TRACK_BLDC_SPEED);
-//	printf("After: %.2f\n", speed);
-//
-	int fw_bldc_lm_pulse = (TRACK_BLDC_NEUTRAL + speed);
-	int fw_bldc_rm_pulse = (TRACK_BLDC_NEUTRAL + speed);
-
-	int rw_bldc_lm_pulse = (TRACK_BLDC_NEUTRAL - speed);
-	int rw_bldc_rm_pulse = (TRACK_BLDC_NEUTRAL - speed);
-
-	int lt_bldc_lm_pulse = (TRACK_BLDC_NEUTRAL + speed);
-	int lt_bldc_rm_pulse = (TRACK_BLDC_NEUTRAL - speed);
-
-	int rt_bldc_lm_pulse = (TRACK_BLDC_NEUTRAL - speed);
-	int rt_bldc_rm_pulse = (TRACK_BLDC_NEUTRAL + speed);
-
-
-	if(btnStatus.triangle == 1) {
-		Bldc_writePulse(&htim2, TIM_CHANNEL_2, fw_bldc_lm_pulse);
-		Bldc_writePulse(&htim2, TIM_CHANNEL_4, fw_bldc_rm_pulse);
-		btnStatus.triangle = 0;
-		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, SET);
-		printf("Forward -> Left Motor Pulse: %d | Right Motor Pulse: %d\n", fw_bldc_lm_pulse, fw_bldc_rm_pulse);
-	}
-	else if(btnStatus.cross == 1) {
-		Bldc_writePulse(&htim2, TIM_CHANNEL_2, fw_bldc_lm_pulse);
-		Bldc_writePulse(&htim2, TIM_CHANNEL_4, fw_bldc_rm_pulse);
-		btnStatus.cross = 0;
-		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, SET);
-		printf("Reverse -> Left Motor Pulse: %d | Right Motor Pulse: %d\n", rw_bldc_lm_pulse, rw_bldc_rm_pulse);
-	}
-	else if(btnStatus.square == 1) {
-		Bldc_writePulse(&htim2, TIM_CHANNEL_2, fw_bldc_lm_pulse);
-		Bldc_writePulse(&htim2, TIM_CHANNEL_4, fw_bldc_rm_pulse);
-		btnStatus.square = 0;
-		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, SET);
-		printf("Left -> Left Motor Pulse: %d | Right Motor Pulse: %d\n", lt_bldc_lm_pulse, lt_bldc_rm_pulse);
-	}
-	else if(btnStatus.circle == 1) {
-		Bldc_writePulse(&htim2, TIM_CHANNEL_2, fw_bldc_lm_pulse);
-		Bldc_writePulse(&htim2, TIM_CHANNEL_4, fw_bldc_rm_pulse);
-		btnStatus.circle = 0;
-		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, SET);
-		printf("Right -> Left Motor Pulse: %d | Right Motor Pulse: %d\n", rt_bldc_lm_pulse, rt_bldc_rm_pulse);
-	}
-	else {
-		Bldc_writePulse(&htim2, TIM_CHANNEL_2, TRACK_BLDC_NEUTRAL);
-		Bldc_writePulse(&htim2, TIM_CHANNEL_4, TRACK_BLDC_NEUTRAL);
-
-		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, RESET);
-		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, RESET);
-		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, RESET);
-		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, RESET);
-	}
-	return 0;
-}
-
-//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**
-
-void esc_set_pulse_us(TIM_HandleTypeDef *htim, uint8_t channel, uint16_t pulse_us){
-    __HAL_TIM_SET_COMPARE(htim, channel, pulse_us);
-}
-
-
-

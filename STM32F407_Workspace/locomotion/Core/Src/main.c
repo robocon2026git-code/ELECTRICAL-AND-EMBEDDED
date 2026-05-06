@@ -147,8 +147,8 @@ int main(void)
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
 
   // Set SPARK to neutral BEFORE starting timer
-  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 1500);  // SPARK neutral
-  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 0);     // OFFSET off
+//  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 1500);  // SPARK neutral
+//  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 0);     // OFFSET off
 
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
   HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_2);
@@ -156,12 +156,15 @@ int main(void)
 
   HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim12, TIM_CHANNEL_1);
 
   uart_start_receive(&huart2);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  Bldc_writePulse(&SPARK_PULSE_TIM_N, SPARK_PULSE_PIN, 1500);
+  HAL_Delay(500);
   bot_setup();
 //  Bldc_writePulse(&htim2, TIM_CHANNEL_2, 1500);
 //  Bldc_writePulse(&htim2, TIM_CHANNEL_4, 1500);

@@ -48,6 +48,7 @@ I2S_HandleTypeDef hi2s3;
 SPI_HandleTypeDef hspi1;
 
 TIM_HandleTypeDef htim9;
+TIM_HandleTypeDef htim12;
 
 /* USER CODE BEGIN PV */
 
@@ -60,6 +61,7 @@ static void MX_I2C1_Init(void);
 static void MX_I2S3_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_TIM9_Init(void);
+static void MX_TIM12_Init(void);
 void MX_USB_HOST_Process(void);
 
 /* USER CODE BEGIN PFP */
@@ -104,50 +106,56 @@ int main(void)
   MX_I2S3_Init();
   MX_SPI1_Init();
   MX_USB_HOST_Init();
-
   MX_TIM9_Init();
+  MX_TIM12_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_TIM_PWM_Start(&htim12, TIM_CHANNEL_1);
   /* USER CODE END 2 */
-  HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_1);
 
-  // Proper neutral initialization
-  __HAL_TIM_SET_COMPARE(&htim9, TIM_CHANNEL_1, 1500);
-  HAL_Delay(2000);
-
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  Bldc_writePulse(&htim12, TIM_CHANNEL_1, 1500);
+  HAL_Delay(3000);
   while (1)
   {
-      // Forward ramp
-      for(int i = 1500; i <= 1700; i += 5) {
-          __HAL_TIM_SET_COMPARE(&htim9, TIM_CHANNEL_1, i);
-          HAL_Delay(20);
-      }
+    /* USER CODE END WHILE */
+    MX_USB_HOST_Process();
 
-      HAL_Delay(500);
+    /* USER CODE BEGIN 3 */
+    for(int i = 1500; i <= 1700; i += 10)
+    {
+        Bldc_writePulse(&htim12, TIM_CHANNEL_1, i);
+        HAL_Delay(20);
+    }
 
-      // Back to neutral
-      for(int i = 1700; i >= 1500; i -= 5) {
-          __HAL_TIM_SET_COMPARE(&htim9, TIM_CHANNEL_1, i);
-          HAL_Delay(20);
-      }
+    HAL_Delay(2000);  // run forward
 
-      HAL_Delay(500);
+    // -------- BACK TO NEUTRAL --------
+    for(int i = 1700; i >= 1500; i -= 10)
+    {
+        Bldc_writePulse(&htim12, TIM_CHANNEL_1, i);
+        HAL_Delay(20);
+    }
 
-      // Reverse ramp
-      for(int i = 1500; i >= 1300; i -= 5) {
-          __HAL_TIM_SET_COMPARE(&htim9, TIM_CHANNEL_1, i);
-          HAL_Delay(20);
-      }
+    HAL_Delay(1000);
 
-      HAL_Delay(500);
+    // -------- REVERSE --------
+    for(int i = 1500; i >= 1300; i -= 10)
+    {
+        Bldc_writePulse(&htim12, TIM_CHANNEL_1, i);
+        HAL_Delay(20);
+    }
 
-      // Reverse → Neutral (important)
-      for(int i = 1300; i <= 1500; i += 5) {
-          __HAL_TIM_SET_COMPARE(&htim9, TIM_CHANNEL_1, i);
-          HAL_Delay(20);
-      }
+    HAL_Delay(2000);  // run reverse
 
-      HAL_Delay(1000);
+    // -------- BACK TO NEUTRAL --------
+    for(int i = 1300; i <= 1500; i += 10)
+    {
+        Bldc_writePulse(&htim12, TIM_CHANNEL_1, i);
+        HAL_Delay(20);
+    }
+
+    HAL_Delay(2000);
   }
   /* USER CODE END 3 */
 }
@@ -342,6 +350,48 @@ static void MX_TIM9_Init(void)
 
   /* USER CODE END TIM9_Init 2 */
   HAL_TIM_MspPostInit(&htim9);
+
+}
+
+/**
+  * @brief TIM12 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM12_Init(void)
+{
+
+  /* USER CODE BEGIN TIM12_Init 0 */
+
+  /* USER CODE END TIM12_Init 0 */
+
+  TIM_OC_InitTypeDef sConfigOC = {0};
+
+  /* USER CODE BEGIN TIM12_Init 1 */
+
+  /* USER CODE END TIM12_Init 1 */
+  htim12.Instance = TIM12;
+  htim12.Init.Prescaler = 83;
+  htim12.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim12.Init.Period = 19999;
+  htim12.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim12.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_PWM_Init(&htim12) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim12, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM12_Init 2 */
+
+  /* USER CODE END TIM12_Init 2 */
+  HAL_TIM_MspPostInit(&htim12);
 
 }
 

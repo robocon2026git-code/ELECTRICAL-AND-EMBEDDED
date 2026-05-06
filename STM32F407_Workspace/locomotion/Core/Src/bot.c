@@ -26,28 +26,41 @@ int system_status() {
 }
 
 int odu() {
-    // NOTE: recieve_uart() REMOVED — UART is now interrupt-driven.
-    // parse_uart_data() is called automatically from uart_rx_callback()
-    // when a full valid packet arrives. No blocking here.
-
-    lo_4_wheel_handler(&htim3);
 
     uint8_t current_options_state = (rx_pkt.btn_flag & (1 << 10)) ? 1 : 0;
 
     if (current_options_state == 1 && last_options_state == 0) {
         is_staff_mode = !is_staff_mode;
-        // printf REMOVED — was blocking 5-20ms every mode switch
+
         if (is_staff_mode) {
-            HAL_GPIO_WritePin(LED_RED_PORT,  LED_RED_PIN,  GPIO_PIN_SET);
+            HAL_GPIO_WritePin(LED_RED_PORT, LED_RED_PIN, GPIO_PIN_SET);
         } else {
-            HAL_GPIO_WritePin(LED_RED_PORT,  LED_RED_PIN,  GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(LED_RED_PORT, LED_RED_PIN, GPIO_PIN_RESET);
             HAL_GPIO_WritePin(LED_BLUE_PORT, LED_BLUE_PIN, GPIO_PIN_RESET);
         }
     }
     last_options_state = current_options_state;
 
+    // ==============================
+    // 🔥 SET SPEED BASED ON MODE
+    // ==============================
+    if (is_staff_mode) {
+        locomotion_max_pwm = 100;   // slow
+    } else {
+        locomotion_max_pwm = 200;   // fast
+    }
+
+    // ==============================
+    // LOCOMOTION
+    // ==============================
+    lo_4_wheel_handler(&htim3);
+
+    // ==============================
+    // ARM CONTROL
+    // ==============================
     if (is_staff_mode) {
         staff_arm_control();
+
         if (HAL_GetTick() - last_blue_blink >= 500) {
             HAL_GPIO_TogglePin(LED_BLUE_PORT, LED_BLUE_PIN);
             last_blue_blink = HAL_GetTick();

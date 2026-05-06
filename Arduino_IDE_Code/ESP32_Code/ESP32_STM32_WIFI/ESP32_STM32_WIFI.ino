@@ -7,7 +7,7 @@
 #include <ESP32Servo.h>
 
 #define BAUD_RATE  115200
-#define MOTOR_PIN  18  // Pin for Spark Max BLDC
+#define MOTOR_PIN  23  // Pin for Spark Max BLDC
 
 // Servo object for BLDC
 Servo sparkMax;
@@ -27,7 +27,7 @@ void setup() {
     // Initialize Motor
     sparkMax.attach(MOTOR_PIN, 1000, 2000);
     sparkMax.writeMicroseconds(1500); // Neutral/Arming pulse
-    
+    delay(3000);
     button.halfword = 0x00;
 
     commSerial.begin(BAUD_RATE, SERIAL_8N1, RXD2, TXD2);
@@ -40,7 +40,7 @@ void setup() {
       
       ps5.begin("14:3A:9A:91:49:EE");   // Black
     // ps5.begin("E8:47:3A:36:ED:CA");   // White
-    // ps5.begin("90:B6:85:64:59:2B");      // Camouflage
+    //ps5.begin("90:B6:85:64:59:2B");      // Camouflage
 
     while (ps5.isConnected() == false) {
         Serial.println("PS5 Not Found");
@@ -66,12 +66,15 @@ void loop() {
     if (currentMode == KFS_MODE) {
         if (ps5.Up()) {
             sparkMax.writeMicroseconds(1700); // Forward pulse[cite: 1]
+            Serial.println("FORWARD");
         } 
         else if (ps5.Down()) {
             sparkMax.writeMicroseconds(1300); // Reverse pulse[cite: 1]
+            Serial.println("BACKWARD");
         } 
         else {
             sparkMax.writeMicroseconds(1500); // Neutral/Stop[cite: 1]
+            Serial.println("STOP");
         }
     } else {
         // Ensure motor is stopped in STAFF mode if direct control is not intended

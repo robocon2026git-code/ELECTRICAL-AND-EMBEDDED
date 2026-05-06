@@ -6,7 +6,8 @@
 ../Core/Src/user.c:95:6:motor_set_speed	32	static
 ../Core/Src/user.c:103:6:motor_set_speed255	32	static
 ../Core/Src/user.c:110:6:Servo_WriteAngle	24	static
-../Core/Src/user.c:117:6:Bldc_writePulse	24	static
-../Core/Src/user.c:122:5:bldc_maping	32	static
-../Core/Src/user.c:130:6:Stepper_SetDirection	16	static
-../Core/Src/user.c:135:6:Stepper_SetSpeed	32	static
+../Core/Src/user.c:127:6:Servo_WriteAngle_168Mhz	32	static
+../Core/Src/user.c:147:6:Bldc_writePulse	24	static
+../Core/Src/user.c:152:5:bldc_maping	32	static
+../Core/Src/user.c:160:6:Stepper_SetDirection	16	static
+../Core/Src/user.c:165:6:Stepper_SetSpeed	32	static

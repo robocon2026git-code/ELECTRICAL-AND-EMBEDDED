@@ -52,5 +52,7 @@ void esc_set_pulse_us(TIM_HandleTypeDef *htim, uint8_t channel, uint16_t pulse_u
 
 float extern m1_pwm, m2_pwm, m3_pwm, m4_pwm;
 
+extern int locomotion_max_pwm;
+
 
 #endif /* INC_LOCOMOTION_H_ */

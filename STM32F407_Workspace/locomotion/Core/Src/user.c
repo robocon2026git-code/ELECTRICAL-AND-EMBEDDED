@@ -113,6 +113,36 @@ void Servo_WriteAngle(TIM_HandleTypeDef *timer, uint8_t channel, uint8_t angle) 
     __HAL_TIM_SET_COMPARE(timer, channel, pulse);
 }
 
+
+
+// ==========================================================
+// Servo_WriteAngle()
+// For STM32F407 @ 168 MHz
+// Timer configured as:
+//   PSC = 167  → 1 MHz timer clock (1 µs per tick)
+//   ARR = 19999 → 20 ms period (50 Hz servo PWM)
+//
+// Pulse range used: 500 µs – 2500 µs
+// ==========================================================
+void Servo_WriteAngle_168Mhz(TIM_HandleTypeDef *htim, uint32_t channel, uint8_t angle)
+{
+    if (angle > 180) angle = 180;
+
+    // 🔥 Adjust these if needed for your servo
+    uint16_t min_us = 500;   // 0°
+    uint16_t max_us = 2500;  // 180°
+
+    // Convert angle → pulse width in microseconds
+    uint16_t pulse = min_us + ((uint32_t)angle * (max_us - min_us)) / 180;
+
+    // Since timer = 1 MHz → 1 tick = 1 µs
+    __HAL_TIM_SET_COMPARE(htim, channel, pulse);
+}
+
+
+
+
+
 // --- BLDC Control ---
 void Bldc_writePulse(TIM_HandleTypeDef *timer, uint32_t channel, uint16_t pulse) {
     if ((pulse < 1000) || (pulse > 2000)) return;

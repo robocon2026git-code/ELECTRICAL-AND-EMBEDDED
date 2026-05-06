@@ -8,12 +8,12 @@
 #include "bot.h"
 
 // --- Servo Initial Angles ---
-#define STAFF_ARM_P2_INITIAL_ANGLE      90U
+#define STAFF_ARM_P2_INITIAL_ANGLE      55U
 #define STAFF_ARM_P3_INITIAL_ANGLE      90U
 
 // --- Servo Angle Limits ---
-#define STAFF_ARM_P2_MIN_ANGLE          10
-#define STAFF_ARM_P2_MAX_ANGLE          170
+#define STAFF_ARM_P2_MIN_ANGLE          0
+#define STAFF_ARM_P2_MAX_ANGLE          180
 #define STAFF_ARM_P3_MIN_ANGLE          0
 #define STAFF_ARM_P3_MAX_ANGLE          180
 
