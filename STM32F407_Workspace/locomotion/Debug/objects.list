@@ -1,4 +1,5 @@
 "./Core/Src/bot.o"
+"./Core/Src/kfs_arm_control.o"
 "./Core/Src/locomotion.o"
 "./Core/Src/main.o"
 "./Core/Src/staff_arm_control.o"

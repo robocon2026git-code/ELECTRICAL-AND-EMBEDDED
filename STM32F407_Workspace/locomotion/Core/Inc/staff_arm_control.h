@@ -1,52 +1,78 @@
 /*
- * arm.h
- *
- *  Created on: Jan 25, 2026
- *      Author: Admin
+ * staff_arm_control.h
  */
 
-#include "user.h"
+#ifndef INC_STAFF_ARM_CONTROL_H_
+#define INC_STAFF_ARM_CONTROL_H_
 
-#ifndef INC_ARM_H_
-#define INC_ARM_H_
+#include "bot.h"
 
-#define STAFF_ARM_P1_INITIAL_ANGLE			0U
-#define STAFF_ARM_P2_INITIAL_ANGLE			0U
-#define STAFF_ARM_P3_INITIAL_ANGLE			0U
+// --- Servo Initial Angles ---
+#define STAFF_ARM_P2_INITIAL_ANGLE      55U
+#define STAFF_ARM_P3_INITIAL_ANGLE      90U
 
-#define STAFF_ARM_P1_MIN_ANGLE				0U
-#define STAFF_ARM_P2_MIN_ANGLE				0U
-#define STAFF_ARM_P3_MIN_ANGLE				0U
+// --- Servo Angle Limits ---
+#define STAFF_ARM_P2_MIN_ANGLE          0
+#define STAFF_ARM_P2_MAX_ANGLE          180
+#define STAFF_ARM_P3_MIN_ANGLE          0
+#define STAFF_ARM_P3_MAX_ANGLE          180
 
-#define STAFF_ARM_P1_MAX_ANGLE				90U
-#define STAFF_ARM_P2_MAX_ANGLE				90U
-#define STAFF_ARM_P3_MAX_ANGLE				90U
+// --- Servo Step Per Button Press ---
+#define STAFF_ARM_P2_STEP_ANGLE         1
+#define STAFF_ARM_P3_STEP_ANGLE         1
 
+// --- Pneumatic Pins ---
+#define PNEUMATIC_PORT                  GPIOD
+#define PNEUMATIC_PIN_1                 GPIO_PIN_0
+#define PNEUMATIC_PIN_2                 GPIO_PIN_1
 
+// --- Stepper Motor (P1) ---
+#define STAFF_ARM_P1_PULSE              TIM_CHANNEL_3   // PB8
+#define STAFF_ARM_P1_TIM_N              htim4
 
-#define INITIAL_ANGLE					0
-#define STEP_ANGLE						1
-#define MIN_ANGLE						INITIAL_ANGLE
-#define MAX_ANGLE						180
-#define SERVO_DELAY						20
-#define POS_UP							1
-#define POS_DOWN						2
+#define STAFF_ARM_P1_DIR_PIN            GPIO_PIN_12     // PE12
+#define STAFF_ARM_P1_DIR_PORT           GPIOE
 
-#define PNEUMATIC_PORT					GPIOD
-#define PNEUMATIC_PIN_1					GPIO_PIN_0		//PD0
-#define PNEUMATIC_PIN_2					GPIO_PIN_1		//PD1
+// -----------------------------------------------------------------------
+// Stepper Limit Calculation
+// -----------------------------------------------------------------------
+// Microstep : 1/8  → 1600 steps/rev
+//             Driver DIP: SW1=OFF, SW2=ON, SW3=OFF
+//
+// Gear ratio : 14:1
+// Max travel : 180°
+//
+// Limit = (steps_per_rev × gear_ratio × angle_deg) / 360
+//       = (1600 × 14 × 180) / 360
+//       = 11200 steps
+// -----------------------------------------------------------------------
+#define STAFF_ARM_STEPS_PER_REV         1600    // 1/8 microstep
+#define STAFF_ARM_GEAR_RATIO            14
+#define STAFF_ARM_MAX_ANGLE_DEG         180
 
+#define STAFF_ARM_STEP_LIMIT \
+    ((STAFF_ARM_STEPS_PER_REV * STAFF_ARM_GEAR_RATIO * STAFF_ARM_MAX_ANGLE_DEG) / 360)
+// Result = 11200
 
-void servo_handler(TIM_HandleTypeDef *timer, uint8_t pos);
+// --- Stepper Speed ---
+// 1500 Hz = smooth at 1/8 microstep
+// Increase to 3000 Hz for faster movement
+#define STAFF_ARM_STEPPER_SPEED_HZ      1500
 
-void Pnuematic_OnOff(uint8_t pneumatic_pin, uint8_t SET_RESET);
+// --- Servo Timers ---
+#define STAFF_ARM_P2_PULSE              TIM_CHANNEL_1   // PE5
+#define STAFF_ARM_P2_TIM_N              htim9
 
-int staff_arm_p1_ctrl(uint8_t angle);
-int staff_arm_p2_ctrl(uint8_t angle);
-int staff_arm_p3_ctrl(uint8_t angle);
+#define STAFF_ARM_P3_PULSE              TIM_CHANNEL_2   // PE6
+#define STAFF_ARM_P3_TIM_N              htim9
 
+// --- Function Declarations ---
+void staff_arm_setup(void);
+void staff_arm_control(void);
+void Pnuematic_OnOff(void);
 
+// --- Globals ---
+extern int32_t target_steps_1;
+extern int32_t current_steps_1;
 
-extern TIM_HandleTypeDef htim9;
-extern TIM_HandleTypeDef htim12;
-#endif /* INC_ARM_H_ */
+#endif /* INC_STAFF_ARM_CONTROL_H_ */

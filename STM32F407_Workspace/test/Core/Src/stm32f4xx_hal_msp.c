@@ -59,7 +59,7 @@
 /* USER CODE END 0 */
 
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
-                    /**
+                                        /**
   * Initializes the Global MSP.
   */
 void HAL_MspInit(void)
@@ -327,7 +327,17 @@ void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef* htim_pwm)
     /* USER CODE BEGIN TIM2_MspInit 1 */
 
     /* USER CODE END TIM2_MspInit 1 */
+  }
+  else if(htim_pwm->Instance==TIM12)
+  {
+    /* USER CODE BEGIN TIM12_MspInit 0 */
 
+    /* USER CODE END TIM12_MspInit 0 */
+    /* Peripheral clock enable */
+    __HAL_RCC_TIM12_CLK_ENABLE();
+    /* USER CODE BEGIN TIM12_MspInit 1 */
+
+    /* USER CODE END TIM12_MspInit 1 */
   }
 
 }
@@ -363,7 +373,6 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* htim)
     /* USER CODE BEGIN TIM2_MspPostInit 0 */
 
     /* USER CODE END TIM2_MspPostInit 0 */
-
     __HAL_RCC_GPIOA_CLK_ENABLE();
     /**TIM2 GPIO Configuration
     PA15     ------> TIM2_CH1
@@ -378,6 +387,27 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* htim)
     /* USER CODE BEGIN TIM2_MspPostInit 1 */
 
     /* USER CODE END TIM2_MspPostInit 1 */
+  }
+  else if(htim->Instance==TIM12)
+  {
+    /* USER CODE BEGIN TIM12_MspPostInit 0 */
+
+    /* USER CODE END TIM12_MspPostInit 0 */
+
+    __HAL_RCC_GPIOB_CLK_ENABLE();
+    /**TIM12 GPIO Configuration
+    PB14     ------> TIM12_CH1
+    */
+    GPIO_InitStruct.Pin = GPIO_PIN_14;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.Alternate = GPIO_AF9_TIM12;
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+    /* USER CODE BEGIN TIM12_MspPostInit 1 */
+
+    /* USER CODE END TIM12_MspPostInit 1 */
   }
 
 }
@@ -399,6 +429,17 @@ void HAL_TIM_PWM_MspDeInit(TIM_HandleTypeDef* htim_pwm)
     /* USER CODE BEGIN TIM2_MspDeInit 1 */
 
     /* USER CODE END TIM2_MspDeInit 1 */
+  }
+  else if(htim_pwm->Instance==TIM12)
+  {
+    /* USER CODE BEGIN TIM12_MspDeInit 0 */
+
+    /* USER CODE END TIM12_MspDeInit 0 */
+    /* Peripheral clock disable */
+    __HAL_RCC_TIM12_CLK_DISABLE();
+    /* USER CODE BEGIN TIM12_MspDeInit 1 */
+
+    /* USER CODE END TIM12_MspDeInit 1 */
   }
 
 }

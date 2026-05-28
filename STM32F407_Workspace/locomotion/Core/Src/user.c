@@ -1,14 +1,12 @@
 /*
  * user.c
- *
- *  Created on: Jan 25, 2026
- *      Author: Admin
+ *  Fixed: Removed printf from parse_uart_data (was blocking 5-20ms every packet)
+ *         Changed UART to interrupt-driven (non-blocking)
  */
-/////
-#include <user.h>
 
+#include "user.h"
 
-uint8_t rx_val;
+// --- Global Variables ---
 Packet rx_pkt;
 uint8_t ch, len;
 
@@ -16,149 +14,158 @@ float LX_usr;
 float LY_usr;
 float RX_usr;
 float RY_usr;
+float L2_usr;
+float R2_usr;
 
 BitfieldButtonStatusUsr btnStatus;
 
+// --- UART Interrupt State Machine ---
+typedef enum {
+    UART_WAIT_STX = 0,
+    UART_WAIT_LEN,
+    UART_WAIT_DATA
+} UART_State_t;
 
+static UART_State_t uart_state = UART_WAIT_STX;
+static uint8_t      uart_rx_byte = 0;
+static uint8_t      uart_data_buf[sizeof(Packet)];
+static uint8_t      uart_data_index = 0;
+static uint8_t      uart_expected_len = 0;
 
-
-//This function can be used for get SysTick timer value
-uint32_t millis(void){
-	return HAL_GetTick();
+// Call once in main after MX_USART2_UART_Init()
+void uart_start_receive(UART_HandleTypeDef *uart) {
+    HAL_UART_Receive_IT(uart, &uart_rx_byte, 1);
 }
 
+// Call this from HAL_UART_RxCpltCallback in stm32f4xx_it.c
+void uart_rx_callback(UART_HandleTypeDef *uart) {
+    switch (uart_state) {
+        case UART_WAIT_STX:
+            if (uart_rx_byte == STX) {
+                uart_state = UART_WAIT_LEN;
+            }
+            break;
 
+        case UART_WAIT_LEN:
+            uart_expected_len = uart_rx_byte;
+            if (uart_expected_len == sizeof(Packet)) {
+                uart_data_index = 0;
+                uart_state = UART_WAIT_DATA;
+            } else {
+                uart_state = UART_WAIT_STX; // bad length, reset
+            }
+            break;
 
+        case UART_WAIT_DATA:
+            uart_data_buf[uart_data_index++] = uart_rx_byte;
+            if (uart_data_index >= uart_expected_len) {
+                memcpy(&rx_pkt, uart_data_buf, sizeof(Packet));
+                parse_uart_data();
+                uart_state = UART_WAIT_STX;
+            }
+            break;
+    }
 
-void recieve_uart(UART_HandleTypeDef *uart){
-	while(1){
-		 do {
-			  HAL_UART_Receive(uart, &ch, 1, HAL_MAX_DELAY);
-		 }while (ch != STX);
-
-		// Read length
-		HAL_UART_Receive(uart, &len, 1, HAL_MAX_DELAY);
-		if (len != sizeof(Packet)) {
-			 continue;
-	}
-
-		// Read payload directly into struct
-		HAL_UART_Receive(uart, (uint8_t*)&rx_pkt, len, HAL_MAX_DELAY);
-		break;
-	}
-	parse_uart_data();
+    // Re-arm for next byte
+    HAL_UART_Receive_IT(uart, &uart_rx_byte, 1);
 }
 
+// --- Utility Functions ---
+uint32_t millis(void) {
+    return HAL_GetTick();
+}
 
+long map(long val, long in_min, long in_max, long out_min, long out_max) {
+    return (val - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+// --- UART Parse (NO printf - was causing 5-20ms block every packet) ---
 void parse_uart_data() {
-	// Use values directly
-	if (rx_pkt.btn_flag & (1 << 7)) {
-		printf("Circle pressed\n");
-		btnStatus.circle = 1;
-	}
-	if (rx_pkt.btn_flag & (1 << 6)) {
-		printf("Square pressed\n");
-		btnStatus.square = 1;
-	}
-	if (rx_pkt.btn_flag & (1 << 5)) {
-		printf("Cross pressed\n");
-		btnStatus.cross = 1;
-	}
-	if (rx_pkt.btn_flag & (1 << 4)) {
-		printf("Triangle pressed\n");
-		btnStatus.triangle = 1;
-	}
-	if (rx_pkt.btn_flag & (1 << 3)) {
-		printf("Right pressed\n");
-		btnStatus.right = 1;
-	}
-	if (rx_pkt.btn_flag & (1 << 2)) {
-		printf("Left pressed\n");
-		btnStatus.left = 1;
-	}
-	if (rx_pkt.btn_flag & (1 << 1)) {
-		printf("Down pressed\n");
-		btnStatus.down = 1;
-	}
-	if (rx_pkt.btn_flag & (1 << 0)) {
-		printf("Up pressed\n");
-		btnStatus.up = 1;
-	}
+    *((uint16_t*)&btnStatus) = rx_pkt.btn_flag;
 
-	LX_usr = rx_pkt.lx;
-	LY_usr = rx_pkt.ly;
-	RX_usr = rx_pkt.rx;
-	RY_usr = rx_pkt.ry;
-
-//	printf("FLAG = %02X | LX = %.2f | LY = %.2f | RX = %.2f | RY = %.2f\n", rx_pkt.btn_flag,  rx_pkt.lx, rx_pkt.ly, rx_pkt.rx, rx_pkt.ry);
-//	printf("FLAG = %02X | LX = %.2f | LY = %.2f | RX = %.2f | RY = %.2f\n", rx_pkt.btn_flag,  LX_usr, LY_usr, RX_usr, RY_usr);
+    LX_usr = rx_pkt.lx;
+    LY_usr = rx_pkt.ly;
+    RX_usr = rx_pkt.rx;
+    RY_usr = rx_pkt.ry;
+    L2_usr = rx_pkt.l2;
+    R2_usr = rx_pkt.r2;
 }
 
-
-//Speed value 0.0 <--> 1.0
-void motor_set_speed(TIM_HandleTypeDef *htim, uint32_t channel, float speed)
-{
-    // speed: 0.0 → 1.0
+// --- DC Motor Control ---
+void motor_set_speed(TIM_HandleTypeDef *htim, uint32_t channel, float speed) {
     if (speed < 0.0f) speed = 0.0f;
     if (speed > 1.0f) speed = 1.0f;
-
     uint32_t arr = __HAL_TIM_GET_AUTORELOAD(htim);
     uint32_t ccr = (uint32_t)((arr + 1) * speed);
-
     __HAL_TIM_SET_COMPARE(htim, channel, ccr);
 }
 
-
-//This function allows to do analogwrite() like behavior val = (0 - 255)
-void motor_set_speed255(TIM_HandleTypeDef *htim, uint32_t channel, uint8_t val)
-{
+void motor_set_speed255(TIM_HandleTypeDef *htim, uint32_t channel, uint8_t val) {
     uint32_t arr = __HAL_TIM_GET_AUTORELOAD(htim);
     uint32_t ccr = (val * (arr + 1)) / 255;
-
     __HAL_TIM_SET_COMPARE(htim, channel, ccr);
 }
 
-
-
-
-
-//To write servo angle
-void Servo_WriteAngle(TIM_HandleTypeDef *timer, uint8_t channel, uint8_t angle){
-	//Clamp value 0-180
-	if(angle > 180)angle=180;
-
-	//Map 0-180 -> 1000 - 2000us
-	uint16_t pulse = 1000 + (angle * 1000)/180;
-
-	__HAL_TIM_SET_COMPARE(timer, channel, pulse);
+// --- Servo Control ---
+void Servo_WriteAngle(TIM_HandleTypeDef *timer, uint8_t channel, uint8_t angle) {
+    if (angle > 180) angle = 180;
+    uint16_t pulse = 1000 + (angle * 1000) / 180;
+    __HAL_TIM_SET_COMPARE(timer, channel, pulse);
 }
 
+
+
+// ==========================================================
+// Servo_WriteAngle()
+// For STM32F407 @ 168 MHz
+// Timer configured as:
+//   PSC = 167  → 1 MHz timer clock (1 µs per tick)
+//   ARR = 19999 → 20 ms period (50 Hz servo PWM)
+//
+// Pulse range used: 500 µs – 2500 µs
+// ==========================================================
+void Servo_WriteAngle_168Mhz(TIM_HandleTypeDef *htim, uint32_t channel, uint8_t angle)
+{
+    if (angle > 180) angle = 180;
+
+    // 🔥 Adjust these if needed for your servo
+    uint16_t min_us = 500;   // 0°
+    uint16_t max_us = 2500;  // 180°
+
+    // Convert angle → pulse width in microseconds
+    uint16_t pulse = min_us + ((uint32_t)angle * (max_us - min_us)) / 180;
+
+    // Since timer = 1 MHz → 1 tick = 1 µs
+    __HAL_TIM_SET_COMPARE(htim, channel, pulse);
+}
+
+
+
+
+
+// --- BLDC Control ---
 void Bldc_writePulse(TIM_HandleTypeDef *timer, uint32_t channel, uint16_t pulse) {
-	if((pulse < 1000) || (pulse > 2000)) {
-		return;
-	}
-
-	__HAL_TIM_SET_COMPARE(timer, channel, pulse);
+    if ((pulse < 1000) || (pulse > 2000)) return;
+    __HAL_TIM_SET_COMPARE(timer, channel, pulse);
 }
 
-
-
-//This function is used to map for BLDC motors
-int bldc_maping(int val, int stop, int max_fw, int max_rw){
-	if(val == 0){
-		return stop;
-	}
-	if(val < 0){
-		return map(val, -127, -1, max_rw, stop);
-	}
-	if(val > 0){
-		return map(val, 1, 127, stop, max_fw);
-	}
-	return 0;
+int bldc_maping(int val, int stop, int max_fw, int max_rw) {
+    if (val == 0) return stop;
+    if (val < 0)  return map(val, -127, -1, max_rw, stop);
+    if (val > 0)  return map(val, 1, 127, stop, max_fw);
+    return 0;
 }
 
+// --- Stepper Control ---
+void Stepper_SetDirection(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, Stepper_Dir_t dir) {
+    if (dir == CW) HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_SET);
+    else           HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_RESET);
+}
 
-//Arduino like function used to map values
-long map(long val, long in_min, long in_max, long out_min, long out_max) {
-  return (val - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+void Stepper_SetSpeed(TIM_HandleTypeDef *htim, uint32_t channel, uint32_t hz) {
+    if (hz < 10) hz = 10;
+    uint32_t new_arr = (1000000 / hz) - 1;
+    __HAL_TIM_SET_AUTORELOAD(htim, new_arr);
+    __HAL_TIM_SET_COMPARE(htim, channel, new_arr / 2);
+    htim->Instance->EGR = TIM_EGR_UG; // Force register update
 }

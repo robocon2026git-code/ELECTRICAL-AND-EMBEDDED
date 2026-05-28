@@ -27,3 +27,5 @@
 //	  pnuematic_actuation();
 
 //	  war_status.bot_speed = 10.5;
+
+//void test_bldc_motor()

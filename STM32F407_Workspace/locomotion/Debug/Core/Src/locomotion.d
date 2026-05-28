@@ -33,7 +33,8 @@ Core/Src/locomotion.o: ../Core/Src/locomotion.c ../Core/Inc/locomotion.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_hcd.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h \
  ../Core/Inc/user.h ../Core/Inc/main.h ../Core/Inc/bot.h \
- ../Core/Inc/staff_arm_control.h ../Core/Inc/locomotion.h
+ ../Core/Inc/locomotion.h ../Core/Inc/kfs_arm_control.h \
+ ../Core/Inc/staff_arm_control.h
 ../Core/Inc/locomotion.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -71,5 +72,6 @@ Core/Src/locomotion.o: ../Core/Src/locomotion.c ../Core/Inc/locomotion.h \
 ../Core/Inc/user.h:
 ../Core/Inc/main.h:
 ../Core/Inc/bot.h:
-../Core/Inc/staff_arm_control.h:
 ../Core/Inc/locomotion.h:
+../Core/Inc/kfs_arm_control.h:
+../Core/Inc/staff_arm_control.h:

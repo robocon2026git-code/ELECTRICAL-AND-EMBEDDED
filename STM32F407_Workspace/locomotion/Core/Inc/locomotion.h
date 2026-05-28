@@ -21,6 +21,11 @@
 #define m3_dir_pin						GPIO_PIN_8		//PC8
 #define m4_dir_pin						GPIO_PIN_9		//PC9
 
+#define m1_ind_pin						GPIO_PIN_12		//PC1
+#define m2_ind_pin						GPIO_PIN_13		//PC2
+#define m3_ind_pin						GPIO_PIN_14		//PC8
+#define m4_ind_pin						GPIO_PIN_15		//PC9
+
 #define m1_pwm_pin						TIM_CHANNEL_1	//PC6
 #define m2_pwm_pin						TIM_CHANNEL_2	//PB5
 #define m3_pwm_pin						TIM_CHANNEL_3	//PB0
@@ -36,7 +41,7 @@
 
 int lo_4_wheel_handler(TIM_HandleTypeDef *htim);
 int lo_4_wheel_calculation(int vx, int vy, int omega);
-void lo_4_wheel_run(TIM_HandleTypeDef *htim, uint16_t dir_pin, uint8_t mot_pin, float pwm);
+void lo_4_wheel_run(TIM_HandleTypeDef *htim, uint16_t dir_pin, uint8_t mot_pin, float pwm, uint16_t ind_pin);
 
 int track_run();
 
@@ -46,6 +51,8 @@ void esc_set_pulse_us(TIM_HandleTypeDef *htim, uint8_t channel, uint16_t pulse_u
 
 
 float extern m1_pwm, m2_pwm, m3_pwm, m4_pwm;
+
+extern int locomotion_max_pwm;
 
 
 #endif /* INC_LOCOMOTION_H_ */

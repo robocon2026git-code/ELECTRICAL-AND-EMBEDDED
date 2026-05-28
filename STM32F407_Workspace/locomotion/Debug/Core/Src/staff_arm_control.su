@@ -1,5 +1,3 @@
-../Core/Src/staff_arm_control.c:13:5:staff_arm_p1_ctrl	16	static
-../Core/Src/staff_arm_control.c:18:5:staff_arm_p2_ctrl	16	static
-../Core/Src/staff_arm_control.c:23:5:staff_arm_p3_ctrl	16	static
-../Core/Src/staff_arm_control.c:34:6:servo_handler	16	static
-../Core/Src/staff_arm_control.c:74:6:Pnuematic_OnOff	16	static
+../Core/Src/staff_arm_control.c:33:6:staff_arm_setup	8	static
+../Core/Src/staff_arm_control.c:51:6:staff_arm_control	16	static
+../Core/Src/staff_arm_control.c:157:6:Pnuematic_OnOff	16	static
