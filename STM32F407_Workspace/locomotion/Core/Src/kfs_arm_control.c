@@ -36,7 +36,6 @@ typedef enum
 
 MotorState_t motorState = MOTOR_IDLE;
 
-
 // -------- SETUP --------
 void kfs_arm_setup() {
     kfs_state.kfs_s1_state = 0;
