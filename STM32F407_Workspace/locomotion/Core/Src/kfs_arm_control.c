@@ -19,6 +19,24 @@ kfs_state_t kfs_state;
 bool lastTriangle = false;
 bool lastCross = false;
 
+// -------- LIM SW STATE --------
+bool lim_sw_upperlimit = false;
+bool lim_sw_lowerlimit = false;
+bool lim_sw_firstbox   = false;
+bool lim_sw_secondbox  = false;
+
+
+// ---------LIM SW SETUP-----------
+typedef enum
+{
+    MOTOR_IDLE,
+    MOTOR_GOTO_FIRSTBOX,
+    MOTOR_GOTO_SECONDBOX
+} MotorState_t;
+
+MotorState_t motorState = MOTOR_IDLE;
+
+
 // -------- SETUP --------
 void kfs_arm_setup() {
     kfs_state.kfs_s1_state = 0;
@@ -105,13 +123,58 @@ void kfs_arm_handler()
     }
 
     // -------- SPARK MAX (BLDC) --------
-    if (btnStatus.up) {
-        Bldc_writePulse(&SPARK_PULSE_TIM_N, SPARK_PULSE_PIN, SPARK_UP_SPEED);
+    lim_sw_upperlimit = HAL_GPIO_ReadPin(UPPER_LIMIT_GPIO_PORT, UPPER_LIMIT_GPIO_PIN);
+    lim_sw_lowerlimit = HAL_GPIO_ReadPin(LOWER_LIMIT_GPIO_PORT, LOWER_LIMIT_GPIO_PIN);
+    lim_sw_firstbox	  = HAL_GPIO_ReadPin(FIRSTBOX_GPIO_PORT,FIRSTBOX_GPIO_PIN);
+    lim_sw_secondbox  = HAL_GPIO_ReadPin(SECONDBOX_GPIO_PORT,SECONDBOX_GPIO_PIN);
+
+
+
+
+    if(btnStatus.square)
+    {
+        motorState = MOTOR_GOTO_FIRSTBOX;
     }
-    else if (btnStatus.down) {
+    else if(btnStatus.circle)
+    {
+        motorState = MOTOR_GOTO_SECONDBOX;
+    }
+    if ((btnStatus.up) && (!lim_sw_upperlimit))
+    {
+        Bldc_writePulse(&SPARK_PULSE_TIM_N,  SPARK_PULSE_PIN,SPARK_UP_SPEED);
+    }
+    else if ((btnStatus.down) && (!lim_sw_lowerlimit))
+    {
         Bldc_writePulse(&SPARK_PULSE_TIM_N, SPARK_PULSE_PIN, SPARK_DOWN_SPEED);
     }
-    else {
-        Bldc_writePulse(&SPARK_PULSE_TIM_N, SPARK_PULSE_PIN, SPARK_STOP);
+    else if (motorState == MOTOR_GOTO_FIRSTBOX)
+    {
+        if (!lim_sw_firstbox)
+        {
+            Bldc_writePulse(&SPARK_PULSE_TIM_N,SPARK_PULSE_PIN, SPARK_UP_SPEED);
+        }
+        else
+        {
+            Bldc_writePulse(&SPARK_PULSE_TIM_N, SPARK_PULSE_PIN, SPARK_STOP);
+
+            motorState = MOTOR_IDLE;
+        }
+    }
+    else if (motorState == MOTOR_GOTO_SECONDBOX)
+    {
+        if (!lim_sw_secondbox)
+        {
+            Bldc_writePulse(&SPARK_PULSE_TIM_N,SPARK_PULSE_PIN, SPARK_DOWN_SPEED);
+        }
+        else
+        {
+            Bldc_writePulse(&SPARK_PULSE_TIM_N, SPARK_PULSE_PIN, SPARK_STOP);
+
+            motorState = MOTOR_IDLE;
+        }
+    }
+    else
+    {
+        Bldc_writePulse(&SPARK_PULSE_TIM_N, SPARK_PULSE_PIN,  SPARK_STOP);
     }
 }

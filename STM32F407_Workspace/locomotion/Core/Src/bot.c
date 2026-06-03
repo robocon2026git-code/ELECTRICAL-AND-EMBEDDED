@@ -34,9 +34,11 @@ int odu() {
 
         if (is_staff_mode) {
             HAL_GPIO_WritePin(LED_RED_PORT, LED_RED_PIN, GPIO_PIN_SET);
+            HAL_GPIO_WritePin(LED_ORANGE_PORT, LED_ORANGE_PIN, GPIO_PIN_RESET);
         } else {
             HAL_GPIO_WritePin(LED_RED_PORT, LED_RED_PIN, GPIO_PIN_RESET);
-            HAL_GPIO_WritePin(LED_BLUE_PORT, LED_BLUE_PIN, GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(LED_ORANGE_PORT, LED_ORANGE_PIN, GPIO_PIN_SET);
+//            HAL_GPIO_WritePin(LED_BLUE_PORT, LED_BLUE_PIN, GPIO_PIN_RESET);
         }
     }
     last_options_state = current_options_state;
@@ -67,6 +69,11 @@ int odu() {
         }
     } else {
         kfs_arm_handler();
+
+        if (HAL_GetTick() - last_blue_blink >= 500) {
+            HAL_GPIO_TogglePin(LED_BLUE_PORT, LED_BLUE_PIN);
+            last_blue_blink = HAL_GetTick();
+        }
     }
 
     return 0;

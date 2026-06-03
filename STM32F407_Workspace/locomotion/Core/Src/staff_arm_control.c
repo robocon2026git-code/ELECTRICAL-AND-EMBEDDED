@@ -37,8 +37,8 @@ void staff_arm_setup(void) {
     current_steps_1  = 0;
 
     // Init Servo P2
-    Servo_WriteAngle(&STAFF_ARM_P2_TIM_N, STAFF_ARM_P2_PULSE, (uint8_t)current_angle_p2);
-    HAL_TIM_PWM_Start(&STAFF_ARM_P2_TIM_N, STAFF_ARM_P2_PULSE);
+//    Servo_WriteAngle(&STAFF_ARM_P2_TIM_N, STAFF_ARM_P2_PULSE, (uint8_t)current_angle_p2);
+//    HAL_TIM_PWM_Start(&STAFF_ARM_P2_TIM_N, STAFF_ARM_P2_PULSE);
     HAL_Delay(150);
 
     // Init Servo P3
@@ -129,23 +129,23 @@ void staff_arm_control(void) {
         last_servo_time = now;
 
         // P2 Up/Down
-        if (btnStatus.down) current_angle_p2 += STAFF_ARM_P2_STEP_ANGLE;
+       /* if (btnStatus.down) current_angle_p2 += STAFF_ARM_P2_STEP_ANGLE;
         if (btnStatus.up) current_angle_p2 -= STAFF_ARM_P2_STEP_ANGLE;
-
+*/
         // P3 Left/Right
         if (btnStatus.left) current_angle_p3 += STAFF_ARM_P3_STEP_ANGLE;
         if (btnStatus.right) current_angle_p3 -= STAFF_ARM_P3_STEP_ANGLE;
 
-        // Clamp P2
-        if (current_angle_p2 > STAFF_ARM_P2_MAX_ANGLE) current_angle_p2 = STAFF_ARM_P2_MAX_ANGLE;
-        if (current_angle_p2 < STAFF_ARM_P2_MIN_ANGLE) current_angle_p2 = STAFF_ARM_P2_MIN_ANGLE;
+//        // Clamp P2
+//        if (current_angle_p2 > STAFF_ARM_P2_MAX_ANGLE) current_angle_p2 = STAFF_ARM_P2_MAX_ANGLE;
+//        if (current_angle_p2 < STAFF_ARM_P2_MIN_ANGLE) current_angle_p2 = STAFF_ARM_P2_MIN_ANGLE;
 
         // Clamp P3
         if (current_angle_p3 > STAFF_ARM_P3_MAX_ANGLE) current_angle_p3 = STAFF_ARM_P3_MAX_ANGLE;
         if (current_angle_p3 < STAFF_ARM_P3_MIN_ANGLE) current_angle_p3 = STAFF_ARM_P3_MIN_ANGLE;
 
         // Write
-        Servo_WriteAngle(&STAFF_ARM_P2_TIM_N, STAFF_ARM_P2_PULSE, (uint8_t)current_angle_p2);
+//        Servo_WriteAngle(&STAFF_ARM_P2_TIM_N, STAFF_ARM_P2_PULSE, (uint8_t)current_angle_p2);
         Servo_WriteAngle_168Mhz(&STAFF_ARM_P3_TIM_N, STAFF_ARM_P3_PULSE, (uint8_t)current_angle_p3);
     }
 

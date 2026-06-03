@@ -60,8 +60,8 @@
 #define STAFF_ARM_STEPPER_SPEED_HZ      1500
 
 // --- Servo Timers ---
-#define STAFF_ARM_P2_PULSE              TIM_CHANNEL_1   // PE5
-#define STAFF_ARM_P2_TIM_N              htim9
+//#define STAFF_ARM_P2_PULSE              TIM_CHANNEL_1   // PE5
+//#define STAFF_ARM_P2_TIM_N              htim9
 
 #define STAFF_ARM_P3_PULSE              TIM_CHANNEL_2   // PE6
 #define STAFF_ARM_P3_TIM_N              htim9

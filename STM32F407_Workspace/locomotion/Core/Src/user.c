@@ -89,6 +89,9 @@ void parse_uart_data() {
     RY_usr = rx_pkt.ry;
     L2_usr = rx_pkt.l2;
     R2_usr = rx_pkt.r2;
+
+//    printf("BTN FLAG --> %X  |  LX -> %.2f  |  LY -> %.2f  |  RX -> %.2f  |  RY -> %.2f  |  L2 -> %.2f  |  R2 -> %2.f\n",
+//    					rx_pkt.btn_flag, LX_usr, LY_usr, RX_usr, RY_usr, L2_usr, R2_usr);
 }
 
 // --- DC Motor Control ---

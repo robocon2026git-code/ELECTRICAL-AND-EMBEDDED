@@ -38,9 +38,9 @@ void setup() {
     ps5.attachOnConnect(onConnect);
     ps5.attachOnDisconnect(onDisconnect);
       
-      ps5.begin("14:3A:9A:91:49:EE");   // Black
+      // ps5.begin("14:3A:9A:91:49:EE");   // Black
     // ps5.begin("E8:47:3A:36:ED:CA");   // White
-    //ps5.begin("90:B6:85:64:59:2B");      // Camouflage
+    ps5.begin("90:B6:85:64:59:2B");      // Camouflage
 
     while (ps5.isConnected() == false) {
         Serial.println("PS5 Not Found");

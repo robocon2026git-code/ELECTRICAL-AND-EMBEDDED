@@ -27,6 +27,15 @@
 #define SPARK_STOP        	1500U
 #define SPARK_DOWN_SPEED  	1150U
 
+#define UPPER_LIMIT_GPIO_PORT	GPIOE
+#define UPPER_LIMIT_GPIO_PIN	GPIO_PIN_4
+#define LOWER_LIMIT_GPIO_PORT	GPIOE
+#define LOWER_LIMIT_GPIO_PIN	GPIO_PIN_5
+#define FIRSTBOX_GPIO_PORT	    GPIOC
+#define FIRSTBOX_GPIO_PIN	    GPIO_PIN_4
+#define SECONDBOX_GPIO_PORT	    GPIOC
+#define SECONDBOX_GPIO_PIN	        GPIO_PIN_5
+
 void kfs_arm_setup();
 void kfs_arm_handler();
 
