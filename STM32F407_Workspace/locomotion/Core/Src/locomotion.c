@@ -29,11 +29,13 @@ int lo_4_wheel_handler(TIM_HandleTypeDef *timer) {
         vx = 0;
         vy = 0;
         omega = locomotion_max_pwm;    // rotate left
+//        printf("Rotate left\n");
     }
     else if (btnStatus.r1) {
         vx = 0;
         vy = 0;
         omega = -locomotion_max_pwm;   // rotate right
+//        printf("Rotate right\n");
     }
     else {
         // ==============================
@@ -51,6 +53,8 @@ int lo_4_wheel_handler(TIM_HandleTypeDef *timer) {
     lo_4_wheel_run(timer, m2_dir_pin, m2_pwm_pin, m2_pwm, m2_ind_pin);
     lo_4_wheel_run(timer, m3_dir_pin, m3_pwm_pin, m3_pwm, m3_ind_pin);
     lo_4_wheel_run(timer, m4_dir_pin, m4_pwm_pin, m4_pwm, m4_ind_pin);
+
+//    printf("M1 PWM :%.2f | M2 PWM :%.2f | M3 PWM :%.2f | M4 PWM :%.2f\n", m1_pwm, m2_pwm, m3_pwm, m4_pwm);
 
     return 0;
 }

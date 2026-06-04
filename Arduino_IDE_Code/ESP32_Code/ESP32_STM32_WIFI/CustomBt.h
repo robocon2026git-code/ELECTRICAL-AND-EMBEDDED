@@ -1,14 +1,9 @@
+/*
+ * CustomBt.h
+ * Classic Bluetooth Serial (SerialBT) handler.
+ * Not used in current design — PS5 uses its own L2CAP BT stack.
+ * Kept as a stub so the project compiles without changes.
+ */
 #ifndef CUSTOMBT_H
 #define CUSTOMBT_H
-
-#include "Esp32Telemetry.h"
-
-#define BT_PIN            7
-
-void setup_bt();
-
-void bt_handler();
-
-void recv_uart_data();
-
 #endif

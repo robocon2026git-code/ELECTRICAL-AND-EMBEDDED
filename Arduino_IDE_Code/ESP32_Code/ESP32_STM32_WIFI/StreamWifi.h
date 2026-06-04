@@ -1,21 +1,16 @@
+/*
+ * StreamWifi.h
+ * Sends BOT_Status_t over WiFi UDP to PC dashboard.
+ */
+
 #ifndef STREAMWIFI_H
 #define STREAMWIFI_H
 
-#include<WiFi.h>
-#include<WiFiUdp.h>
+#include <WiFi.h>
+#include <WiFiUdp.h>
 #include "Esp32Telemetry.h"
 
-
-void Setup_StreamWifi();
-void Send_BotStatusWifi();
-
-
-// extern const char *ssid = "iQube";
-// extern const char *password = "WeEvolve@iQube";
-// extern const char *pc_ip = "10.1.75.177";
-// extern const int port = 12345;
-
-
-
+void Setup_StreamWifi();    // Connect to WiFi, start UDP
+void Send_BotStatusWifi();  // Send war_status struct to PC
 
 #endif
