@@ -41,13 +41,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  18 .debug_line   00021a27  00000000  00000000  0005f442  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    000d7602  00000000  00000000  00080e69  2**0
+ 19 .debug_str    000d7610  00000000  00000000  00080e69  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .comment      00000043  00000000  00000000  0015846b  2**0
+ 20 .comment      00000043  00000000  00000000  00158479  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  000077e4  00000000  00000000  001584b0  2**2
+ 21 .debug_frame  000077e4  00000000  00000000  001584bc  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_line_str 00000072  00000000  00000000  0015fc94  2**0
+ 22 .debug_line_str 00000080  00000000  00000000  0015fca0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1841,7 +1841,7 @@ void kfs_arm_handler()
  800128c:	d00a      	beq.n	80012a4 <kfs_arm_handler+0x190>
         HAL_GPIO_WritePin(OFFSET_DIR_PORT, OFFSET_DIR_PIN, GPIO_PIN_SET);
  800128e:	2201      	movs	r2, #1
- 8001290:	2180      	movs	r1, #128	@ 0x80
+ 8001290:	2120      	movs	r1, #32
  8001292:	4832      	ldr	r0, [pc, #200]	@ (800135c <kfs_arm_handler+0x248>)
  8001294:	f002 fcee 	bl	8003c74 <HAL_GPIO_WritePin>
         motor_set_speed255(&OFFSET_PWM_TIM_N, OFFSET_PWM_PIN, OFFSET_PWM_VAL);
@@ -1860,7 +1860,7 @@ void kfs_arm_handler()
  80012b0:	d00a      	beq.n	80012c8 <kfs_arm_handler+0x1b4>
         HAL_GPIO_WritePin(OFFSET_DIR_PORT, OFFSET_DIR_PIN, GPIO_PIN_RESET);
  80012b2:	2200      	movs	r2, #0
- 80012b4:	2180      	movs	r1, #128	@ 0x80
+ 80012b4:	2120      	movs	r1, #32
  80012b6:	4829      	ldr	r0, [pc, #164]	@ (800135c <kfs_arm_handler+0x248>)
  80012b8:	f002 fcdc 	bl	8003c74 <HAL_GPIO_WritePin>
         motor_set_speed255(&OFFSET_PWM_TIM_N, OFFSET_PWM_PIN, OFFSET_PWM_VAL);
@@ -1887,7 +1887,7 @@ void kfs_arm_handler()
  80012dc:	2b00      	cmp	r3, #0
  80012de:	d006      	beq.n	80012ee <kfs_arm_handler+0x1da>
         Bldc_writePulse(&SPARK_PULSE_TIM_N, SPARK_PULSE_PIN, SPARK_UP_SPEED);
- 80012e0:	f240 723a 	movw	r2, #1850	@ 0x73a
+ 80012e0:	f240 62a4 	movw	r2, #1700	@ 0x6a4
  80012e4:	2100      	movs	r1, #0
  80012e6:	481f      	ldr	r0, [pc, #124]	@ (8001364 <kfs_arm_handler+0x250>)
  80012e8:	f002 f836 	bl	8003358 <Bldc_writePulse>
@@ -1906,7 +1906,7 @@ void kfs_arm_handler()
  80012f8:	2b00      	cmp	r3, #0
  80012fa:	d006      	beq.n	800130a <kfs_arm_handler+0x1f6>
         Bldc_writePulse(&SPARK_PULSE_TIM_N, SPARK_PULSE_PIN, SPARK_DOWN_SPEED);
- 80012fc:	f240 427e 	movw	r2, #1150	@ 0x47e
+ 80012fc:	f240 5214 	movw	r2, #1300	@ 0x514
  8001300:	2100      	movs	r1, #0
  8001302:	4818      	ldr	r0, [pc, #96]	@ (8001364 <kfs_arm_handler+0x250>)
  8001304:	f002 f828 	bl	8003358 <Bldc_writePulse>
@@ -1938,7 +1938,7 @@ void kfs_arm_handler()
  8001350:	2000000c 	.word	0x2000000c
  8001354:	20000010 	.word	0x20000010
  8001358:	20000004 	.word	0x20000004
- 800135c:	40021000 	.word	0x40021000
+ 800135c:	40020800 	.word	0x40020800
  8001360:	20000308 	.word	0x20000308
  8001364:	20000470 	.word	0x20000470
 

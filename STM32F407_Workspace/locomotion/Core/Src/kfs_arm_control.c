@@ -11,8 +11,9 @@ int servo1_targetPos  = 0;
 uint8_t servo1_moving = 0;
 
 // -------- POSITION VALUES --------
-int t3_K_pos_1 = 173,  t1_K_pos_1 = 30, t2_K_pos_1 = 65;
-int t3_K_pos_2 = 145,  t1_K_pos_2 = 150, t2_K_pos_2 = 100;
+int t3_K_pos_1 = 128,  t1_K_pos_1 = 20, t2_K_pos_1 = 120;
+int t3_K_pos_2 = 146,  t1_K_pos_2 = 141, t2_K_pos_2 = 97;
+
 
 // -------- STATE --------
 kfs_state_t kfs_state;

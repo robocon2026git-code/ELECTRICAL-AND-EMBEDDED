@@ -1,2 +1,2 @@
-../Core/Src/kfs_arm_control.c:23:6:kfs_arm_setup	8	static
-../Core/Src/kfs_arm_control.c:38:6:kfs_arm_handler	16	static
+../Core/Src/kfs_arm_control.c:24:6:kfs_arm_setup	8	static
+../Core/Src/kfs_arm_control.c:39:6:kfs_arm_handler	16	static
