@@ -1,0 +1,13 @@
+../Core/Src/user.c:36:6:uart_start_receive	16	static
+../Core/Src/user.c:41:6:uart_rx_callback	24	static
+../Core/Src/user.c:74:10:millis	8	static
+../Core/Src/user.c:78:6:map	24	static
+../Core/Src/user.c:83:6:parse_uart_data	4	static
+../Core/Src/user.c:95:6:motor_set_speed	32	static
+../Core/Src/user.c:103:6:motor_set_speed255	32	static
+../Core/Src/user.c:110:6:Servo_WriteAngle	24	static
+../Core/Src/user.c:127:6:Servo_WriteAngle_168Mhz	32	static
+../Core/Src/user.c:147:6:Bldc_writePulse	24	static
+../Core/Src/user.c:152:5:bldc_maping	32	static
+../Core/Src/user.c:160:6:Stepper_SetDirection	16	static
+../Core/Src/user.c:165:6:Stepper_SetSpeed	32	static

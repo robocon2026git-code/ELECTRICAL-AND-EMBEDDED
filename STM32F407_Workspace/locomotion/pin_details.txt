@@ -56,7 +56,7 @@ EXT -> TIM1 CH2 -> PE11		PE10
 //P3 -> TIM4 CH3 - PB8 (Changded to staff arm)
 
 DIR:
-EXT -> PE7
+EXT -> PC5
 P2 -> PE8
 P3 -> PE10
 

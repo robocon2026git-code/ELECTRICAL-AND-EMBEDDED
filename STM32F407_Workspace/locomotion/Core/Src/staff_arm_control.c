@@ -1,3 +1,4 @@
+
 /*
  * staff_arm_control.c
  *
@@ -29,6 +30,30 @@ int     current_angle_p3 = STAFF_ARM_P3_INITIAL_ANGLE;
 int32_t target_steps_1   = 0;
 int32_t current_steps_1  = 0;
 
+#define STEPPER_DOCK     	-2600
+#define STEPPER_INITIAL		0
+#define STEPPER_TAKE   		3950
+
+int SERVO_ALIGN = 0;
+
+#define SERVO_INITIAL		128
+#define SERVO_TAKE  		42
+#define SERVO_DOCK  		128
+
+
+int32_t STEPPER_ALIGN = 0;
+bool dockServoDelayActive = false;
+bool dockServoMoved = false;
+bool dockAlignMode = false;
+
+long dockStartPosition = 0;
+
+static bool     pwm_running     = false;
+
+//int STEPPER_INITIAL = 0;
+
+
+
 // -----------------------------------------------------------------------
 void staff_arm_setup(void) {
     current_angle_p2 = STAFF_ARM_P2_INITIAL_ANGLE;
@@ -49,20 +74,28 @@ void staff_arm_setup(void) {
 
 // -----------------------------------------------------------------------
 void staff_arm_control(void) {
-    uint32_t now = HAL_GetTick();
 
-    static uint32_t last_servo_time = 0;
-    static uint32_t last_step_tick  = 0;
-    static bool     pwm_running     = false;
-    static bool     last_dir_cw     = true;
+//    manual_staff_arm_control();
+	auto_staff_arm_control();
 
+    Pnuematic_OnOff();
+}
+
+
+void manual_staff_arm_control() {
     // ----------------------------------------------------------------
     // 1. STEPPER — runs while button held, stops instantly on release
     // ----------------------------------------------------------------
+	uint32_t now = HAL_GetTick();
+
+    static uint32_t last_servo_time = 0;
+    static uint32_t last_step_tick  = 0;
+    static bool     last_dir_cw     = true;
+
     bool move_ccw  = (btnStatus.triangle);
     bool move_cw = (btnStatus.cross);
 
-    if (move_cw || move_ccw) {
+   if (move_cw || move_ccw) {
 
         // Check if direction changed
         bool dir_changed = (move_cw != last_dir_cw);
@@ -90,6 +123,8 @@ void staff_arm_control(void) {
             pwm_running = true;
         }
 
+
+
         // Software position tracking at 1ms intervals
         if (now - last_step_tick >= 1) {
             last_step_tick = now;
@@ -102,6 +137,7 @@ void staff_arm_control(void) {
                     HAL_TIM_PWM_Stop(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE);
                     pwm_running = false;
                 }
+
             } else {
                 if (current_steps_1 > -STAFF_ARM_STEP_LIMIT) {
                     current_steps_1--;
@@ -110,6 +146,7 @@ void staff_arm_control(void) {
                     HAL_TIM_PWM_Stop(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE);
                     pwm_running = false;
                 }
+
             }
         }
 
@@ -122,9 +159,10 @@ void staff_arm_control(void) {
         target_steps_1 = current_steps_1;
     }
 
-    // ----------------------------------------------------------------
-    // 2. SERVO CONTROL — every 20ms
-    // ----------------------------------------------------------------
+
+   // ----------------------------------------------------------------
+   // 2. SERVO CONTROL — every 20ms
+   // ----------------------------------------------------------------
     if (now - last_servo_time >= 20) {
         last_servo_time = now;
 
@@ -144,14 +182,179 @@ void staff_arm_control(void) {
         if (current_angle_p3 > STAFF_ARM_P3_MAX_ANGLE) current_angle_p3 = STAFF_ARM_P3_MAX_ANGLE;
         if (current_angle_p3 < STAFF_ARM_P3_MIN_ANGLE) current_angle_p3 = STAFF_ARM_P3_MIN_ANGLE;
 
-        // Write
         Servo_WriteAngle(&STAFF_ARM_P2_TIM_N, STAFF_ARM_P2_PULSE, (uint8_t)current_angle_p2);
         Servo_WriteAngle_168Mhz(&STAFF_ARM_P3_TIM_N, STAFF_ARM_P3_PULSE, (uint8_t)current_angle_p3);
+
+    }
+}
+
+
+void auto_staff_arm_control() {
+	uint32_t now = HAL_GetTick();
+
+    static bool last_down = false;
+    static bool last_triangle = false;
+    static bool last_square = false;
+    static bool last_up = false;
+    static bool align_state = false;
+    static uint32_t last_step_tick  = 0;
+//    static uint32_t last_servo_tick  = 0;
+    static bool returnServoPending = false;
+
+
+    if(btnStatus.triangle && !last_triangle)
+    {
+        align_state = !align_state;
+
+        if(align_state)
+        {
+            STEPPER_ALIGN = STEPPER_TAKE;
+            SERVO_ALIGN   = SERVO_TAKE;
+        }
+        else
+        {
+            STEPPER_ALIGN = STEPPER_DOCK;
+            SERVO_ALIGN   = SERVO_DOCK;
+            returnServoPending = true;
+        }
     }
 
+    last_triangle = btnStatus.triangle;
 
-    Pnuematic_OnOff();
-}
+    if(btnStatus.down && !last_down)
+    {
+        STEPPER_ALIGN -= 100;
+    }
+
+    if(btnStatus.up && !last_up)
+    {
+        STEPPER_ALIGN += 100;
+    }
+
+//	    if(btnStatus.square && !last_square)
+//	    	{
+//	          STEPPER_ALIGN = STEPPER_INITIAL;
+//	          SERVO_ALIGN = SERVO_INITIAL;
+//	    	}
+    if(btnStatus.square && !last_square)
+    {
+        STEPPER_ALIGN = STEPPER_INITIAL;
+        SERVO_ALIGN   = SERVO_INITIAL;
+
+
+    }
+
+          last_up = btnStatus.up;
+          last_down = btnStatus.down;
+	      last_triangle = btnStatus.triangle;
+	      last_square = btnStatus.square;
+
+	    // --------------------------------------------------
+	    // Auto Move To Position
+	    // --------------------------------------------------
+
+	    if(current_steps_1 < STEPPER_ALIGN)
+	    {
+	        Stepper_SetDirection(
+	            STAFF_ARM_P1_DIR_PORT,
+	            STAFF_ARM_P1_DIR_PIN,
+	            CCW);
+
+	        if(!pwm_running)
+	        {
+	            Stepper_SetSpeed(
+	                &STAFF_ARM_P1_TIM_N,
+	                STAFF_ARM_P1_PULSE,
+	                STAFF_ARM_STEPPER_SPEED_HZ);
+
+	            HAL_TIM_PWM_Start(
+	                &STAFF_ARM_P1_TIM_N,
+	                STAFF_ARM_P1_PULSE);
+
+	            pwm_running = true;
+	        }
+	    }
+	    else if(current_steps_1 > STEPPER_ALIGN)
+	    {
+	        Stepper_SetDirection(
+	            STAFF_ARM_P1_DIR_PORT,
+	            STAFF_ARM_P1_DIR_PIN,
+	            CW);
+
+	        if(!pwm_running)
+	        {
+	            Stepper_SetSpeed(
+	                &STAFF_ARM_P1_TIM_N,
+	                STAFF_ARM_P1_PULSE,
+	                STAFF_ARM_STEPPER_SPEED_HZ);
+
+	            HAL_TIM_PWM_Start(
+	                &STAFF_ARM_P1_TIM_N,
+	                STAFF_ARM_P1_PULSE);
+
+	            pwm_running = true;
+	        }
+	    }
+	    else
+	    {
+	        if(pwm_running)
+	        {
+	            HAL_TIM_PWM_Stop(
+	                &STAFF_ARM_P1_TIM_N,
+	                STAFF_ARM_P1_PULSE);
+
+	            pwm_running = false;
+	        }
+	    }
+
+	    if(now - last_step_tick >= 1)
+	    {
+	        last_step_tick = now;
+
+	        if(pwm_running)
+	        {
+	            if(current_steps_1 < STEPPER_ALIGN) {
+	                current_steps_1++;
+
+	                if(current_steps_1 > 1000)
+	                	   {
+	                			Servo_WriteAngle_168Mhz(&STAFF_ARM_P3_TIM_N, STAFF_ARM_P3_PULSE,SERVO_TAKE);
+
+	                	   }
+//	        	    if(now - last_servo_tick >= 5000)
+//	        	    {
+//	        	        Servo_WriteAngle_168Mhz(&STAFF_ARM_P3_TIM_N, STAFF_ARM_P3_PULSE, SERVO_ALIGN);
+//
+//
+//	        	        last_servo_tick = now;
+//	        	    }
+	            }
+
+	            else if(current_steps_1 > STEPPER_ALIGN) {
+	                current_steps_1--;
+	                if(returnServoPending &&
+	                      current_steps_1 < 3000)
+	                   {
+	                       Servo_WriteAngle_168Mhz(
+	                           &STAFF_ARM_P3_TIM_N,
+	                           STAFF_ARM_P3_PULSE,
+	                           SERVO_DOCK);
+
+	                       returnServoPending = false;
+	                   }
+	               }
+//	        	    if(now - last_servo_tick >= 5000)
+//	        	    {
+//	        	        Servo_WriteAngle_168Mhz(&STAFF_ARM_P3_TIM_N, STAFF_ARM_P3_PULSE, SERVO_ALIGN);
+//
+//
+//	        	        last_servo_tick = now;
+//	        	    }
+	            }
+	        }
+	    }
+
+
 
 // -----------------------------------------------------------------------
 void Pnuematic_OnOff(void) {

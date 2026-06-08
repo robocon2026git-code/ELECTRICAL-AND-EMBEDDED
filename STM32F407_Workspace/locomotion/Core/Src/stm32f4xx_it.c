@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2025 STMicroelectronics.
+  * Copyright (c) 2026 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -230,11 +230,11 @@ void OTG_FS_IRQHandler(void)
 /* USER CODE BEGIN 1 */
 #include "user.h"
 
-// This is called automatically by HAL when 1 byte is received via IT mode
+// Called automatically by HAL after each byte is received in IT mode.
+// Routes to uart_rx_callback() which runs the state machine and re-arms.
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
     if (huart->Instance == USART2) {
-        uart_rx_callback(huart); // handles state machine + re-arms IT
+        uart_rx_callback(huart);
     }
 }
-
 /* USER CODE END 1 */

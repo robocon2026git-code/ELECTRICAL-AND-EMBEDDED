@@ -47,6 +47,8 @@ extern TIM_HandleTypeDef htim12;
 
 extern UART_HandleTypeDef huart2;
 
+extern uint8_t is_staff_mode;
+
 int system_status();
 int odu();
 void bot_setup();

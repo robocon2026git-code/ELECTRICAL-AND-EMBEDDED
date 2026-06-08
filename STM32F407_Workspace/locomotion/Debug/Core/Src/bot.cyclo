@@ -1,3 +1,6 @@
-../Core/Src/bot.c:16:5:system_status	1
-../Core/Src/bot.c:28:5:odu	7
-../Core/Src/bot.c:75:6:bot_setup	1
+../Core/Src/bot.c:39:13:stop_kfs_actuators	1
+../Core/Src/bot.c:49:13:stop_staff_actuators	1
+../Core/Src/bot.c:60:13:update_mode_leds	2
+../Core/Src/bot.c:73:5:system_status	1
+../Core/Src/bot.c:94:5:odu	7
+../Core/Src/bot.c:150:6:bot_setup	1
