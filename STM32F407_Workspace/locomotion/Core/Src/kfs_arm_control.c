@@ -15,6 +15,11 @@ int t3_K_pos_1 = 128,  t1_K_pos_1 = 20, t2_K_pos_1 = 120;
 int t3_K_pos_2 = 146,  t1_K_pos_2 = 141, t2_K_pos_2 = 97;
 
 
+// -----------LIMIT SWITCH-------------
+
+bool upper_lim_sw = false;
+
+
 // -------- STATE --------
 kfs_state_t kfs_state;
 bool lastTriangle = false;
@@ -106,7 +111,9 @@ void kfs_arm_handler()
     }
 
     // -------- SPARK MAX (BLDC) --------
-    if (btnStatus.up) {
+   upper_lim_sw = HAL_GPIO_ReadPin(UPPER_LIM_SW_PORT,UPPER_LIM_SW_PIN);
+
+    if (btnStatus.up && (!upper_lim_sw)) {
         Bldc_writePulse(&SPARK_PULSE_TIM_N, SPARK_PULSE_PIN, SPARK_UP_SPEED);
     }
     else if (btnStatus.down) {

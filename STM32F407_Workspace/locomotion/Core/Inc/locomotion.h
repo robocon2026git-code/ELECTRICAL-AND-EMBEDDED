@@ -40,7 +40,8 @@
 #define TRACK_BLDC_SPEED				200U
 
 int lo_4_wheel_handler(TIM_HandleTypeDef *htim);
-int lo_4_wheel_calculation(int vx, int vy, int omega);
+int lo_4_wheel_calculation_staff_mode(int vx, int vy, int omega);
+int lo_4_wheel_calculation_kfs_mode(int vx, int vy, int omega);
 void lo_4_wheel_run(TIM_HandleTypeDef *htim, uint16_t dir_pin, uint8_t mot_pin, float pwm, uint16_t ind_pin);
 
 int track_run();
@@ -53,6 +54,7 @@ void esc_set_pulse_us(TIM_HandleTypeDef *htim, uint8_t channel, uint16_t pulse_u
 float extern m1_pwm, m2_pwm, m3_pwm, m4_pwm;
 
 extern int locomotion_max_pwm;
+extern uint8_t is_staff_mode;
 
 
 #endif /* INC_LOCOMOTION_H_ */

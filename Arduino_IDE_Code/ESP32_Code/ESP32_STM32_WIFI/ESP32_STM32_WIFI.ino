@@ -31,9 +31,9 @@
 #define BAUD_RATE  115200
 
 // PS5 Controller MAC addresses — comment/uncomment the one you use
-#define PS5_MAC   "14:3A:9A:91:49:EE"   // Black
+// #define PS5_MAC   "14:3A:9A:91:49:EE"   // Black
 // #define PS5_MAC  "E8:47:3A:36:ED:CA"  // White
-// #define PS5_MAC  "90:B6:85:64:59:2B"  // Camouflage
+#define PS5_MAC  "90:B6:85:64:59:2B"  // Camouflage
 
 // Forward declarations
 void onConnect();

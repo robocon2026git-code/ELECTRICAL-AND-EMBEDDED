@@ -1,3 +1,4 @@
-../Core/Src/locomotion.c:14:5:lo_4_wheel_handler	7
-../Core/Src/locomotion.c:66:5:lo_4_wheel_calculation	5
-../Core/Src/locomotion.c:102:6:lo_4_wheel_run	2
+../Core/Src/locomotion.c:15:8:lo_4_wheel_handler	6
+../Core/Src/locomotion.c:94:8:lo_4_wheel_calculation_staff_mode	5
+../Core/Src/locomotion.c:128:8:lo_4_wheel_calculation_kfs_mode	5
+../Core/Src/locomotion.c:164:9:lo_4_wheel_run	2

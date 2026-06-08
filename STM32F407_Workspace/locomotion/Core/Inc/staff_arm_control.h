@@ -9,7 +9,7 @@
 
 // --- Servo Initial Angles ---
 #define STAFF_ARM_P2_INITIAL_ANGLE      55U
-#define STAFF_ARM_P3_INITIAL_ANGLE      90U
+#define STAFF_ARM_P3_INITIAL_ANGLE      42U
 
 // --- Servo Angle Limits ---
 #define STAFF_ARM_P2_MIN_ANGLE          0
@@ -57,7 +57,7 @@
 // --- Stepper Speed ---
 // 1500 Hz = smooth at 1/8 microstep
 // Increase to 3000 Hz for faster movement
-#define STAFF_ARM_STEPPER_SPEED_HZ      1500
+#define STAFF_ARM_STEPPER_SPEED_HZ      3000
 
 // --- Servo Timers ---
 #define STAFF_ARM_P2_PULSE              TIM_CHANNEL_1   // PE5
@@ -70,6 +70,8 @@
 void staff_arm_setup(void);
 void staff_arm_control(void);
 void Pnuematic_OnOff(void);
+void manual_staff_arm_control();
+void auto_staff_arm_control();
 
 // --- Globals ---
 extern int32_t target_steps_1;

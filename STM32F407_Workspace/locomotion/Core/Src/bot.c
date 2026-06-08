@@ -28,7 +28,7 @@
 BOT_Status_t war_status;
 
 // Mode state: 1 = STAFF, 0 = KFS
-static uint8_t is_staff_mode      = 1;
+uint8_t is_staff_mode      = 1;
 static uint8_t last_options_state = 0;  // for rising-edge detection
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -63,7 +63,7 @@ static void update_mode_leds(void) {
         HAL_GPIO_WritePin(LED_RED_PORT,  LED_RED_PIN,  GPIO_PIN_RESET);
     } else {
         HAL_GPIO_WritePin(LED_BLUE_PORT, LED_BLUE_PIN, GPIO_PIN_RESET);
-        HAL_GPIO_WritePin(LED_RED_PORT,  LED_RED_PIN,  GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(LED_RED_PORT,  LED_RED_PIN,  GPIO_PIN_SET);
     }
 }
 
