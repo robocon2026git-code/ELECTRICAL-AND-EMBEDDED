@@ -1,0 +1,20 @@
+Locomotion
+DIR:
+M1 -> PA13
+M2 -> PA9
+M3 -> PC9
+M4 -> PC7
+
+
+Staff:
+DIR:
+P1 -> PB3
+
+Solenoid:
+S1 -> PD6
+
+
+
+KFS:
+DIR:
+EXT -> PB13

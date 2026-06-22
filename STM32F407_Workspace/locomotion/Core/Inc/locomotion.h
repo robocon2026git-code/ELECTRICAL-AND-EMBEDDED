@@ -56,5 +56,15 @@ float extern m1_pwm, m2_pwm, m3_pwm, m4_pwm;
 extern int locomotion_max_pwm;
 extern uint8_t is_staff_mode;
 
+extern int locomotion_rotation_pwm_regular;
+extern int locomotion_rotation_while_drive;
+
+extern int locomotion_max_pwm;
+extern int locomotion_rotation_pwm_regular_staff;
+extern int locomotion_rotation_while_drive_staff;
+
+extern int locomotion_rotation_pwm_regular_kfs;
+extern int locomotion_rotation_while_drive_kfs;
+
 
 #endif /* INC_LOCOMOTION_H_ */

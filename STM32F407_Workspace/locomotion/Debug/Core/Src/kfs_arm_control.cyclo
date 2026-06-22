@@ -1,2 +1,8 @@
 ../Core/Src/kfs_arm_control.c:29:6:kfs_arm_setup	1
 ../Core/Src/kfs_arm_control.c:44:6:kfs_arm_handler	18
+../Core/Src/kfs_arm_control.c:129:6:kfs_meditation	1
+../Core/Src/kfs_arm_control.c:136:5:spark_go_up	3
+../Core/Src/kfs_arm_control.c:150:6:spark_go_down	1
+../Core/Src/kfs_arm_control.c:154:6:spark_stop	1
+../Core/Src/kfs_arm_control.c:159:6:kfs_thuravi_sparkmax	1
+../Core/Src/kfs_arm_control.c:173:6:kfs_thuravi_servo	13

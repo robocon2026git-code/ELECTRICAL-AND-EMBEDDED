@@ -3,8 +3,15 @@
 			float  m1_pwm, m2_pwm, m3_pwm, m4_pwm;
 
 			// 🔥 GLOBAL SPEED LIMIT
-			int locomotion_max_pwm = 200;
-			int locomtion_rotation_pwm = 70;
+			int locomotion_rotation_pwm_regular;
+			int locomotion_rotation_while_drive;
+
+			int locomotion_max_pwm = 160;
+			int locomotion_rotation_pwm_regular_staff = 25;
+			int locomotion_rotation_while_drive_staff = 100;
+
+			int locomotion_rotation_pwm_regular_kfs = 70;
+			int locomotion_rotation_while_drive_kfs = 100;
 
 			unsigned long current = 0, previous = 0;
 
@@ -26,41 +33,34 @@
 				// ==============================
 				// 🔥 ROTATION (HIGHEST PRIORITY)
 				// ==============================
-				if (btnStatus.l1) {
+
+			    if (btnStatus.l1) {
 					vx = 0;
 					vy = 0;
-					omega = locomtion_rotation_pwm;    // rotate left
+					omega = locomotion_rotation_pwm_regular;   // rotate left
+					if(x > 0)
+						omega = locomotion_rotation_while_drive;
 			//        printf("Rotate left\n");
 				}
 				else if (btnStatus.r1) {
 					vx = 0;
 					vy = 0;
-					omega = -locomtion_rotation_pwm;   // rotate right
+					omega = -locomotion_rotation_pwm_regular;   // rotate right
+					if(x > 0)
+						omega = -locomotion_rotation_while_drive;
 			//        printf("Rotate right\n");
 				}
-			//    else if (btnStatus.up) {
-			//           vx = 100;
-			//           vy = 0;
-			//           omega = 0;   // rotate right
-			//   //        printf("Rotate right\n");
-			//       }
-			//    else if (btnStatus.down) {
-			//            vx = -100;
-			//            vy = 0;
-			//            omega = 0;   // rotate right
-			//    //        printf("Rotate right\n");
-			//        }
-			//    else if (btnStatus.right) {
-			//            vx = 0;
-			//            vy = 100;-
-			//            omega = 0;   // rotate right
-			//    //        printf("Rotate right\n");
-			//        }
-			//    else if (btnStatus.left) {
-			//            vx = 0;
-			//            vy = -100;
-			//            omega = 0;   // rotate right
-			//    //        printf("Rotate right\n");
+//			    else if (btnStatus.right) {
+//			            vx = 0;
+//			            vy = 100;
+//			            omega = 0;   // rotate right
+//			    //        printf("Rotate right\n");
+//			        }
+//			    else if (btnStatus.left) {
+//			            vx = 0;
+//			            vy = -100;
+//			            omega = 0;   // rotate right
+//			    //        printf("Rotate right\n");
 //					}
 				else {
 					// ==============================
@@ -93,11 +93,23 @@
 			// ==============================
 			int lo_4_wheel_calculation_staff_mode(int vx, int vy, int omega){
 
-				// Standard mecanum equations
-				float t1 = (-vx - vy - omega);   // m1
-				float t2 = (-vx + vy - omega);   // m2
-				float t3 = (-vx - vy + omega);   // m3
-				float t4 = (-vx + vy + omega);   // m4
+//				// Standard mecanum equations kfs arm forward
+				float t1 = (vx - vy + omega);   // m1
+				float t2 = (vx + vy - omega);   // m2
+				float t3 = (-vx + vy + omega);   // m3
+				float t4 = (vx + vy + omega);   // m4
+
+//				// Standard mecanum equations empty space forward
+//				float t1 = (-vx - vy + omega);   // m1
+//				float t2 = (+vx - vy - omega);   // m2
+//				float t3 = (+vx + vy + omega);   // m3
+//				float t4 = (+vx - vy + omega);   // m4
+
+				// Standard mecanum equations spark max forward
+//				float t1 = (+vx + vy + omega);   // m1
+//				float t2 = (-vx + vy - omega);   // m2
+//				float t3 = (-vx - vy + omega);   // m3
+//				float t4 = (-vx + vy + omega);   // m4
 
 				// 🔥 FINAL MOTOR POLARITY FIX
 				m1_pwm =  t1;
@@ -127,11 +139,24 @@
 
 			int lo_4_wheel_calculation_kfs_mode(int vx, int vy, int omega){
 
-				// Standard mecanum equations
-				float t1 = (-vx - vy - omega);   // m1
-				float t2 = (-vx + vy - omega);   // m2
-				float t3 = (-vx - vy + omega);   // m3
-				float t4 = (-vx + vy + omega);   // m4
+//				// Standard mecanum equations kfs arm forward
+				float t1 = (vx - vy + omega);   // m1
+				float t2 = (vx + vy - omega);   // m2
+				float t3 = (-vx + vy + omega);   // m3
+				float t4 = (vx + vy + omega);   // m4
+
+//				// Standard mecanum equations empty space forward
+//				float t1 = (-vx - vy + omega);   // m1
+//				float t2 = (+vx - vy - omega);   // m2
+//				float t3 = (+vx + vy + omega);   // m3
+//				float t4 = (+vx - vy + omega);   // m4
+
+				// Standard mecanum equations spark max forward
+//				float t1 = (+vx + vy + omega);   // m1
+//				float t2 = (-vx + vy - omega);   // m2
+//				float t3 = (-vx - vy + omega);   // m3
+//				float t4 = (-vx + vy + omega);   // m4
+
 
 				// 🔥 FINAL MOTOR POLARITY FIX
 				m1_pwm =  t1;

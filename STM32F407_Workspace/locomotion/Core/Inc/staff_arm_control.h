@@ -57,7 +57,8 @@
 // --- Stepper Speed ---
 // 1500 Hz = smooth at 1/8 microstep
 // Increase to 3000 Hz for faster movement
-#define STAFF_ARM_STEPPER_SPEED_HZ      3000
+#define STAFF_ARM_STEPPER_SPEED_HZ      6000
+
 
 // --- Servo Timers ---
 #define STAFF_ARM_P2_PULSE              TIM_CHANNEL_1   // PE5
