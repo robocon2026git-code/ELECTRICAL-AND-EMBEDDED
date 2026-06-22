@@ -1,4 +1,4 @@
-../Core/Src/locomotion.c:15:8:lo_4_wheel_handler	40	static
+../Core/Src/locomotion.c:22:8:lo_4_wheel_handler	40	static
 ../Core/Src/locomotion.c:94:8:lo_4_wheel_calculation_staff_mode	56	static
-../Core/Src/locomotion.c:128:8:lo_4_wheel_calculation_kfs_mode	56	static
-../Core/Src/locomotion.c:164:9:lo_4_wheel_run	32	static
+../Core/Src/locomotion.c:140:8:lo_4_wheel_calculation_kfs_mode	56	static
+../Core/Src/locomotion.c:189:9:lo_4_wheel_run	32	static

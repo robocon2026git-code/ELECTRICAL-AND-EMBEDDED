@@ -27,12 +27,19 @@
 #define UPPER_LIM_SW_PORT   GPIOE
 
 
-#define SPARK_UP_SPEED    	1300U
+#define SPARK_UP_SPEED    	1150U //1150U
 #define SPARK_STOP        	1500U
-#define SPARK_DOWN_SPEED  	1700U
+#define SPARK_DOWN_SPEED  	1850U
 
 void kfs_arm_setup();
 void kfs_arm_handler();
+
+int spark_go_up();
+void spark_go_down();
+void spark_stop();
+void kfs_meditation();
+
+void kfs_thuravi_sparkmax();
 
 extern int t2_K_pos_1, t3_K_pos_1, t1_K_pos_1;
 extern int t2_K_pos_2, t3_K_pos_2, t1_K_pos_2;

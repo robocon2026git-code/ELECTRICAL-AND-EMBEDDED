@@ -30,9 +30,9 @@ int     current_angle_p3 = STAFF_ARM_P3_INITIAL_ANGLE;
 int32_t target_steps_1   = 0;
 int32_t current_steps_1  = 0;
 
-#define STEPPER_DOCK     	-2600
+#define STEPPER_DOCK     	-1500
 #define STEPPER_INITIAL		0
-#define STEPPER_TAKE   		3950
+#define STEPPER_TAKE   		2075
 
 int SERVO_ALIGN = 0;
 
@@ -45,6 +45,9 @@ int32_t STEPPER_ALIGN = 0;
 bool dockServoDelayActive = false;
 bool dockServoMoved = false;
 bool dockAlignMode = false;
+
+bool last_circle = false;
+bool pneumatic_state = false;
 
 long dockStartPosition = 0;
 
@@ -223,27 +226,24 @@ void auto_staff_arm_control() {
 
     if(btnStatus.down && !last_down)
     {
-        STEPPER_ALIGN -= 100;
+        STEPPER_ALIGN -= 50;
     }
 
     if(btnStatus.up && !last_up)
     {
-        STEPPER_ALIGN += 100;
+        STEPPER_ALIGN += 50;
     }
 
-//	    if(btnStatus.square && !last_square)
-//	    	{
-//	          STEPPER_ALIGN = STEPPER_INITIAL;
-//	          SERVO_ALIGN = SERVO_INITIAL;
-//	    	}
+    if(btnStatus.square && !last_square)
+	 {
+		 STEPPER_ALIGN = STEPPER_INITIAL;
+	     SERVO_ALIGN = SERVO_DOCK;
+	    	}
     if(btnStatus.square && !last_square)
     {
         STEPPER_ALIGN = STEPPER_INITIAL;
         SERVO_ALIGN   = SERVO_INITIAL;
-
-
     }
-
           last_up = btnStatus.up;
           last_down = btnStatus.down;
 	      last_triangle = btnStatus.triangle;
@@ -354,29 +354,75 @@ void auto_staff_arm_control() {
 	        }
 	    }
 
+void Pneumatic_UpdateOutput(void)
+{
+    if(pneumatic_state)
+    {
+        HAL_GPIO_WritePin(PNEUMATIC_PORT,
+                          PNEUMATIC_PIN_1,
+                          GPIO_PIN_SET);
 
+        HAL_GPIO_WritePin(PNEUMATIC_PORT,
+                          PNEUMATIC_PIN_2,
+                          GPIO_PIN_RESET);
+    }
+    else
+    {
+        HAL_GPIO_WritePin(PNEUMATIC_PORT,
+                          PNEUMATIC_PIN_1,
+                          GPIO_PIN_RESET);
+
+        HAL_GPIO_WritePin(PNEUMATIC_PORT,
+                          PNEUMATIC_PIN_2,
+                          GPIO_PIN_SET);
+    }
+}
 
 // -----------------------------------------------------------------------
 void Pnuematic_OnOff(void) {
-    static bool last_circle = false;
-    static bool pneumatic_state = false;  // false = OFF, true = ON
+//    static bool last_circle = false;
+//    static bool pneumatic_state = false;  // false = OFF, true = ON
 
-    bool current_circle = (btnStatus.circle == 1);
+//    bool current_circle = (btnStatus.circle == 1);
+//    bool lastOptions;
+//
+//    // Toggle only on button press (rising edge)
+//    if (current_circle && !last_circle) {
+//        pneumatic_state = !pneumatic_state;
+//        if(currentOptions && !lastOptions)
+//			{
+//				is_staff_mode = !is_staff_mode;
+//
+//				last_circle = btnStatus.circle;
+//
+//				Pneumatic_UpdateOutput();
+//			}
+//
+//                Pneumatic_UpdateOutput();
+//            }
+//
+//            last_circle = current_circle;
+//        }
 
-    // Toggle only on button press (rising edge)
-    if (current_circle && !last_circle) {
-        pneumatic_state = !pneumatic_state;
+	static uint8_t last_circle = 0;
 
-        if (pneumatic_state) {
-            // ON
-            HAL_GPIO_WritePin(PNEUMATIC_PORT, PNEUMATIC_PIN_1, GPIO_PIN_SET);
-            HAL_GPIO_WritePin(PNEUMATIC_PORT, PNEUMATIC_PIN_2, GPIO_PIN_RESET);
-        } else {
-            // OFF
-            HAL_GPIO_WritePin(PNEUMATIC_PORT, PNEUMATIC_PIN_1, GPIO_PIN_RESET);
-            HAL_GPIO_WritePin(PNEUMATIC_PORT, PNEUMATIC_PIN_2, GPIO_PIN_SET);
-        }
-    }
+	if(btnStatus.circle && !last_circle)
+	{
+	    pneumatic_state = !pneumatic_state;
+	}
 
-    last_circle = current_circle;
+	last_circle = btnStatus.circle;
+
+	if (pneumatic_state)
+	{
+	    HAL_GPIO_WritePin(PNEUMATIC_PORT, PNEUMATIC_PIN_1, GPIO_PIN_SET);
+	    HAL_GPIO_WritePin(PNEUMATIC_PORT, PNEUMATIC_PIN_2, GPIO_PIN_RESET);
+	}
+	else
+	{
+	    HAL_GPIO_WritePin(PNEUMATIC_PORT, PNEUMATIC_PIN_1, GPIO_PIN_RESET);
+	    HAL_GPIO_WritePin(PNEUMATIC_PORT, PNEUMATIC_PIN_2, GPIO_PIN_SET);
+	}
+	int val = HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_0);
+	printf("VALUE = %d/n", val);
 }

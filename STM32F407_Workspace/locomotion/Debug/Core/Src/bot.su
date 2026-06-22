@@ -3,4 +3,4 @@
 ../Core/Src/bot.c:60:13:update_mode_leds	8	static
 ../Core/Src/bot.c:73:5:system_status	4	static
 ../Core/Src/bot.c:94:5:odu	16	static
-../Core/Src/bot.c:150:6:bot_setup	8	static
+../Core/Src/bot.c:153:6:bot_setup	8	static

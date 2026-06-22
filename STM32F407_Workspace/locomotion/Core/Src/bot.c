@@ -48,8 +48,8 @@ static void stop_kfs_actuators(void) {
 // ─────────────────────────────────────────────────────────────────────────────
 static void stop_staff_actuators(void) {
     HAL_TIM_PWM_Stop(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE);         // Stepper off
-    HAL_GPIO_WritePin(PNEUMATIC_PORT, PNEUMATIC_PIN_1, GPIO_PIN_RESET); // Pneumatic off
-    HAL_GPIO_WritePin(PNEUMATIC_PORT, PNEUMATIC_PIN_2, GPIO_PIN_RESET);
+//    HAL_GPIO_WritePin(PNEUMATIC_PORT, PNEUMATIC_PIN_1, GPIO_PIN_RESET); // Pneumatic off
+//    HAL_GPIO_WritePin(PNEUMATIC_PORT, PNEUMATIC_PIN_2, GPIO_PIN_RESET);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -129,7 +129,10 @@ int odu() {
 
     // 3. LOCOMOTION — always active in both modes
     // Speed limit differs: STAFF=100 (slower, arm deployed), KFS=200 (full speed)
-    locomotion_max_pwm = is_staff_mode ? 100 : 200;
+    locomotion_max_pwm = is_staff_mode ? 100 : 160;
+    locomotion_rotation_pwm_regular = is_staff_mode ? locomotion_rotation_pwm_regular_staff : locomotion_rotation_pwm_regular_kfs;
+    locomotion_rotation_while_drive = is_staff_mode ? locomotion_rotation_while_drive_staff : locomotion_rotation_while_drive_kfs;
+
     lo_4_wheel_handler(&htim3);
 
     // 4. ARM CONTROL — only the active mode's arm handler runs
