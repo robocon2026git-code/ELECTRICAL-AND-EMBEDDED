@@ -1,4 +1,4 @@
-../Core/Src/locomotion.c:22:8:lo_4_wheel_handler	8
-../Core/Src/locomotion.c:94:8:lo_4_wheel_calculation_staff_mode	5
-../Core/Src/locomotion.c:140:8:lo_4_wheel_calculation_kfs_mode	5
-../Core/Src/locomotion.c:189:9:lo_4_wheel_run	2
+../Core/Src/locomotion.c:24:8:lo_4_wheel_handler	8
+../Core/Src/locomotion.c:96:8:lo_4_wheel_calculation_staff_mode	5
+../Core/Src/locomotion.c:142:8:lo_4_wheel_calculation_kfs_mode	5
+../Core/Src/locomotion.c:192:9:lo_4_wheel_run	2

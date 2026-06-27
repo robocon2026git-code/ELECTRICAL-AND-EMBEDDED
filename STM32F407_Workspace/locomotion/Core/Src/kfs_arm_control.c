@@ -11,8 +11,8 @@ int servo1_targetPos  = 0;
 uint8_t servo1_moving = 0;
 
 // -------- POSITION VALUES --------
-int t3_K_pos_1 = 146,  t1_K_pos_1 = 55, t2_K_pos_1 = 75;
-int t3_K_pos_2 = 110,  t1_K_pos_2 = 180, t2_K_pos_2 = 115;
+int t3_K_pos_1 = 115,  t1_K_pos_1 = 50, t2_K_pos_1 = 90;
+int t3_K_pos_2 = 165,  t1_K_pos_2 = 180, t2_K_pos_2 = 50;
 
 
 // -----------LIMIT SWITCH-------------
