@@ -7,6 +7,8 @@
 			int locomotion_rotation_while_drive;
 
 			int locomotion_max_pwm = 160;
+			int staff_locomotion_max_pwm = 70;
+
 			int locomotion_rotation_pwm_regular_staff = 25;
 			int locomotion_rotation_while_drive_staff = 100;
 
@@ -94,10 +96,10 @@
 			int lo_4_wheel_calculation_staff_mode(int vx, int vy, int omega){
 
 //				// Standard mecanum equations kfs arm forward
-				float t1 = (vx - vy + omega);   // m1
-				float t2 = (vx + vy - omega);   // m2
+				float t4 = (-vx + vy - omega);   // m1
+				float t2 = (-vx - vy + omega);   // m2
 				float t3 = (-vx + vy + omega);   // m3
-				float t4 = (vx + vy + omega);   // m4
+				float t1 = (-vx - vy - omega);   // m4
 
 //				// Standard mecanum equations empty space forward
 //				float t1 = (-vx - vy + omega);   // m1
@@ -125,8 +127,8 @@
 				float maxraw   = MAX(maxraw_1, maxraw_2);
 
 
-				if(maxraw > locomotion_max_pwm){
-					float scale = locomotion_max_pwm / maxraw;
+				if(maxraw > staff_locomotion_max_pwm){
+					float scale = staff_locomotion_max_pwm / maxraw;
 					m1_pwm *= scale;
 					m2_pwm *= scale;
 					m3_pwm *= scale;
@@ -140,10 +142,11 @@
 			int lo_4_wheel_calculation_kfs_mode(int vx, int vy, int omega){
 
 //				// Standard mecanum equations kfs arm forward
-				float t1 = (vx - vy + omega);   // m1
-				float t2 = (vx + vy - omega);   // m2
+				float t4 = (-vx + vy - omega);   // m1
+				float t2 = (-vx - vy + omega);   // m2
 				float t3 = (-vx + vy + omega);   // m3
-				float t4 = (vx + vy + omega);   // m4
+				float t1 = (-vx - vy - omega);   // m4
+
 
 //				// Standard mecanum equations empty space forward
 //				float t1 = (-vx - vy + omega);   // m1

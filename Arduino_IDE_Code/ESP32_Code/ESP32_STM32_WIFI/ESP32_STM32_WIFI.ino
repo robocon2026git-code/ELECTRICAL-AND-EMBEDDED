@@ -31,18 +31,19 @@
 #define BAUD_RATE  115200
 
 // PS5 Controller MAC addresses — comment/uncomment the one you use
-// #define PS5_MAC   "14:3A:9A:91:49:EE"   // Black
+#define PS5_MAC   "14:3A:9A:91:49:EE"   // Black
 // #define PS5_MAC  "E8:47:3A:36:ED:CA"  // White
-#define PS5_MAC  "90:B6:85:64:59:2B"  // Camouflage
+// #define PS5_MAC  "90:B6:85:64:59:2B"  // Camouflage
 
 // Forward declarations
-void onConnect();
-void onDisconnect();
-void Set_BotStatusTemp();
+// void onConnect();
+// void onDisconnect();
+// void Set_BotStatusTemp();
 void send_reset_reason();
 
 void setup() {
     Serial.begin(BAUD_RATE);
+    Serial.setDebugOutput(true);
 
     // LED on GPIO2 — indicates PS5 connection status
     pinMode(2, OUTPUT);
@@ -63,13 +64,13 @@ void setup() {
     // Flush any garbage bytes STM32 sent while ESP32 was booting
     delay(100);
     while (commSerial.available()) commSerial.read();
-    Serial.println("UART2 ready (ESP32 <-> STM32)");
+    // Serial.println("UART2 ready (ESP32 <-> STM32)");
 
     // Send ESP32 reset reason to STM32 so it can log via SWV
     send_reset_reason();
 
     // Initialize telemetry struct to safe zero values
-    Set_BotStatusTemp();
+    // Set_BotStatusTemp();
 
     // --- PS5 Bluetooth ---
     // Register callbacks BEFORE ps5.begin() so they are wired up
@@ -82,13 +83,13 @@ void setup() {
     // that starves the BT tasks and causes the 3-connect dropout bug.
     ps5.begin(PS5_MAC);
 
-    Serial.println("Waiting for PS5 controller...");
-    while (!ps5.isConnected()) {
-        Serial.println("PS5 Not Found");
-        delay(300);
-    }
-    // PS5 is now connected — onConnect() has already fired
-    Serial.println("=== System Ready ===");
+    // Serial.println("Waiting for PS5 controller...");
+    // while (!ps5.isConnected()) {
+    //     Serial.println("PS5 Not Found");
+    //     delay(300);
+    // }
+    // // PS5 is now connected — onConnect() has already fired
+    // Serial.println("=== System Ready ===");
 }
 
 void loop() {

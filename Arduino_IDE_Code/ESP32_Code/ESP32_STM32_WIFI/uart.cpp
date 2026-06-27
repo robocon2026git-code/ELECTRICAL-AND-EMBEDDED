@@ -51,23 +51,40 @@ void send_packet(uint16_t btn_flag, float lx, float ly,
     // Wait for ACK or NACK from STM32
     // STM32 responds with 0xAC (OK) or 0x15 (rejected).
     // If no response in ACK_TIMEOUT_MS, STM32 watchdog will handle it.
-    uint32_t t0 = millis();
-    while ((millis() - t0) < ACK_TIMEOUT_MS) {
-        if (commSerial.available()) {
-            uint8_t r = commSerial.read();
-            if (r == ACK_BYTE) {
-                break;  // Good — STM32 accepted the packet
-            } else if (r == NACK_BYTE) {
-                Serial.println("[NACK] STM32 rejected packet");
-                break;  // STM32 holds last safe position
-            }
-            // Other bytes are telemetry fragments — ignore here
-        }
+    // uint32_t t0 = millis();
+    // while ((millis() - t0) < ACK_TIMEOUT_MS) {
+    //     if (commSerial.available()) {
+    //         uint8_t r = commSerial.read();
+    //         if (r == ACK_BYTE) {
+    //             break;  // Good — STM32 accepted the packet
+    //         } else if (r == NACK_BYTE) {
+    //             Serial.println("[NACK] STM32 rejected packet");
+    //             break;  // STM32 holds last safe position
+    //         }
+    //         // Other bytes are telemetry fragments — ignore here
+    //     }
+    // }
+uint32_t t0 = millis();
+
+while ((millis() - t0) < ACK_TIMEOUT_MS)
+{
+    delay(1);          // allow BT tasks to run
+
+    if (commSerial.available())
+    {
+        uint8_t r = commSerial.read();
+
+        if (r == ACK_BYTE)
+            break;
+
+        else if (r == NACK_BYTE)
+            break;
     }
+}
 
     // Print to Serial Monitor (one compact line per packet)
-    Serial.printf("FLAG:%04X LX:%5.0f LY:%5.0f RX:%5.0f RY:%5.0f L2:%4.0f R2:%4.0f\n",
-                   btn_flag, lx, ly, rx, ry, l2, r2);
+    // Serial.printf("FLAG:%04X LX:%5.0f LY:%5.0f RX:%5.0f RY:%5.0f L2:%4.0f R2:%4.0f\n",
+    //                btn_flag, lx, ly, rx, ry, l2, r2);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

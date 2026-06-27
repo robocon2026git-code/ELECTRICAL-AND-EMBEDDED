@@ -33,6 +33,7 @@ int32_t current_steps_1  = 0;
 #define STEPPER_DOCK     	-1500
 #define STEPPER_INITIAL		0
 #define STEPPER_TAKE   		2075
+#define STEPPER_DROP        2085
 
 int SERVO_ALIGN = 0;
 
@@ -196,6 +197,7 @@ void auto_staff_arm_control() {
 	uint32_t now = HAL_GetTick();
 
     static bool last_down = false;
+    static bool last_cross = false;
     static bool last_triangle = false;
     static bool last_square = false;
     static bool last_up = false;
@@ -227,6 +229,7 @@ void auto_staff_arm_control() {
     if(btnStatus.down && !last_down)
     {
         STEPPER_ALIGN -= 50;
+//        Servo_WriteAngle_168Mhz(&STAFF_ARM_P3_TI    M_N, STAFF_ARM_P3_PULSE, SERVO_DOCK);
     }
 
     if(btnStatus.up && !last_up)
@@ -237,17 +240,49 @@ void auto_staff_arm_control() {
     if(btnStatus.square && !last_square)
 	 {
 		 STEPPER_ALIGN = STEPPER_INITIAL;
-	     SERVO_ALIGN = SERVO_DOCK;
+	     SERVO_ALIGN = SERVO_INITIAL;
 	    	}
-    if(btnStatus.square && !last_square)
+    if(btnStatus.cross && !last_cross)
     {
-        STEPPER_ALIGN = STEPPER_INITIAL;
-        SERVO_ALIGN   = SERVO_INITIAL;
+        STEPPER_ALIGN = STEPPER_DROP;
+        SERVO_ALIGN   = SERVO_DOCK;
     }
+//    static bool crossPressed = false;
+//    static bool servoMoved = false;
+//    static uint32_t crossTime = 0;
+
+//    if(btnStatus.cross && !crossPressed)
+//    {
+//        crossPressed = true;
+//        servoMoved = false;
+//        crossTime = HAL_GetTick();
+//
+//        STEPPER_ALIGN = STEPPER_DROP;
+//    }
+//
+//    if(crossPressed)
+//    {
+//        if((HAL_GetTick() - crossTime) >= 500 && !servoMoved)
+//        {
+//            Servo_WriteAngle_168Mhz(
+//                &STAFF_ARM_P3_TIM_N,
+//                STAFF_ARM_P3_PULSE,
+//                SERVO_DOCK);
+//
+//            servoMoved = true;
+//        }
+//    }
+//
+//    if(!btnStatus.cross)
+//    {
+//        crossPressed = false;
+//    }
+//
           last_up = btnStatus.up;
           last_down = btnStatus.down;
 	      last_triangle = btnStatus.triangle;
 	      last_square = btnStatus.square;
+	      last_cross = btnStatus.cross;
 
 	    // --------------------------------------------------
 	    // Auto Move To Position
@@ -423,6 +458,6 @@ void Pnuematic_OnOff(void) {
 	    HAL_GPIO_WritePin(PNEUMATIC_PORT, PNEUMATIC_PIN_1, GPIO_PIN_RESET);
 	    HAL_GPIO_WritePin(PNEUMATIC_PORT, PNEUMATIC_PIN_2, GPIO_PIN_SET);
 	}
-	int val = HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_0);
-	printf("VALUE = %d/n", val);
+//	int val = HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_0);
+//	printf("VALUE = %d/n", val);
 }
