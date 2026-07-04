@@ -58,7 +58,7 @@ defined in linker script */
   .weak  Reset_Handler
   .type  Reset_Handler, %function
 Reset_Handler:  
-    ldr   sp, =_estack     /* set stack pointer */
+               ldr   sp, =_estack     /* set stack pointer */
   
 /* Call the clock system initialization function.*/
   bl  SystemInit  
@@ -76,7 +76,7 @@ CopyDataInit:
   adds r3, r3, #4
 
 LoopCopyDataInit:
-  adds r4, r0, r3
+       adds r4, r0, r3
   cmp r4, r1
   bcc CopyDataInit
   
