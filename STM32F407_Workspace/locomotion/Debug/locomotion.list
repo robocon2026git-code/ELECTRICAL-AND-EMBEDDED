@@ -23,31 +23,31 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   9 .ccmram       00000000  10000000  10000000  00011230  2**0
                   CONTENTS
- 10 .bss          00000c84  20000230  20000230  00011230  2**2
+ 10 .bss          00000c80  20000230  20000230  00011230  2**2
                   ALLOC
- 11 ._user_heap_stack 00000604  20000eb4  20000eb4  00011230  2**0
+ 11 ._user_heap_stack 00000600  20000eb0  20000eb0  00011230  2**0
                   ALLOC
  12 .ARM.attributes 00000030  00000000  00000000  00011230  2**0
                   CONTENTS, READONLY
- 13 .debug_info   0001f506  00000000  00000000  00011260  2**0
+ 13 .debug_info   0001f465  00000000  00000000  00011260  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_abbrev 00005022  00000000  00000000  00030766  2**0
+ 14 .debug_abbrev 00005016  00000000  00000000  000306c5  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_aranges 00001928  00000000  00000000  00035788  2**3
+ 15 .debug_aranges 00001928  00000000  00000000  000356e0  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_rnglists 00001373  00000000  00000000  000370b0  2**0
+ 16 .debug_rnglists 0000135a  00000000  00000000  00037008  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_macro  00027529  00000000  00000000  00038423  2**0
+ 17 .debug_macro  00027505  00000000  00000000  00038362  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   00021e4c  00000000  00000000  0005f94c  2**0
+ 18 .debug_line   00021d2a  00000000  00000000  0005f867  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    000d78f1  00000000  00000000  00081798  2**0
+ 19 .debug_str    000d7868  00000000  00000000  00081591  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .comment      00000043  00000000  00000000  00159089  2**0
+ 20 .comment      00000043  00000000  00000000  00158df9  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  00007914  00000000  00000000  001590cc  2**2
+ 21 .debug_frame  00007904  00000000  00000000  00158e3c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_line_str 00000089  00000000  00000000  001609e0  2**0
+ 22 .debug_line_str 00000089  00000000  00000000  00160740  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1481,7 +1481,7 @@ int odu() {
  8001036:	46bd      	mov	sp, r7
  8001038:	bd80      	pop	{r7, pc}
  800103a:	bf00      	nop
- 800103c:	20000540 	.word	0x20000540
+ 800103c:	2000053c 	.word	0x2000053c
  8001040:	2000024c 	.word	0x2000024c
  8001044:	0800f9d0 	.word	0x0800f9d0
  8001048:	20000000 	.word	0x20000000
@@ -1964,7 +1964,7 @@ void kfs_arm_handler()
  800136a:	3708      	adds	r7, #8
  800136c:	46bd      	mov	sp, r7
  800136e:	bd80      	pop	{r7, pc}
- 8001370:	20000574 	.word	0x20000574
+ 8001370:	20000570 	.word	0x20000570
  8001374:	20000263 	.word	0x20000263
  8001378:	20000260 	.word	0x20000260
  800137c:	20000014 	.word	0x20000014
@@ -2201,9 +2201,9 @@ void kfs_arm_handler()
  800154a:	3720      	adds	r7, #32
  800154c:	46bd      	mov	sp, r7
  800154e:	bd80      	pop	{r7, pc}
- 8001550:	20000560 	.word	0x20000560
- 8001554:	2000055c 	.word	0x2000055c
- 8001558:	20000574 	.word	0x20000574
+ 8001550:	2000055c 	.word	0x2000055c
+ 8001554:	20000558 	.word	0x20000558
+ 8001558:	20000570 	.word	0x20000570
  800155c:	20000278 	.word	0x20000278
  8001560:	2000027c 	.word	0x2000027c
  8001564:	2000001c 	.word	0x2000001c
@@ -4158,7 +4158,7 @@ static void MX_GPIO_Init(void)
  8002234:	687b      	ldr	r3, [r7, #4]
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOE, CS_I2C_SPI_Pin|GPIO_PIN_7|GPIO_PIN_12, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_3|GPIO_PIN_7|GPIO_PIN_12, GPIO_PIN_RESET);
  8002236:	2200      	movs	r2, #0
  8002238:	f241 0188 	movw	r1, #4232	@ 0x1088
  800223c:	485d      	ldr	r0, [pc, #372]	@ (80023b4 <MX_GPIO_Init+0x23c>)
@@ -4202,8 +4202,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
  8002274:	2300      	movs	r3, #0
  8002276:	623b      	str	r3, [r7, #32]
-  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
- 8002278:	2302      	movs	r3, #2
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 8002278:	2300      	movs	r3, #0
  800227a:	627b      	str	r3, [r7, #36]	@ 0x24
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
  800227c:	f107 031c 	add.w	r3, r7, #28
@@ -4211,8 +4211,8 @@ static void MX_GPIO_Init(void)
  8002282:	484c      	ldr	r0, [pc, #304]	@ (80023b4 <MX_GPIO_Init+0x23c>)
  8002284:	f001 fcec 	bl	8003c60 <HAL_GPIO_Init>
 
-  /*Configure GPIO pins : CS_I2C_SPI_Pin PE7 PE12 */
-  GPIO_InitStruct.Pin = CS_I2C_SPI_Pin|GPIO_PIN_7|GPIO_PIN_12;
+  /*Configure GPIO pins : PE3 PE7 PE12 */
+  GPIO_InitStruct.Pin = GPIO_PIN_3|GPIO_PIN_7|GPIO_PIN_12;
  8002288:	f241 0388 	movw	r3, #4232	@ 0x1088
  800228c:	61fb      	str	r3, [r7, #28]
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -4289,8 +4289,8 @@ static void MX_GPIO_Init(void)
  80022f8:	4832      	ldr	r0, [pc, #200]	@ (80023c4 <MX_GPIO_Init+0x24c>)
  80022fa:	f001 fcb1 	bl	8003c60 <HAL_GPIO_Init>
 
-  /*Configure GPIO pin : BOOT1_Pin */
-  GPIO_InitStruct.Pin = BOOT1_Pin;
+  /*Configure GPIO pin : PB2 */
+  GPIO_InitStruct.Pin = GPIO_PIN_2;
  80022fe:	2304      	movs	r3, #4
  8002300:	61fb      	str	r3, [r7, #28]
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
@@ -4299,7 +4299,7 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
  8002306:	2300      	movs	r3, #0
  8002308:	627b      	str	r3, [r7, #36]	@ 0x24
-  HAL_GPIO_Init(BOOT1_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
  800230a:	f107 031c 	add.w	r3, r7, #28
  800230e:	4619      	mov	r1, r3
  8002310:	482a      	ldr	r0, [pc, #168]	@ (80023bc <MX_GPIO_Init+0x244>)
@@ -4512,504 +4512,531 @@ void staff_arm_setup(void) {
 
 08002444 <staff_arm_control>:
 
+
 // -----------------------------------------------------------------------
 void staff_arm_control(void) {
  8002444:	b580      	push	{r7, lr}
  8002446:	af00      	add	r7, sp, #0
+	{
+	    if(btnStatus.up || btnStatus.down)
+ 8002448:	4b0b      	ldr	r3, [pc, #44]	@ (8002478 <staff_arm_control+0x34>)
+ 800244a:	781b      	ldrb	r3, [r3, #0]
+ 800244c:	f003 0301 	and.w	r3, r3, #1
+ 8002450:	b2db      	uxtb	r3, r3
+ 8002452:	2b00      	cmp	r3, #0
+ 8002454:	d106      	bne.n	8002464 <staff_arm_control+0x20>
+ 8002456:	4b08      	ldr	r3, [pc, #32]	@ (8002478 <staff_arm_control+0x34>)
+ 8002458:	781b      	ldrb	r3, [r3, #0]
+ 800245a:	f003 0302 	and.w	r3, r3, #2
+ 800245e:	b2db      	uxtb	r3, r3
+ 8002460:	2b00      	cmp	r3, #0
+ 8002462:	d002      	beq.n	800246a <staff_arm_control+0x26>
+	    {
+	        manual_staff_arm_control();
+ 8002464:	f000 f80a 	bl	800247c <manual_staff_arm_control>
+ 8002468:	e001      	b.n	800246e <staff_arm_control+0x2a>
+	    }
+	    else
+	    {
+	        auto_staff_arm_control();
+ 800246a:	f000 f863 	bl	8002534 <auto_staff_arm_control>
+	    }
 
-//    manual_staff_arm_control();
-	auto_staff_arm_control();
- 8002448:	f000 f804 	bl	8002454 <auto_staff_arm_control>
-
-    Pnuematic_OnOff();
- 800244c:	f000 f98e 	bl	800276c <Pnuematic_OnOff>
+	    Pnuematic_OnOff();
+ 800246e:	f000 f97d 	bl	800276c <Pnuematic_OnOff>
+	}
 }
- 8002450:	bf00      	nop
- 8002452:	bd80      	pop	{r7, pc}
+ 8002472:	bf00      	nop
+ 8002474:	bd80      	pop	{r7, pc}
+ 8002476:	bf00      	nop
+ 8002478:	20000570 	.word	0x20000570
 
-08002454 <auto_staff_arm_control>:
+0800247c <manual_staff_arm_control>:
+//	            pwm_running = false;
+//	        }
+//	}
+//}
+	void manual_staff_arm_control(void)
+	{
+ 800247c:	b580      	push	{r7, lr}
+ 800247e:	af00      	add	r7, sp, #0
+	    if(btnStatus.up)
+ 8002480:	4b28      	ldr	r3, [pc, #160]	@ (8002524 <manual_staff_arm_control+0xa8>)
+ 8002482:	781b      	ldrb	r3, [r3, #0]
+ 8002484:	f003 0301 	and.w	r3, r3, #1
+ 8002488:	b2db      	uxtb	r3, r3
+ 800248a:	2b00      	cmp	r3, #0
+ 800248c:	d01a      	beq.n	80024c4 <manual_staff_arm_control+0x48>
+	    {
+	        Stepper_SetDirection(
+ 800248e:	2200      	movs	r2, #0
+ 8002490:	f44f 5180 	mov.w	r1, #4096	@ 0x1000
+ 8002494:	4824      	ldr	r0, [pc, #144]	@ (8002528 <manual_staff_arm_control+0xac>)
+ 8002496:	f001 f923 	bl	80036e0 <Stepper_SetDirection>
+	            STAFF_ARM_P1_DIR_PORT,
+	            STAFF_ARM_P1_DIR_PIN,
+	            CCW);
 
-    }
-}
+	        if(!pwm_running)
+ 800249a:	4b24      	ldr	r3, [pc, #144]	@ (800252c <manual_staff_arm_control+0xb0>)
+ 800249c:	781b      	ldrb	r3, [r3, #0]
+ 800249e:	f083 0301 	eor.w	r3, r3, #1
+ 80024a2:	b2db      	uxtb	r3, r3
+ 80024a4:	2b00      	cmp	r3, #0
+ 80024a6:	d03a      	beq.n	800251e <manual_staff_arm_control+0xa2>
+	        {
+	            Stepper_SetSpeed(&STAFF_ARM_P1_TIM_N,
+ 80024a8:	f44f 727a 	mov.w	r2, #1000	@ 0x3e8
+ 80024ac:	2108      	movs	r1, #8
+ 80024ae:	4820      	ldr	r0, [pc, #128]	@ (8002530 <manual_staff_arm_control+0xb4>)
+ 80024b0:	f001 f92e 	bl	8003710 <Stepper_SetSpeed>
+	                             STAFF_ARM_P1_PULSE,
+	                             STAFF_ARM_STEPPER_SPEED_HZ_ADJUST);
+
+	            HAL_TIM_PWM_Start(&STAFF_ARM_P1_TIM_N,
+ 80024b4:	2108      	movs	r1, #8
+ 80024b6:	481e      	ldr	r0, [pc, #120]	@ (8002530 <manual_staff_arm_control+0xb4>)
+ 80024b8:	f005 fa02 	bl	80078c0 <HAL_TIM_PWM_Start>
+	                              STAFF_ARM_P1_PULSE);
+
+	            pwm_running = true;
+ 80024bc:	4b1b      	ldr	r3, [pc, #108]	@ (800252c <manual_staff_arm_control+0xb0>)
+ 80024be:	2201      	movs	r2, #1
+ 80024c0:	701a      	strb	r2, [r3, #0]
+	                             STAFF_ARM_P1_PULSE);
+
+	            pwm_running = false;
+	        }
+	    }
+	}
+ 80024c2:	e02c      	b.n	800251e <manual_staff_arm_control+0xa2>
+	    else if(btnStatus.down)
+ 80024c4:	4b17      	ldr	r3, [pc, #92]	@ (8002524 <manual_staff_arm_control+0xa8>)
+ 80024c6:	781b      	ldrb	r3, [r3, #0]
+ 80024c8:	f003 0302 	and.w	r3, r3, #2
+ 80024cc:	b2db      	uxtb	r3, r3
+ 80024ce:	2b00      	cmp	r3, #0
+ 80024d0:	d01a      	beq.n	8002508 <manual_staff_arm_control+0x8c>
+	        Stepper_SetDirection(
+ 80024d2:	2201      	movs	r2, #1
+ 80024d4:	f44f 5180 	mov.w	r1, #4096	@ 0x1000
+ 80024d8:	4813      	ldr	r0, [pc, #76]	@ (8002528 <manual_staff_arm_control+0xac>)
+ 80024da:	f001 f901 	bl	80036e0 <Stepper_SetDirection>
+	        if(!pwm_running)
+ 80024de:	4b13      	ldr	r3, [pc, #76]	@ (800252c <manual_staff_arm_control+0xb0>)
+ 80024e0:	781b      	ldrb	r3, [r3, #0]
+ 80024e2:	f083 0301 	eor.w	r3, r3, #1
+ 80024e6:	b2db      	uxtb	r3, r3
+ 80024e8:	2b00      	cmp	r3, #0
+ 80024ea:	d018      	beq.n	800251e <manual_staff_arm_control+0xa2>
+	            Stepper_SetSpeed(&STAFF_ARM_P1_TIM_N,
+ 80024ec:	f44f 727a 	mov.w	r2, #1000	@ 0x3e8
+ 80024f0:	2108      	movs	r1, #8
+ 80024f2:	480f      	ldr	r0, [pc, #60]	@ (8002530 <manual_staff_arm_control+0xb4>)
+ 80024f4:	f001 f90c 	bl	8003710 <Stepper_SetSpeed>
+	            HAL_TIM_PWM_Start(&STAFF_ARM_P1_TIM_N,
+ 80024f8:	2108      	movs	r1, #8
+ 80024fa:	480d      	ldr	r0, [pc, #52]	@ (8002530 <manual_staff_arm_control+0xb4>)
+ 80024fc:	f005 f9e0 	bl	80078c0 <HAL_TIM_PWM_Start>
+	            pwm_running = true;
+ 8002500:	4b0a      	ldr	r3, [pc, #40]	@ (800252c <manual_staff_arm_control+0xb0>)
+ 8002502:	2201      	movs	r2, #1
+ 8002504:	701a      	strb	r2, [r3, #0]
+	}
+ 8002506:	e00a      	b.n	800251e <manual_staff_arm_control+0xa2>
+	        if(pwm_running)
+ 8002508:	4b08      	ldr	r3, [pc, #32]	@ (800252c <manual_staff_arm_control+0xb0>)
+ 800250a:	781b      	ldrb	r3, [r3, #0]
+ 800250c:	2b00      	cmp	r3, #0
+ 800250e:	d006      	beq.n	800251e <manual_staff_arm_control+0xa2>
+	            HAL_TIM_PWM_Stop(&STAFF_ARM_P1_TIM_N,
+ 8002510:	2108      	movs	r1, #8
+ 8002512:	4807      	ldr	r0, [pc, #28]	@ (8002530 <manual_staff_arm_control+0xb4>)
+ 8002514:	f005 fa9c 	bl	8007a50 <HAL_TIM_PWM_Stop>
+	            pwm_running = false;
+ 8002518:	4b04      	ldr	r3, [pc, #16]	@ (800252c <manual_staff_arm_control+0xb0>)
+ 800251a:	2200      	movs	r2, #0
+ 800251c:	701a      	strb	r2, [r3, #0]
+	}
+ 800251e:	bf00      	nop
+ 8002520:	bd80      	pop	{r7, pc}
+ 8002522:	bf00      	nop
+ 8002524:	20000570 	.word	0x20000570
+ 8002528:	40021000 	.word	0x40021000
+ 800252c:	20000529 	.word	0x20000529
+ 8002530:	200003f8 	.word	0x200003f8
+
+08002534 <auto_staff_arm_control>:
 
 
 void auto_staff_arm_control() {
- 8002454:	b580      	push	{r7, lr}
- 8002456:	b082      	sub	sp, #8
- 8002458:	af00      	add	r7, sp, #0
+ 8002534:	b580      	push	{r7, lr}
+ 8002536:	b082      	sub	sp, #8
+ 8002538:	af00      	add	r7, sp, #0
 	uint32_t now = HAL_GetTick();
- 800245a:	f001 fa2d 	bl	80038b8 <HAL_GetTick>
- 800245e:	6078      	str	r0, [r7, #4]
+ 800253a:	f001 f9bd 	bl	80038b8 <HAL_GetTick>
+ 800253e:	6078      	str	r0, [r7, #4]
     static uint32_t last_step_tick  = 0;
 //    static uint32_t last_servo_tick  = 0;
     static bool returnServoPending = false;
 
 
     if(btnStatus.triangle && !last_triangle)
- 8002460:	4b85      	ldr	r3, [pc, #532]	@ (8002678 <auto_staff_arm_control+0x224>)
- 8002462:	781b      	ldrb	r3, [r3, #0]
- 8002464:	f003 0310 	and.w	r3, r3, #16
- 8002468:	b2db      	uxtb	r3, r3
- 800246a:	2b00      	cmp	r3, #0
- 800246c:	d02a      	beq.n	80024c4 <auto_staff_arm_control+0x70>
- 800246e:	4b83      	ldr	r3, [pc, #524]	@ (800267c <auto_staff_arm_control+0x228>)
- 8002470:	781b      	ldrb	r3, [r3, #0]
- 8002472:	f083 0301 	eor.w	r3, r3, #1
- 8002476:	b2db      	uxtb	r3, r3
- 8002478:	2b00      	cmp	r3, #0
- 800247a:	d023      	beq.n	80024c4 <auto_staff_arm_control+0x70>
+ 8002540:	4b7c      	ldr	r3, [pc, #496]	@ (8002734 <auto_staff_arm_control+0x200>)
+ 8002542:	781b      	ldrb	r3, [r3, #0]
+ 8002544:	f003 0310 	and.w	r3, r3, #16
+ 8002548:	b2db      	uxtb	r3, r3
+ 800254a:	2b00      	cmp	r3, #0
+ 800254c:	d02a      	beq.n	80025a4 <auto_staff_arm_control+0x70>
+ 800254e:	4b7a      	ldr	r3, [pc, #488]	@ (8002738 <auto_staff_arm_control+0x204>)
+ 8002550:	781b      	ldrb	r3, [r3, #0]
+ 8002552:	f083 0301 	eor.w	r3, r3, #1
+ 8002556:	b2db      	uxtb	r3, r3
+ 8002558:	2b00      	cmp	r3, #0
+ 800255a:	d023      	beq.n	80025a4 <auto_staff_arm_control+0x70>
     {
         align_state = !align_state;
- 800247c:	4b80      	ldr	r3, [pc, #512]	@ (8002680 <auto_staff_arm_control+0x22c>)
- 800247e:	781b      	ldrb	r3, [r3, #0]
- 8002480:	2b00      	cmp	r3, #0
- 8002482:	bf14      	ite	ne
- 8002484:	2301      	movne	r3, #1
- 8002486:	2300      	moveq	r3, #0
- 8002488:	b2db      	uxtb	r3, r3
- 800248a:	f083 0301 	eor.w	r3, r3, #1
- 800248e:	b2db      	uxtb	r3, r3
- 8002490:	f003 0301 	and.w	r3, r3, #1
- 8002494:	b2da      	uxtb	r2, r3
- 8002496:	4b7a      	ldr	r3, [pc, #488]	@ (8002680 <auto_staff_arm_control+0x22c>)
- 8002498:	701a      	strb	r2, [r3, #0]
+ 800255c:	4b77      	ldr	r3, [pc, #476]	@ (800273c <auto_staff_arm_control+0x208>)
+ 800255e:	781b      	ldrb	r3, [r3, #0]
+ 8002560:	2b00      	cmp	r3, #0
+ 8002562:	bf14      	ite	ne
+ 8002564:	2301      	movne	r3, #1
+ 8002566:	2300      	moveq	r3, #0
+ 8002568:	b2db      	uxtb	r3, r3
+ 800256a:	f083 0301 	eor.w	r3, r3, #1
+ 800256e:	b2db      	uxtb	r3, r3
+ 8002570:	f003 0301 	and.w	r3, r3, #1
+ 8002574:	b2da      	uxtb	r2, r3
+ 8002576:	4b71      	ldr	r3, [pc, #452]	@ (800273c <auto_staff_arm_control+0x208>)
+ 8002578:	701a      	strb	r2, [r3, #0]
 
         if(align_state)
- 800249a:	4b79      	ldr	r3, [pc, #484]	@ (8002680 <auto_staff_arm_control+0x22c>)
- 800249c:	781b      	ldrb	r3, [r3, #0]
- 800249e:	2b00      	cmp	r3, #0
- 80024a0:	d007      	beq.n	80024b2 <auto_staff_arm_control+0x5e>
+ 800257a:	4b70      	ldr	r3, [pc, #448]	@ (800273c <auto_staff_arm_control+0x208>)
+ 800257c:	781b      	ldrb	r3, [r3, #0]
+ 800257e:	2b00      	cmp	r3, #0
+ 8002580:	d007      	beq.n	8002592 <auto_staff_arm_control+0x5e>
         {
             STEPPER_ALIGN = STEPPER_TAKE;
- 80024a2:	4b78      	ldr	r3, [pc, #480]	@ (8002684 <auto_staff_arm_control+0x230>)
- 80024a4:	f640 021b 	movw	r2, #2075	@ 0x81b
- 80024a8:	601a      	str	r2, [r3, #0]
+ 8002582:	4b6f      	ldr	r3, [pc, #444]	@ (8002740 <auto_staff_arm_control+0x20c>)
+ 8002584:	f640 021b 	movw	r2, #2075	@ 0x81b
+ 8002588:	601a      	str	r2, [r3, #0]
             SERVO_ALIGN   = SERVO_TAKE;
- 80024aa:	4b77      	ldr	r3, [pc, #476]	@ (8002688 <auto_staff_arm_control+0x234>)
- 80024ac:	222a      	movs	r2, #42	@ 0x2a
- 80024ae:	601a      	str	r2, [r3, #0]
- 80024b0:	e008      	b.n	80024c4 <auto_staff_arm_control+0x70>
+ 800258a:	4b6e      	ldr	r3, [pc, #440]	@ (8002744 <auto_staff_arm_control+0x210>)
+ 800258c:	222a      	movs	r2, #42	@ 0x2a
+ 800258e:	601a      	str	r2, [r3, #0]
+ 8002590:	e008      	b.n	80025a4 <auto_staff_arm_control+0x70>
         }
         else
         {
             STEPPER_ALIGN = STEPPER_DOCK;
- 80024b2:	4b74      	ldr	r3, [pc, #464]	@ (8002684 <auto_staff_arm_control+0x230>)
- 80024b4:	4a75      	ldr	r2, [pc, #468]	@ (800268c <auto_staff_arm_control+0x238>)
- 80024b6:	601a      	str	r2, [r3, #0]
+ 8002592:	4b6b      	ldr	r3, [pc, #428]	@ (8002740 <auto_staff_arm_control+0x20c>)
+ 8002594:	4a6c      	ldr	r2, [pc, #432]	@ (8002748 <auto_staff_arm_control+0x214>)
+ 8002596:	601a      	str	r2, [r3, #0]
             SERVO_ALIGN   = SERVO_DOCK;
- 80024b8:	4b73      	ldr	r3, [pc, #460]	@ (8002688 <auto_staff_arm_control+0x234>)
- 80024ba:	2280      	movs	r2, #128	@ 0x80
- 80024bc:	601a      	str	r2, [r3, #0]
+ 8002598:	4b6a      	ldr	r3, [pc, #424]	@ (8002744 <auto_staff_arm_control+0x210>)
+ 800259a:	2280      	movs	r2, #128	@ 0x80
+ 800259c:	601a      	str	r2, [r3, #0]
             returnServoPending = true;
- 80024be:	4b74      	ldr	r3, [pc, #464]	@ (8002690 <auto_staff_arm_control+0x23c>)
- 80024c0:	2201      	movs	r2, #1
- 80024c2:	701a      	strb	r2, [r3, #0]
-        }
+ 800259e:	4b6b      	ldr	r3, [pc, #428]	@ (800274c <auto_staff_arm_control+0x218>)
+ 80025a0:	2201      	movs	r2, #1
+ 80025a2:	701a      	strb	r2, [r3, #0]
+           }
     }
 
     last_triangle = btnStatus.triangle;
- 80024c4:	4b6c      	ldr	r3, [pc, #432]	@ (8002678 <auto_staff_arm_control+0x224>)
- 80024c6:	781b      	ldrb	r3, [r3, #0]
- 80024c8:	f3c3 1300 	ubfx	r3, r3, #4, #1
- 80024cc:	b2db      	uxtb	r3, r3
- 80024ce:	2b00      	cmp	r3, #0
- 80024d0:	bf14      	ite	ne
- 80024d2:	2301      	movne	r3, #1
- 80024d4:	2300      	moveq	r3, #0
- 80024d6:	b2da      	uxtb	r2, r3
- 80024d8:	4b68      	ldr	r3, [pc, #416]	@ (800267c <auto_staff_arm_control+0x228>)
- 80024da:	701a      	strb	r2, [r3, #0]
-
-    if(btnStatus.down && !last_down)
- 80024dc:	4b66      	ldr	r3, [pc, #408]	@ (8002678 <auto_staff_arm_control+0x224>)
- 80024de:	781b      	ldrb	r3, [r3, #0]
- 80024e0:	f003 0302 	and.w	r3, r3, #2
- 80024e4:	b2db      	uxtb	r3, r3
- 80024e6:	2b00      	cmp	r3, #0
- 80024e8:	d00b      	beq.n	8002502 <auto_staff_arm_control+0xae>
- 80024ea:	4b6a      	ldr	r3, [pc, #424]	@ (8002694 <auto_staff_arm_control+0x240>)
- 80024ec:	781b      	ldrb	r3, [r3, #0]
- 80024ee:	f083 0301 	eor.w	r3, r3, #1
- 80024f2:	b2db      	uxtb	r3, r3
- 80024f4:	2b00      	cmp	r3, #0
- 80024f6:	d004      	beq.n	8002502 <auto_staff_arm_control+0xae>
-    {
-        STEPPER_ALIGN -= 50;
- 80024f8:	4b62      	ldr	r3, [pc, #392]	@ (8002684 <auto_staff_arm_control+0x230>)
- 80024fa:	681b      	ldr	r3, [r3, #0]
- 80024fc:	3b32      	subs	r3, #50	@ 0x32
- 80024fe:	4a61      	ldr	r2, [pc, #388]	@ (8002684 <auto_staff_arm_control+0x230>)
- 8002500:	6013      	str	r3, [r2, #0]
-//        Servo_WriteAngle_168Mhz(&STAFF_ARM_P3_TI    M_N, STAFF_ARM_P3_PULSE, SERVO_DOCK);
-    }
-
-    if(btnStatus.up && !last_up)
- 8002502:	4b5d      	ldr	r3, [pc, #372]	@ (8002678 <auto_staff_arm_control+0x224>)
- 8002504:	781b      	ldrb	r3, [r3, #0]
- 8002506:	f003 0301 	and.w	r3, r3, #1
- 800250a:	b2db      	uxtb	r3, r3
- 800250c:	2b00      	cmp	r3, #0
- 800250e:	d00b      	beq.n	8002528 <auto_staff_arm_control+0xd4>
- 8002510:	4b61      	ldr	r3, [pc, #388]	@ (8002698 <auto_staff_arm_control+0x244>)
- 8002512:	781b      	ldrb	r3, [r3, #0]
- 8002514:	f083 0301 	eor.w	r3, r3, #1
- 8002518:	b2db      	uxtb	r3, r3
- 800251a:	2b00      	cmp	r3, #0
- 800251c:	d004      	beq.n	8002528 <auto_staff_arm_control+0xd4>
-    {
-        STEPPER_ALIGN += 50;
- 800251e:	4b59      	ldr	r3, [pc, #356]	@ (8002684 <auto_staff_arm_control+0x230>)
- 8002520:	681b      	ldr	r3, [r3, #0]
- 8002522:	3332      	adds	r3, #50	@ 0x32
- 8002524:	4a57      	ldr	r2, [pc, #348]	@ (8002684 <auto_staff_arm_control+0x230>)
- 8002526:	6013      	str	r3, [r2, #0]
-    }
-
+ 80025a4:	4b63      	ldr	r3, [pc, #396]	@ (8002734 <auto_staff_arm_control+0x200>)
+ 80025a6:	781b      	ldrb	r3, [r3, #0]
+ 80025a8:	f3c3 1300 	ubfx	r3, r3, #4, #1
+ 80025ac:	b2db      	uxtb	r3, r3
+ 80025ae:	2b00      	cmp	r3, #0
+ 80025b0:	bf14      	ite	ne
+ 80025b2:	2301      	movne	r3, #1
+ 80025b4:	2300      	moveq	r3, #0
+ 80025b6:	b2da      	uxtb	r2, r3
+ 80025b8:	4b5f      	ldr	r3, [pc, #380]	@ (8002738 <auto_staff_arm_control+0x204>)
+ 80025ba:	701a      	strb	r2, [r3, #0]
+//    if(btnStatus.up && !last_up)
+//    {
+//        STEPPER_ALIGN += 10;
+//    }
+//
     if(btnStatus.square && !last_square)
- 8002528:	4b53      	ldr	r3, [pc, #332]	@ (8002678 <auto_staff_arm_control+0x224>)
- 800252a:	781b      	ldrb	r3, [r3, #0]
- 800252c:	f003 0340 	and.w	r3, r3, #64	@ 0x40
- 8002530:	b2db      	uxtb	r3, r3
- 8002532:	2b00      	cmp	r3, #0
- 8002534:	d00c      	beq.n	8002550 <auto_staff_arm_control+0xfc>
- 8002536:	4b59      	ldr	r3, [pc, #356]	@ (800269c <auto_staff_arm_control+0x248>)
- 8002538:	781b      	ldrb	r3, [r3, #0]
- 800253a:	f083 0301 	eor.w	r3, r3, #1
- 800253e:	b2db      	uxtb	r3, r3
- 8002540:	2b00      	cmp	r3, #0
- 8002542:	d005      	beq.n	8002550 <auto_staff_arm_control+0xfc>
+ 80025bc:	4b5d      	ldr	r3, [pc, #372]	@ (8002734 <auto_staff_arm_control+0x200>)
+ 80025be:	781b      	ldrb	r3, [r3, #0]
+ 80025c0:	f003 0340 	and.w	r3, r3, #64	@ 0x40
+ 80025c4:	b2db      	uxtb	r3, r3
+ 80025c6:	2b00      	cmp	r3, #0
+ 80025c8:	d00c      	beq.n	80025e4 <auto_staff_arm_control+0xb0>
+ 80025ca:	4b61      	ldr	r3, [pc, #388]	@ (8002750 <auto_staff_arm_control+0x21c>)
+ 80025cc:	781b      	ldrb	r3, [r3, #0]
+ 80025ce:	f083 0301 	eor.w	r3, r3, #1
+ 80025d2:	b2db      	uxtb	r3, r3
+ 80025d4:	2b00      	cmp	r3, #0
+ 80025d6:	d005      	beq.n	80025e4 <auto_staff_arm_control+0xb0>
 	 {
 		 STEPPER_ALIGN = STEPPER_INITIAL;
- 8002544:	4b4f      	ldr	r3, [pc, #316]	@ (8002684 <auto_staff_arm_control+0x230>)
- 8002546:	2200      	movs	r2, #0
- 8002548:	601a      	str	r2, [r3, #0]
+ 80025d8:	4b59      	ldr	r3, [pc, #356]	@ (8002740 <auto_staff_arm_control+0x20c>)
+ 80025da:	2200      	movs	r2, #0
+ 80025dc:	601a      	str	r2, [r3, #0]
 	     SERVO_ALIGN = SERVO_INITIAL;
- 800254a:	4b4f      	ldr	r3, [pc, #316]	@ (8002688 <auto_staff_arm_control+0x234>)
- 800254c:	2280      	movs	r2, #128	@ 0x80
- 800254e:	601a      	str	r2, [r3, #0]
-	    	}
-    if(btnStatus.cross && !last_cross)
- 8002550:	4b49      	ldr	r3, [pc, #292]	@ (8002678 <auto_staff_arm_control+0x224>)
- 8002552:	781b      	ldrb	r3, [r3, #0]
- 8002554:	f003 0320 	and.w	r3, r3, #32
- 8002558:	b2db      	uxtb	r3, r3
- 800255a:	2b00      	cmp	r3, #0
- 800255c:	d00d      	beq.n	800257a <auto_staff_arm_control+0x126>
- 800255e:	4b50      	ldr	r3, [pc, #320]	@ (80026a0 <auto_staff_arm_control+0x24c>)
- 8002560:	781b      	ldrb	r3, [r3, #0]
- 8002562:	f083 0301 	eor.w	r3, r3, #1
- 8002566:	b2db      	uxtb	r3, r3
- 8002568:	2b00      	cmp	r3, #0
- 800256a:	d006      	beq.n	800257a <auto_staff_arm_control+0x126>
-    {
-        STEPPER_ALIGN = STEPPER_DROP;
- 800256c:	4b45      	ldr	r3, [pc, #276]	@ (8002684 <auto_staff_arm_control+0x230>)
- 800256e:	f640 0225 	movw	r2, #2085	@ 0x825
- 8002572:	601a      	str	r2, [r3, #0]
-        SERVO_ALIGN   = SERVO_DOCK;
- 8002574:	4b44      	ldr	r3, [pc, #272]	@ (8002688 <auto_staff_arm_control+0x234>)
- 8002576:	2280      	movs	r2, #128	@ 0x80
- 8002578:	601a      	str	r2, [r3, #0]
+ 80025de:	4b59      	ldr	r3, [pc, #356]	@ (8002744 <auto_staff_arm_control+0x210>)
+ 80025e0:	2280      	movs	r2, #128	@ 0x80
+ 80025e2:	601a      	str	r2, [r3, #0]
 //    if(!btnStatus.cross)
 //    {
 //        crossPressed = false;
 //    }
-//
-          last_up = btnStatus.up;
- 800257a:	4b3f      	ldr	r3, [pc, #252]	@ (8002678 <auto_staff_arm_control+0x224>)
- 800257c:	781b      	ldrb	r3, [r3, #0]
- 800257e:	f3c3 0300 	ubfx	r3, r3, #0, #1
- 8002582:	b2db      	uxtb	r3, r3
- 8002584:	2b00      	cmp	r3, #0
- 8002586:	bf14      	ite	ne
- 8002588:	2301      	movne	r3, #1
- 800258a:	2300      	moveq	r3, #0
- 800258c:	b2da      	uxtb	r2, r3
- 800258e:	4b42      	ldr	r3, [pc, #264]	@ (8002698 <auto_staff_arm_control+0x244>)
- 8002590:	701a      	strb	r2, [r3, #0]
-          last_down = btnStatus.down;
- 8002592:	4b39      	ldr	r3, [pc, #228]	@ (8002678 <auto_staff_arm_control+0x224>)
- 8002594:	781b      	ldrb	r3, [r3, #0]
- 8002596:	f3c3 0340 	ubfx	r3, r3, #1, #1
- 800259a:	b2db      	uxtb	r3, r3
- 800259c:	2b00      	cmp	r3, #0
- 800259e:	bf14      	ite	ne
- 80025a0:	2301      	movne	r3, #1
- 80025a2:	2300      	moveq	r3, #0
- 80025a4:	b2da      	uxtb	r2, r3
- 80025a6:	4b3b      	ldr	r3, [pc, #236]	@ (8002694 <auto_staff_arm_control+0x240>)
- 80025a8:	701a      	strb	r2, [r3, #0]
-	      last_triangle = btnStatus.triangle;
- 80025aa:	4b33      	ldr	r3, [pc, #204]	@ (8002678 <auto_staff_arm_control+0x224>)
- 80025ac:	781b      	ldrb	r3, [r3, #0]
- 80025ae:	f3c3 1300 	ubfx	r3, r3, #4, #1
- 80025b2:	b2db      	uxtb	r3, r3
- 80025b4:	2b00      	cmp	r3, #0
- 80025b6:	bf14      	ite	ne
- 80025b8:	2301      	movne	r3, #1
- 80025ba:	2300      	moveq	r3, #0
- 80025bc:	b2da      	uxtb	r2, r3
- 80025be:	4b2f      	ldr	r3, [pc, #188]	@ (800267c <auto_staff_arm_control+0x228>)
- 80025c0:	701a      	strb	r2, [r3, #0]
-	      last_square = btnStatus.square;
- 80025c2:	4b2d      	ldr	r3, [pc, #180]	@ (8002678 <auto_staff_arm_control+0x224>)
- 80025c4:	781b      	ldrb	r3, [r3, #0]
- 80025c6:	f3c3 1380 	ubfx	r3, r3, #6, #1
- 80025ca:	b2db      	uxtb	r3, r3
- 80025cc:	2b00      	cmp	r3, #0
- 80025ce:	bf14      	ite	ne
- 80025d0:	2301      	movne	r3, #1
- 80025d2:	2300      	moveq	r3, #0
- 80025d4:	b2da      	uxtb	r2, r3
- 80025d6:	4b31      	ldr	r3, [pc, #196]	@ (800269c <auto_staff_arm_control+0x248>)
- 80025d8:	701a      	strb	r2, [r3, #0]
-	      last_cross = btnStatus.cross;
- 80025da:	4b27      	ldr	r3, [pc, #156]	@ (8002678 <auto_staff_arm_control+0x224>)
- 80025dc:	781b      	ldrb	r3, [r3, #0]
- 80025de:	f3c3 1340 	ubfx	r3, r3, #5, #1
- 80025e2:	b2db      	uxtb	r3, r3
- 80025e4:	2b00      	cmp	r3, #0
- 80025e6:	bf14      	ite	ne
- 80025e8:	2301      	movne	r3, #1
- 80025ea:	2300      	moveq	r3, #0
- 80025ec:	b2da      	uxtb	r2, r3
- 80025ee:	4b2c      	ldr	r3, [pc, #176]	@ (80026a0 <auto_staff_arm_control+0x24c>)
- 80025f0:	701a      	strb	r2, [r3, #0]
 
-	    // --------------------------------------------------
+	      last_triangle = btnStatus.triangle;
+ 80025e4:	4b53      	ldr	r3, [pc, #332]	@ (8002734 <auto_staff_arm_control+0x200>)
+ 80025e6:	781b      	ldrb	r3, [r3, #0]
+ 80025e8:	f3c3 1300 	ubfx	r3, r3, #4, #1
+ 80025ec:	b2db      	uxtb	r3, r3
+ 80025ee:	2b00      	cmp	r3, #0
+ 80025f0:	bf14      	ite	ne
+ 80025f2:	2301      	movne	r3, #1
+ 80025f4:	2300      	moveq	r3, #0
+ 80025f6:	b2da      	uxtb	r2, r3
+ 80025f8:	4b4f      	ldr	r3, [pc, #316]	@ (8002738 <auto_staff_arm_control+0x204>)
+ 80025fa:	701a      	strb	r2, [r3, #0]
+	      last_square = btnStatus.square;
+ 80025fc:	4b4d      	ldr	r3, [pc, #308]	@ (8002734 <auto_staff_arm_control+0x200>)
+ 80025fe:	781b      	ldrb	r3, [r3, #0]
+ 8002600:	f3c3 1380 	ubfx	r3, r3, #6, #1
+ 8002604:	b2db      	uxtb	r3, r3
+ 8002606:	2b00      	cmp	r3, #0
+ 8002608:	bf14      	ite	ne
+ 800260a:	2301      	movne	r3, #1
+ 800260c:	2300      	moveq	r3, #0
+ 800260e:	b2da      	uxtb	r2, r3
+ 8002610:	4b4f      	ldr	r3, [pc, #316]	@ (8002750 <auto_staff_arm_control+0x21c>)
+ 8002612:	701a      	strb	r2, [r3, #0]
+
+	    // -------------------------------  -------------------
 	    // Auto Move To Position
 	    // --------------------------------------------------
 
 	    if(current_steps_1 < STEPPER_ALIGN)
- 80025f2:	4b2c      	ldr	r3, [pc, #176]	@ (80026a4 <auto_staff_arm_control+0x250>)
- 80025f4:	681a      	ldr	r2, [r3, #0]
- 80025f6:	4b23      	ldr	r3, [pc, #140]	@ (8002684 <auto_staff_arm_control+0x230>)
- 80025f8:	681b      	ldr	r3, [r3, #0]
- 80025fa:	429a      	cmp	r2, r3
- 80025fc:	da1a      	bge.n	8002634 <auto_staff_arm_control+0x1e0>
+ 8002614:	4b4f      	ldr	r3, [pc, #316]	@ (8002754 <auto_staff_arm_control+0x220>)
+ 8002616:	681a      	ldr	r2, [r3, #0]
+ 8002618:	4b49      	ldr	r3, [pc, #292]	@ (8002740 <auto_staff_arm_control+0x20c>)
+ 800261a:	681b      	ldr	r3, [r3, #0]
+ 800261c:	429a      	cmp	r2, r3
+ 800261e:	da1a      	bge.n	8002656 <auto_staff_arm_control+0x122>
 	    {
 	        Stepper_SetDirection(
- 80025fe:	2200      	movs	r2, #0
- 8002600:	f44f 5180 	mov.w	r1, #4096	@ 0x1000
- 8002604:	4828      	ldr	r0, [pc, #160]	@ (80026a8 <auto_staff_arm_control+0x254>)
- 8002606:	f001 f86b 	bl	80036e0 <Stepper_SetDirection>
+ 8002620:	2200      	movs	r2, #0
+ 8002622:	f44f 5180 	mov.w	r1, #4096	@ 0x1000
+ 8002626:	484c      	ldr	r0, [pc, #304]	@ (8002758 <auto_staff_arm_control+0x224>)
+ 8002628:	f001 f85a 	bl	80036e0 <Stepper_SetDirection>
 	            STAFF_ARM_P1_DIR_PORT,
 	            STAFF_ARM_P1_DIR_PIN,
 	            CCW);
 
 	        if(!pwm_running)
- 800260a:	4b28      	ldr	r3, [pc, #160]	@ (80026ac <auto_staff_arm_control+0x258>)
- 800260c:	781b      	ldrb	r3, [r3, #0]
- 800260e:	f083 0301 	eor.w	r3, r3, #1
- 8002612:	b2db      	uxtb	r3, r3
- 8002614:	2b00      	cmp	r3, #0
- 8002616:	d058      	beq.n	80026ca <auto_staff_arm_control+0x276>
+ 800262c:	4b4b      	ldr	r3, [pc, #300]	@ (800275c <auto_staff_arm_control+0x228>)
+ 800262e:	781b      	ldrb	r3, [r3, #0]
+ 8002630:	f083 0301 	eor.w	r3, r3, #1
+ 8002634:	b2db      	uxtb	r3, r3
+ 8002636:	2b00      	cmp	r3, #0
+ 8002638:	d039      	beq.n	80026ae <auto_staff_arm_control+0x17a>
 	        {
 	            Stepper_SetSpeed(
- 8002618:	f241 7270 	movw	r2, #6000	@ 0x1770
- 800261c:	2108      	movs	r1, #8
- 800261e:	4824      	ldr	r0, [pc, #144]	@ (80026b0 <auto_staff_arm_control+0x25c>)
- 8002620:	f001 f876 	bl	8003710 <Stepper_SetSpeed>
+ 800263a:	f241 7270 	movw	r2, #6000	@ 0x1770
+ 800263e:	2108      	movs	r1, #8
+ 8002640:	4847      	ldr	r0, [pc, #284]	@ (8002760 <auto_staff_arm_control+0x22c>)
+ 8002642:	f001 f865 	bl	8003710 <Stepper_SetSpeed>
 	                &STAFF_ARM_P1_TIM_N,
 	                STAFF_ARM_P1_PULSE,
 	                STAFF_ARM_STEPPER_SPEED_HZ);
 
 	            HAL_TIM_PWM_Start(
- 8002624:	2108      	movs	r1, #8
- 8002626:	4822      	ldr	r0, [pc, #136]	@ (80026b0 <auto_staff_arm_control+0x25c>)
- 8002628:	f005 f94a 	bl	80078c0 <HAL_TIM_PWM_Start>
+ 8002646:	2108      	movs	r1, #8
+ 8002648:	4845      	ldr	r0, [pc, #276]	@ (8002760 <auto_staff_arm_control+0x22c>)
+ 800264a:	f005 f939 	bl	80078c0 <HAL_TIM_PWM_Start>
 	                &STAFF_ARM_P1_TIM_N,
 	                STAFF_ARM_P1_PULSE);
 
 	            pwm_running = true;
- 800262c:	4b1f      	ldr	r3, [pc, #124]	@ (80026ac <auto_staff_arm_control+0x258>)
- 800262e:	2201      	movs	r2, #1
- 8002630:	701a      	strb	r2, [r3, #0]
- 8002632:	e04a      	b.n	80026ca <auto_staff_arm_control+0x276>
+ 800264e:	4b43      	ldr	r3, [pc, #268]	@ (800275c <auto_staff_arm_control+0x228>)
+ 8002650:	2201      	movs	r2, #1
+ 8002652:	701a      	strb	r2, [r3, #0]
+ 8002654:	e02b      	b.n	80026ae <auto_staff_arm_control+0x17a>
 	        }
 	    }
 	    else if(current_steps_1 > STEPPER_ALIGN)
- 8002634:	4b1b      	ldr	r3, [pc, #108]	@ (80026a4 <auto_staff_arm_control+0x250>)
- 8002636:	681a      	ldr	r2, [r3, #0]
- 8002638:	4b12      	ldr	r3, [pc, #72]	@ (8002684 <auto_staff_arm_control+0x230>)
- 800263a:	681b      	ldr	r3, [r3, #0]
- 800263c:	429a      	cmp	r2, r3
- 800263e:	dd39      	ble.n	80026b4 <auto_staff_arm_control+0x260>
+ 8002656:	4b3f      	ldr	r3, [pc, #252]	@ (8002754 <auto_staff_arm_control+0x220>)
+ 8002658:	681a      	ldr	r2, [r3, #0]
+ 800265a:	4b39      	ldr	r3, [pc, #228]	@ (8002740 <auto_staff_arm_control+0x20c>)
+ 800265c:	681b      	ldr	r3, [r3, #0]
+ 800265e:	429a      	cmp	r2, r3
+ 8002660:	dd1a      	ble.n	8002698 <auto_staff_arm_control+0x164>
 	    {
 	        Stepper_SetDirection(
- 8002640:	2201      	movs	r2, #1
- 8002642:	f44f 5180 	mov.w	r1, #4096	@ 0x1000
- 8002646:	4818      	ldr	r0, [pc, #96]	@ (80026a8 <auto_staff_arm_control+0x254>)
- 8002648:	f001 f84a 	bl	80036e0 <Stepper_SetDirection>
+ 8002662:	2201      	movs	r2, #1
+ 8002664:	f44f 5180 	mov.w	r1, #4096	@ 0x1000
+ 8002668:	483b      	ldr	r0, [pc, #236]	@ (8002758 <auto_staff_arm_control+0x224>)
+ 800266a:	f001 f839 	bl	80036e0 <Stepper_SetDirection>
 	            STAFF_ARM_P1_DIR_PORT,
 	            STAFF_ARM_P1_DIR_PIN,
 	            CW);
 
 	        if(!pwm_running)
- 800264c:	4b17      	ldr	r3, [pc, #92]	@ (80026ac <auto_staff_arm_control+0x258>)
- 800264e:	781b      	ldrb	r3, [r3, #0]
- 8002650:	f083 0301 	eor.w	r3, r3, #1
- 8002654:	b2db      	uxtb	r3, r3
- 8002656:	2b00      	cmp	r3, #0
- 8002658:	d037      	beq.n	80026ca <auto_staff_arm_control+0x276>
+ 800266e:	4b3b      	ldr	r3, [pc, #236]	@ (800275c <auto_staff_arm_control+0x228>)
+ 8002670:	781b      	ldrb	r3, [r3, #0]
+ 8002672:	f083 0301 	eor.w	r3, r3, #1
+ 8002676:	b2db      	uxtb	r3, r3
+ 8002678:	2b00      	cmp	r3, #0
+ 800267a:	d018      	beq.n	80026ae <auto_staff_arm_control+0x17a>
 	        {
 	            Stepper_SetSpeed(
- 800265a:	f241 7270 	movw	r2, #6000	@ 0x1770
- 800265e:	2108      	movs	r1, #8
- 8002660:	4813      	ldr	r0, [pc, #76]	@ (80026b0 <auto_staff_arm_control+0x25c>)
- 8002662:	f001 f855 	bl	8003710 <Stepper_SetSpeed>
+ 800267c:	f241 7270 	movw	r2, #6000	@ 0x1770
+ 8002680:	2108      	movs	r1, #8
+ 8002682:	4837      	ldr	r0, [pc, #220]	@ (8002760 <auto_staff_arm_control+0x22c>)
+ 8002684:	f001 f844 	bl	8003710 <Stepper_SetSpeed>
 	                &STAFF_ARM_P1_TIM_N,
 	                STAFF_ARM_P1_PULSE,
 	                STAFF_ARM_STEPPER_SPEED_HZ);
 
 	            HAL_TIM_PWM_Start(
- 8002666:	2108      	movs	r1, #8
- 8002668:	4811      	ldr	r0, [pc, #68]	@ (80026b0 <auto_staff_arm_control+0x25c>)
- 800266a:	f005 f929 	bl	80078c0 <HAL_TIM_PWM_Start>
+ 8002688:	2108      	movs	r1, #8
+ 800268a:	4835      	ldr	r0, [pc, #212]	@ (8002760 <auto_staff_arm_control+0x22c>)
+ 800268c:	f005 f918 	bl	80078c0 <HAL_TIM_PWM_Start>
 	                &STAFF_ARM_P1_TIM_N,
 	                STAFF_ARM_P1_PULSE);
 
 	            pwm_running = true;
- 800266e:	4b0f      	ldr	r3, [pc, #60]	@ (80026ac <auto_staff_arm_control+0x258>)
- 8002670:	2201      	movs	r2, #1
- 8002672:	701a      	strb	r2, [r3, #0]
- 8002674:	e029      	b.n	80026ca <auto_staff_arm_control+0x276>
- 8002676:	bf00      	nop
- 8002678:	20000574 	.word	0x20000574
- 800267c:	2000052a 	.word	0x2000052a
- 8002680:	2000052b 	.word	0x2000052b
- 8002684:	20000524 	.word	0x20000524
- 8002688:	20000520 	.word	0x20000520
- 800268c:	fffffa24 	.word	0xfffffa24
- 8002690:	2000052c 	.word	0x2000052c
- 8002694:	2000052d 	.word	0x2000052d
- 8002698:	2000052e 	.word	0x2000052e
- 800269c:	2000052f 	.word	0x2000052f
- 80026a0:	20000530 	.word	0x20000530
- 80026a4:	2000051c 	.word	0x2000051c
- 80026a8:	40021000 	.word	0x40021000
- 80026ac:	20000529 	.word	0x20000529
- 80026b0:	200003f8 	.word	0x200003f8
+ 8002690:	4b32      	ldr	r3, [pc, #200]	@ (800275c <auto_staff_arm_control+0x228>)
+ 8002692:	2201      	movs	r2, #1
+ 8002694:	701a      	strb	r2, [r3, #0]
+ 8002696:	e00a      	b.n	80026ae <auto_staff_arm_control+0x17a>
 	        }
 	    }
 	    else
 	    {
 	        if(pwm_running)
- 80026b4:	4b26      	ldr	r3, [pc, #152]	@ (8002750 <auto_staff_arm_control+0x2fc>)
- 80026b6:	781b      	ldrb	r3, [r3, #0]
- 80026b8:	2b00      	cmp	r3, #0
- 80026ba:	d006      	beq.n	80026ca <auto_staff_arm_control+0x276>
+ 8002698:	4b30      	ldr	r3, [pc, #192]	@ (800275c <auto_staff_arm_control+0x228>)
+ 800269a:	781b      	ldrb	r3, [r3, #0]
+ 800269c:	2b00      	cmp	r3, #0
+ 800269e:	d006      	beq.n	80026ae <auto_staff_arm_control+0x17a>
 	        {
 	            HAL_TIM_PWM_Stop(
- 80026bc:	2108      	movs	r1, #8
- 80026be:	4825      	ldr	r0, [pc, #148]	@ (8002754 <auto_staff_arm_control+0x300>)
- 80026c0:	f005 f9c6 	bl	8007a50 <HAL_TIM_PWM_Stop>
+ 80026a0:	2108      	movs	r1, #8
+ 80026a2:	482f      	ldr	r0, [pc, #188]	@ (8002760 <auto_staff_arm_control+0x22c>)
+ 80026a4:	f005 f9d4 	bl	8007a50 <HAL_TIM_PWM_Stop>
 	                &STAFF_ARM_P1_TIM_N,
 	                STAFF_ARM_P1_PULSE);
 
 	            pwm_running = false;
- 80026c4:	4b22      	ldr	r3, [pc, #136]	@ (8002750 <auto_staff_arm_control+0x2fc>)
- 80026c6:	2200      	movs	r2, #0
- 80026c8:	701a      	strb	r2, [r3, #0]
+ 80026a8:	4b2c      	ldr	r3, [pc, #176]	@ (800275c <auto_staff_arm_control+0x228>)
+ 80026aa:	2200      	movs	r2, #0
+ 80026ac:	701a      	strb	r2, [r3, #0]
 	        }
 	    }
 
 	    if(now - last_step_tick >= 1)
- 80026ca:	4b23      	ldr	r3, [pc, #140]	@ (8002758 <auto_staff_arm_control+0x304>)
- 80026cc:	681b      	ldr	r3, [r3, #0]
- 80026ce:	687a      	ldr	r2, [r7, #4]
- 80026d0:	429a      	cmp	r2, r3
- 80026d2:	d039      	beq.n	8002748 <auto_staff_arm_control+0x2f4>
+ 80026ae:	4b2d      	ldr	r3, [pc, #180]	@ (8002764 <auto_staff_arm_control+0x230>)
+ 80026b0:	681b      	ldr	r3, [r3, #0]
+ 80026b2:	687a      	ldr	r2, [r7, #4]
+ 80026b4:	429a      	cmp	r2, r3
+ 80026b6:	d039      	beq.n	800272c <auto_staff_arm_control+0x1f8>
 	    {
 	        last_step_tick = now;
- 80026d4:	4a20      	ldr	r2, [pc, #128]	@ (8002758 <auto_staff_arm_control+0x304>)
- 80026d6:	687b      	ldr	r3, [r7, #4]
- 80026d8:	6013      	str	r3, [r2, #0]
+ 80026b8:	4a2a      	ldr	r2, [pc, #168]	@ (8002764 <auto_staff_arm_control+0x230>)
+ 80026ba:	687b      	ldr	r3, [r7, #4]
+ 80026bc:	6013      	str	r3, [r2, #0]
 
 	        if(pwm_running)
- 80026da:	4b1d      	ldr	r3, [pc, #116]	@ (8002750 <auto_staff_arm_control+0x2fc>)
- 80026dc:	781b      	ldrb	r3, [r3, #0]
- 80026de:	2b00      	cmp	r3, #0
- 80026e0:	d032      	beq.n	8002748 <auto_staff_arm_control+0x2f4>
+ 80026be:	4b27      	ldr	r3, [pc, #156]	@ (800275c <auto_staff_arm_control+0x228>)
+ 80026c0:	781b      	ldrb	r3, [r3, #0]
+ 80026c2:	2b00      	cmp	r3, #0
+ 80026c4:	d032      	beq.n	800272c <auto_staff_arm_control+0x1f8>
 	        {
 	            if(current_steps_1 < STEPPER_ALIGN) {
- 80026e2:	4b1e      	ldr	r3, [pc, #120]	@ (800275c <auto_staff_arm_control+0x308>)
- 80026e4:	681a      	ldr	r2, [r3, #0]
- 80026e6:	4b1e      	ldr	r3, [pc, #120]	@ (8002760 <auto_staff_arm_control+0x30c>)
- 80026e8:	681b      	ldr	r3, [r3, #0]
- 80026ea:	429a      	cmp	r2, r3
- 80026ec:	da0f      	bge.n	800270e <auto_staff_arm_control+0x2ba>
+ 80026c6:	4b23      	ldr	r3, [pc, #140]	@ (8002754 <auto_staff_arm_control+0x220>)
+ 80026c8:	681a      	ldr	r2, [r3, #0]
+ 80026ca:	4b1d      	ldr	r3, [pc, #116]	@ (8002740 <auto_staff_arm_control+0x20c>)
+ 80026cc:	681b      	ldr	r3, [r3, #0]
+ 80026ce:	429a      	cmp	r2, r3
+ 80026d0:	da0f      	bge.n	80026f2 <auto_staff_arm_control+0x1be>
 	                current_steps_1++;
- 80026ee:	4b1b      	ldr	r3, [pc, #108]	@ (800275c <auto_staff_arm_control+0x308>)
- 80026f0:	681b      	ldr	r3, [r3, #0]
- 80026f2:	3301      	adds	r3, #1
- 80026f4:	4a19      	ldr	r2, [pc, #100]	@ (800275c <auto_staff_arm_control+0x308>)
- 80026f6:	6013      	str	r3, [r2, #0]
+ 80026d2:	4b20      	ldr	r3, [pc, #128]	@ (8002754 <auto_staff_arm_control+0x220>)
+ 80026d4:	681b      	ldr	r3, [r3, #0]
+ 80026d6:	3301      	adds	r3, #1
+ 80026d8:	4a1e      	ldr	r2, [pc, #120]	@ (8002754 <auto_staff_arm_control+0x220>)
+ 80026da:	6013      	str	r3, [r2, #0]
 
 	                if(current_steps_1 > 1000)
- 80026f8:	4b18      	ldr	r3, [pc, #96]	@ (800275c <auto_staff_arm_control+0x308>)
- 80026fa:	681b      	ldr	r3, [r3, #0]
- 80026fc:	f5b3 7f7a 	cmp.w	r3, #1000	@ 0x3e8
- 8002700:	dd22      	ble.n	8002748 <auto_staff_arm_control+0x2f4>
+ 80026dc:	4b1d      	ldr	r3, [pc, #116]	@ (8002754 <auto_staff_arm_control+0x220>)
+ 80026de:	681b      	ldr	r3, [r3, #0]
+ 80026e0:	f5b3 7f7a 	cmp.w	r3, #1000	@ 0x3e8
+ 80026e4:	dd22      	ble.n	800272c <auto_staff_arm_control+0x1f8>
 	                	   {
 	                			Servo_WriteAngle_168Mhz(&STAFF_ARM_P3_TIM_N, STAFF_ARM_P3_PULSE,SERVO_TAKE);
- 8002702:	222a      	movs	r2, #42	@ 0x2a
- 8002704:	2104      	movs	r1, #4
- 8002706:	4817      	ldr	r0, [pc, #92]	@ (8002764 <auto_staff_arm_control+0x310>)
- 8002708:	f000 ff7a 	bl	8003600 <Servo_WriteAngle_168Mhz>
+ 80026e6:	222a      	movs	r2, #42	@ 0x2a
+ 80026e8:	2104      	movs	r1, #4
+ 80026ea:	481f      	ldr	r0, [pc, #124]	@ (8002768 <auto_staff_arm_control+0x234>)
+ 80026ec:	f000 ff88 	bl	8003600 <Servo_WriteAngle_168Mhz>
 //
 //	        	        last_servo_tick = now;
 //	        	    }
 	            }
 	        }
 	    }
- 800270c:	e01c      	b.n	8002748 <auto_staff_arm_control+0x2f4>
+ 80026f0:	e01c      	b.n	800272c <auto_staff_arm_control+0x1f8>
 	            else if(current_steps_1 > STEPPER_ALIGN) {
- 800270e:	4b13      	ldr	r3, [pc, #76]	@ (800275c <auto_staff_arm_control+0x308>)
- 8002710:	681a      	ldr	r2, [r3, #0]
- 8002712:	4b13      	ldr	r3, [pc, #76]	@ (8002760 <auto_staff_arm_control+0x30c>)
- 8002714:	681b      	ldr	r3, [r3, #0]
- 8002716:	429a      	cmp	r2, r3
- 8002718:	dd16      	ble.n	8002748 <auto_staff_arm_control+0x2f4>
+ 80026f2:	4b18      	ldr	r3, [pc, #96]	@ (8002754 <auto_staff_arm_control+0x220>)
+ 80026f4:	681a      	ldr	r2, [r3, #0]
+ 80026f6:	4b12      	ldr	r3, [pc, #72]	@ (8002740 <auto_staff_arm_control+0x20c>)
+ 80026f8:	681b      	ldr	r3, [r3, #0]
+ 80026fa:	429a      	cmp	r2, r3
+ 80026fc:	dd16      	ble.n	800272c <auto_staff_arm_control+0x1f8>
 	                current_steps_1--;
- 800271a:	4b10      	ldr	r3, [pc, #64]	@ (800275c <auto_staff_arm_control+0x308>)
- 800271c:	681b      	ldr	r3, [r3, #0]
- 800271e:	3b01      	subs	r3, #1
- 8002720:	4a0e      	ldr	r2, [pc, #56]	@ (800275c <auto_staff_arm_control+0x308>)
- 8002722:	6013      	str	r3, [r2, #0]
+ 80026fe:	4b15      	ldr	r3, [pc, #84]	@ (8002754 <auto_staff_arm_control+0x220>)
+ 8002700:	681b      	ldr	r3, [r3, #0]
+ 8002702:	3b01      	subs	r3, #1
+ 8002704:	4a13      	ldr	r2, [pc, #76]	@ (8002754 <auto_staff_arm_control+0x220>)
+ 8002706:	6013      	str	r3, [r2, #0]
 	                if(returnServoPending &&
- 8002724:	4b10      	ldr	r3, [pc, #64]	@ (8002768 <auto_staff_arm_control+0x314>)
- 8002726:	781b      	ldrb	r3, [r3, #0]
- 8002728:	2b00      	cmp	r3, #0
- 800272a:	d00d      	beq.n	8002748 <auto_staff_arm_control+0x2f4>
+ 8002708:	4b10      	ldr	r3, [pc, #64]	@ (800274c <auto_staff_arm_control+0x218>)
+ 800270a:	781b      	ldrb	r3, [r3, #0]
+ 800270c:	2b00      	cmp	r3, #0
+ 800270e:	d00d      	beq.n	800272c <auto_staff_arm_control+0x1f8>
 	                      current_steps_1 < 3000)
- 800272c:	4b0b      	ldr	r3, [pc, #44]	@ (800275c <auto_staff_arm_control+0x308>)
- 800272e:	681b      	ldr	r3, [r3, #0]
+ 8002710:	4b10      	ldr	r3, [pc, #64]	@ (8002754 <auto_staff_arm_control+0x220>)
+ 8002712:	681b      	ldr	r3, [r3, #0]
 	                if(returnServoPending &&
- 8002730:	f640 32b7 	movw	r2, #2999	@ 0xbb7
- 8002734:	4293      	cmp	r3, r2
- 8002736:	dc07      	bgt.n	8002748 <auto_staff_arm_control+0x2f4>
+ 8002714:	f640 32b7 	movw	r2, #2999	@ 0xbb7
+ 8002718:	4293      	cmp	r3, r2
+ 800271a:	dc07      	bgt.n	800272c <auto_staff_arm_control+0x1f8>
 	                       Servo_WriteAngle_168Mhz(
- 8002738:	2280      	movs	r2, #128	@ 0x80
- 800273a:	2104      	movs	r1, #4
- 800273c:	4809      	ldr	r0, [pc, #36]	@ (8002764 <auto_staff_arm_control+0x310>)
- 800273e:	f000 ff5f 	bl	8003600 <Servo_WriteAngle_168Mhz>
+ 800271c:	2280      	movs	r2, #128	@ 0x80
+ 800271e:	2104      	movs	r1, #4
+ 8002720:	4811      	ldr	r0, [pc, #68]	@ (8002768 <auto_staff_arm_control+0x234>)
+ 8002722:	f000 ff6d 	bl	8003600 <Servo_WriteAngle_168Mhz>
 	                       returnServoPending = false;
- 8002742:	4b09      	ldr	r3, [pc, #36]	@ (8002768 <auto_staff_arm_control+0x314>)
- 8002744:	2200      	movs	r2, #0
- 8002746:	701a      	strb	r2, [r3, #0]
+ 8002726:	4b09      	ldr	r3, [pc, #36]	@ (800274c <auto_staff_arm_control+0x218>)
+ 8002728:	2200      	movs	r2, #0
+ 800272a:	701a      	strb	r2, [r3, #0]
 	    }
- 8002748:	bf00      	nop
- 800274a:	3708      	adds	r7, #8
- 800274c:	46bd      	mov	sp, r7
- 800274e:	bd80      	pop	{r7, pc}
- 8002750:	20000529 	.word	0x20000529
- 8002754:	200003f8 	.word	0x200003f8
- 8002758:	20000534 	.word	0x20000534
- 800275c:	2000051c 	.word	0x2000051c
- 8002760:	20000524 	.word	0x20000524
- 8002764:	20000440 	.word	0x20000440
- 8002768:	2000052c 	.word	0x2000052c
+ 800272c:	bf00      	nop
+ 800272e:	3708      	adds	r7, #8
+ 8002730:	46bd      	mov	sp, r7
+ 8002732:	bd80      	pop	{r7, pc}
+ 8002734:	20000570 	.word	0x20000570
+ 8002738:	2000052a 	.word	0x2000052a
+ 800273c:	2000052b 	.word	0x2000052b
+ 8002740:	20000524 	.word	0x20000524
+ 8002744:	20000520 	.word	0x20000520
+ 8002748:	fffffa24 	.word	0xfffffa24
+ 800274c:	2000052c 	.word	0x2000052c
+ 8002750:	2000052d 	.word	0x2000052d
+ 8002754:	2000051c 	.word	0x2000051c
+ 8002758:	40021000 	.word	0x40021000
+ 800275c:	20000529 	.word	0x20000529
+ 8002760:	200003f8 	.word	0x200003f8
+ 8002764:	20000530 	.word	0x20000530
+ 8002768:	20000440 	.word	0x20000440
 
 0800276c <Pnuematic_OnOff>:
                           GPIO_PIN_SET);
@@ -5099,8 +5126,8 @@ void Pnuematic_OnOff(void) {
  80027e6:	bf00      	nop
  80027e8:	bd80      	pop	{r7, pc}
  80027ea:	bf00      	nop
- 80027ec:	20000574 	.word	0x20000574
- 80027f0:	20000538 	.word	0x20000538
+ 80027ec:	20000570 	.word	0x20000570
+ 80027f0:	20000534 	.word	0x20000534
  80027f4:	20000528 	.word	0x20000528
  80027f8:	40020c00 	.word	0x40020c00
 
@@ -6247,7 +6274,7 @@ void OTG_FS_IRQHandler(void)
  8002e8e:	bf00      	nop
  8002e90:	bd80      	pop	{r7, pc}
  8002e92:	bf00      	nop
- 8002e94:	20000988 	.word	0x20000988
+ 8002e94:	20000984 	.word	0x20000984
 
 08002e98 <HAL_UART_RxCpltCallback>:
 /* USER CODE BEGIN 1 */
@@ -6635,8 +6662,8 @@ void *_sbrk(ptrdiff_t incr)
  8003086:	bd80      	pop	{r7, pc}
  8003088:	20020000 	.word	0x20020000
  800308c:	00000400 	.word	0x00000400
- 8003090:	2000053c 	.word	0x2000053c
- 8003094:	20000eb8 	.word	0x20000eb8
+ 8003090:	20000538 	.word	0x20000538
+ 8003094:	20000eb0 	.word	0x20000eb0
 
 08003098 <SystemInit>:
   *         configuration.
@@ -6699,9 +6726,9 @@ void uart_start_receive(UART_HandleTypeDef *uart) {
  80030e2:	46bd      	mov	sp, r7
  80030e4:	bd80      	pop	{r7, pc}
  80030e6:	bf00      	nop
- 80030e8:	200005a4 	.word	0x200005a4
- 80030ec:	2000059c 	.word	0x2000059c
- 80030f0:	20000578 	.word	0x20000578
+ 80030e8:	200005a0 	.word	0x200005a0
+ 80030ec:	20000598 	.word	0x20000598
+ 80030f0:	20000574 	.word	0x20000574
 
 080030f4 <uart_rx_callback>:
 // ─────────────────────────────────────────────────────────────────────────────
@@ -6955,18 +6982,18 @@ void uart_rx_callback(UART_HandleTypeDef *uart) {
  8003246:	3710      	adds	r7, #16
  8003248:	46bd      	mov	sp, r7
  800324a:	bdb0      	pop	{r4, r5, r7, pc}
- 800324c:	20000577 	.word	0x20000577
- 8003250:	20000578 	.word	0x20000578
- 8003254:	20000598 	.word	0x20000598
- 8003258:	20000597 	.word	0x20000597
- 800325c:	20000596 	.word	0x20000596
- 8003260:	2000057c 	.word	0x2000057c
- 8003264:	20000540 	.word	0x20000540
- 8003268:	2000059c 	.word	0x2000059c
- 800326c:	200005a0 	.word	0x200005a0
- 8003270:	20000576 	.word	0x20000576
- 8003274:	200005a2 	.word	0x200005a2
- 8003278:	200005a1 	.word	0x200005a1
+ 800324c:	20000573 	.word	0x20000573
+ 8003250:	20000574 	.word	0x20000574
+ 8003254:	20000594 	.word	0x20000594
+ 8003258:	20000593 	.word	0x20000593
+ 800325c:	20000592 	.word	0x20000592
+ 8003260:	20000578 	.word	0x20000578
+ 8003264:	2000053c 	.word	0x2000053c
+ 8003268:	20000598 	.word	0x20000598
+ 800326c:	2000059c 	.word	0x2000059c
+ 8003270:	20000572 	.word	0x20000572
+ 8003274:	2000059e 	.word	0x2000059e
+ 8003278:	2000059d 	.word	0x2000059d
 
 0800327c <comm_watchdog_tick>:
 // Does three things:
@@ -7111,8 +7138,8 @@ void comm_watchdog_tick(void) {
  800337a:	46bd      	mov	sp, r7
  800337c:	bd80      	pop	{r7, pc}
  800337e:	bf00      	nop
- 8003380:	200005a1 	.word	0x200005a1
- 8003384:	200005a2 	.word	0x200005a2
+ 8003380:	2000059d 	.word	0x2000059d
+ 8003384:	2000059e 	.word	0x2000059e
  8003388:	0800fa64 	.word	0x0800fa64
  800338c:	0800fa84 	.word	0x0800fa84
  8003390:	0800fa94 	.word	0x0800fa94
@@ -7121,15 +7148,15 @@ void comm_watchdog_tick(void) {
  800339c:	0800fac0 	.word	0x0800fac0
  80033a0:	0800fad0 	.word	0x0800fad0
  80033a4:	0800fae0 	.word	0x0800fae0
- 80033a8:	2000059c 	.word	0x2000059c
- 80033ac:	200005a0 	.word	0x200005a0
- 80033b0:	2000055c 	.word	0x2000055c
- 80033b4:	20000560 	.word	0x20000560
- 80033b8:	20000564 	.word	0x20000564
- 80033bc:	20000568 	.word	0x20000568
- 80033c0:	2000056c 	.word	0x2000056c
- 80033c4:	20000570 	.word	0x20000570
- 80033c8:	20000574 	.word	0x20000574
+ 80033a8:	20000598 	.word	0x20000598
+ 80033ac:	2000059c 	.word	0x2000059c
+ 80033b0:	20000558 	.word	0x20000558
+ 80033b4:	2000055c 	.word	0x2000055c
+ 80033b8:	20000560 	.word	0x20000560
+ 80033bc:	20000564 	.word	0x20000564
+ 80033c0:	20000568 	.word	0x20000568
+ 80033c4:	2000056c 	.word	0x2000056c
+ 80033c8:	20000570 	.word	0x20000570
  80033cc:	0800faec 	.word	0x0800faec
 
 080033d0 <all_motors_stop>:
@@ -7224,14 +7251,14 @@ void parse_uart_data(void) {
  8003458:	f85d 7b04 	ldr.w	r7, [sp], #4
  800345c:	4770      	bx	lr
  800345e:	bf00      	nop
- 8003460:	20000574 	.word	0x20000574
- 8003464:	20000540 	.word	0x20000540
- 8003468:	2000055c 	.word	0x2000055c
- 800346c:	20000560 	.word	0x20000560
- 8003470:	20000564 	.word	0x20000564
- 8003474:	20000568 	.word	0x20000568
- 8003478:	2000056c 	.word	0x2000056c
- 800347c:	20000570 	.word	0x20000570
+ 8003460:	20000570 	.word	0x20000570
+ 8003464:	2000053c 	.word	0x2000053c
+ 8003468:	20000558 	.word	0x20000558
+ 800346c:	2000055c 	.word	0x2000055c
+ 8003470:	20000560 	.word	0x20000560
+ 8003474:	20000564 	.word	0x20000564
+ 8003478:	20000568 	.word	0x20000568
+ 800347c:	2000056c 	.word	0x2000056c
 
 08003480 <millis>:
 
@@ -7677,7 +7704,7 @@ void Stepper_SetSpeed(TIM_HandleTypeDef *htim, uint32_t channel, uint32_t hz) {
   .weak  Reset_Handler
   .type  Reset_Handler, %function
 Reset_Handler:  
-    ldr   sp, =_estack     /* set stack pointer */
+               ldr   sp, =_estack     /* set stack pointer */
  8003798:	f8df d034 	ldr.w	sp, [pc, #52]	@ 80037d0 <LoopFillZerobss+0xe>
   
 /* Call the clock system initialization function.*/
@@ -7709,7 +7736,7 @@ CopyDataInit:
 080037b0 <LoopCopyDataInit>:
 
 LoopCopyDataInit:
-  adds r4, r0, r3
+       adds r4, r0, r3
  80037b0:	18c4      	adds	r4, r0, r3
   cmp r4, r1
  80037b2:	428c      	cmp	r4, r1
@@ -7750,7 +7777,7 @@ LoopFillZerobss:
  80037ca:	f7fe f8eb 	bl	80019a4 <main>
   bx  lr    
  80037ce:	4770      	bx	lr
-    ldr   sp, =_estack     /* set stack pointer */
+               ldr   sp, =_estack     /* set stack pointer */
  80037d0:	20020000 	.word	0x20020000
   ldr r0, =_sdata
  80037d4:	20000000 	.word	0x20000000
@@ -7761,7 +7788,7 @@ LoopFillZerobss:
   ldr r2, =_sbss
  80037e0:	20000230 	.word	0x20000230
   ldr r4, =_ebss
- 80037e4:	20000eb4 	.word	0x20000eb4
+ 80037e4:	20000eb0 	.word	0x20000eb0
 
 080037e8 <ADC_IRQHandler>:
  * @retval None       
@@ -7924,7 +7951,7 @@ __weak void HAL_IncTick(void)
  80038ac:	4770      	bx	lr
  80038ae:	bf00      	nop
  80038b0:	20000044 	.word	0x20000044
- 80038b4:	200005a8 	.word	0x200005a8
+ 80038b4:	200005a4 	.word	0x200005a4
 
 080038b8 <HAL_GetTick>:
   * @note This function is declared as __weak to be overwritten in case of other 
@@ -7944,7 +7971,7 @@ __weak uint32_t HAL_GetTick(void)
  80038c4:	f85d 7b04 	ldr.w	r7, [sp], #4
  80038c8:	4770      	bx	lr
  80038ca:	bf00      	nop
- 80038cc:	200005a8 	.word	0x200005a8
+ 80038cc:	200005a4 	.word	0x200005a4
 
 080038d0 <HAL_Delay>:
   *       implementations in user file.
@@ -32284,7 +32311,7 @@ void MX_USB_HOST_Init(void)
  800ca10:	bd80      	pop	{r7, pc}
  800ca12:	bf00      	nop
  800ca14:	0800ca35 	.word	0x0800ca35
- 800ca18:	200005ac 	.word	0x200005ac
+ 800ca18:	200005a8 	.word	0x200005a8
  800ca1c:	20000048 	.word	0x20000048
 
 0800ca20 <MX_USB_HOST_Process>:
@@ -32304,7 +32331,7 @@ void MX_USB_HOST_Process(void)
  800ca2a:	bf00      	nop
  800ca2c:	bd80      	pop	{r7, pc}
  800ca2e:	bf00      	nop
- 800ca30:	200005ac 	.word	0x200005ac
+ 800ca30:	200005a8 	.word	0x200005a8
 
 0800ca34 <USBH_UserProcess>:
 /*
@@ -32372,7 +32399,7 @@ static void USBH_UserProcess  (USBH_HandleTypeDef *phost, uint8_t id)
  800ca84:	f85d 7b04 	ldr.w	r7, [sp], #4
  800ca88:	4770      	bx	lr
  800ca8a:	bf00      	nop
- 800ca8c:	20000984 	.word	0x20000984
+ 800ca8c:	20000980 	.word	0x20000980
 
 0800ca90 <HAL_HCD_MspInit>:
                        LL Driver Callbacks (HCD -> USB Host Library)
@@ -32713,7 +32740,7 @@ USBH_StatusTypeDef USBH_LL_Init(USBH_HandleTypeDef *phost)
  800cc6a:	46bd      	mov	sp, r7
  800cc6c:	bd80      	pop	{r7, pc}
  800cc6e:	bf00      	nop
- 800cc70:	20000988 	.word	0x20000988
+ 800cc70:	20000984 	.word	0x20000984
 
 0800cc74 <USBH_LL_Start>:
   * @brief  Start the low level portion of the host driver.
@@ -33397,7 +33424,7 @@ void MX_DriverVbusFS(uint8_t state)
  800d01e:	d1f2      	bne.n	800d006 <sbrk_aligned+0x22>
  800d020:	e7ef      	b.n	800d002 <sbrk_aligned+0x1e>
  800d022:	bf00      	nop
- 800d024:	20000d68 	.word	0x20000d68
+ 800d024:	20000d64 	.word	0x20000d64
 
 0800d028 <_malloc_r>:
  800d028:	e92d 43f8 	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -33507,19 +33534,19 @@ void MX_DriverVbusFS(uint8_t state)
  800d11e:	6005      	str	r5, [r0, #0]
  800d120:	e7d6      	b.n	800d0d0 <_malloc_r+0xa8>
  800d122:	bf00      	nop
- 800d124:	20000d6c 	.word	0x20000d6c
+ 800d124:	20000d68 	.word	0x20000d68
 
 0800d128 <__malloc_lock>:
  800d128:	4801      	ldr	r0, [pc, #4]	@ (800d130 <__malloc_lock+0x8>)
  800d12a:	f000 bef6 	b.w	800df1a <__retarget_lock_acquire_recursive>
  800d12e:	bf00      	nop
- 800d130:	20000eb0 	.word	0x20000eb0
+ 800d130:	20000eac 	.word	0x20000eac
 
 0800d134 <__malloc_unlock>:
  800d134:	4801      	ldr	r0, [pc, #4]	@ (800d13c <__malloc_unlock+0x8>)
  800d136:	f000 bef1 	b.w	800df1c <__retarget_lock_release_recursive>
  800d13a:	bf00      	nop
- 800d13c:	20000eb0 	.word	0x20000eb0
+ 800d13c:	20000eac 	.word	0x20000eac
 
 0800d140 <__cvt>:
  800d140:	e92d 47ff 	stmdb	sp!, {r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, sl, lr}
@@ -34469,7 +34496,7 @@ void MX_DriverVbusFS(uint8_t state)
  800da48:	0800dc73 	.word	0x0800dc73
  800da4c:	0800dcab 	.word	0x0800dcab
  800da50:	0800dccf 	.word	0x0800dccf
- 800da54:	20000d70 	.word	0x20000d70
+ 800da54:	20000d6c 	.word	0x20000d6c
 
 0800da58 <stdio_exit_handler>:
  800da58:	4a02      	ldr	r2, [pc, #8]	@ (800da64 <stdio_exit_handler+0xc>)
@@ -34504,9 +34531,9 @@ void MX_DriverVbusFS(uint8_t state)
  800da9c:	f001 be22 	b.w	800f6e4 <_fflush_r>
  800daa0:	bd10      	pop	{r4, pc}
  800daa2:	bf00      	nop
- 800daa4:	20000d70 	.word	0x20000d70
- 800daa8:	20000dd8 	.word	0x20000dd8
- 800daac:	20000e40 	.word	0x20000e40
+ 800daa4:	20000d6c 	.word	0x20000d6c
+ 800daa8:	20000dd4 	.word	0x20000dd4
+ 800daac:	20000e3c 	.word	0x20000e3c
 
 0800dab0 <global_stdio_init.part.0>:
  800dab0:	b510      	push	{r4, lr}
@@ -34527,21 +34554,21 @@ void MX_DriverVbusFS(uint8_t state)
  800dad6:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
  800dada:	2112      	movs	r1, #18
  800dadc:	f7ff bf86 	b.w	800d9ec <std>
- 800dae0:	20000ea8 	.word	0x20000ea8
- 800dae4:	20000d70 	.word	0x20000d70
+ 800dae0:	20000ea4 	.word	0x20000ea4
+ 800dae4:	20000d6c 	.word	0x20000d6c
  800dae8:	0800da59 	.word	0x0800da59
 
 0800daec <__sfp_lock_acquire>:
  800daec:	4801      	ldr	r0, [pc, #4]	@ (800daf4 <__sfp_lock_acquire+0x8>)
  800daee:	f000 ba14 	b.w	800df1a <__retarget_lock_acquire_recursive>
  800daf2:	bf00      	nop
- 800daf4:	20000eb1 	.word	0x20000eb1
+ 800daf4:	20000ead 	.word	0x20000ead
 
 0800daf8 <__sfp_lock_release>:
  800daf8:	4801      	ldr	r0, [pc, #4]	@ (800db00 <__sfp_lock_release+0x8>)
  800dafa:	f000 ba0f 	b.w	800df1c <__retarget_lock_release_recursive>
  800dafe:	bf00      	nop
- 800db00:	20000eb1 	.word	0x20000eb1
+ 800db00:	20000ead 	.word	0x20000ead
 
 0800db04 <__sinit>:
  800db04:	b510      	push	{r4, lr}
@@ -34561,7 +34588,7 @@ void MX_DriverVbusFS(uint8_t state)
  800db28:	e7f2      	b.n	800db10 <__sinit+0xc>
  800db2a:	bf00      	nop
  800db2c:	0800da71 	.word	0x0800da71
- 800db30:	20000ea8 	.word	0x20000ea8
+ 800db30:	20000ea4 	.word	0x20000ea4
 
 0800db34 <_fwalk_sglue>:
  800db34:	e92d 43f8 	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -34914,7 +34941,7 @@ void MX_DriverVbusFS(uint8_t state)
  800de2e:	b103      	cbz	r3, 800de32 <_close_r+0x1a>
  800de30:	6023      	str	r3, [r4, #0]
  800de32:	bd38      	pop	{r3, r4, r5, pc}
- 800de34:	20000eac 	.word	0x20000eac
+ 800de34:	20000ea8 	.word	0x20000ea8
 
 0800de38 <_lseek_r>:
  800de38:	b538      	push	{r3, r4, r5, lr}
@@ -34932,7 +34959,7 @@ void MX_DriverVbusFS(uint8_t state)
  800de52:	b103      	cbz	r3, 800de56 <_lseek_r+0x1e>
  800de54:	6023      	str	r3, [r4, #0]
  800de56:	bd38      	pop	{r3, r4, r5, pc}
- 800de58:	20000eac 	.word	0x20000eac
+ 800de58:	20000ea8 	.word	0x20000ea8
 
 0800de5c <_read_r>:
  800de5c:	b538      	push	{r3, r4, r5, lr}
@@ -34950,7 +34977,7 @@ void MX_DriverVbusFS(uint8_t state)
  800de76:	b103      	cbz	r3, 800de7a <_read_r+0x1e>
  800de78:	6023      	str	r3, [r4, #0]
  800de7a:	bd38      	pop	{r3, r4, r5, pc}
- 800de7c:	20000eac 	.word	0x20000eac
+ 800de7c:	20000ea8 	.word	0x20000ea8
 
 0800de80 <_sbrk_r>:
  800de80:	b538      	push	{r3, r4, r5, lr}
@@ -34966,7 +34993,7 @@ void MX_DriverVbusFS(uint8_t state)
  800de96:	b103      	cbz	r3, 800de9a <_sbrk_r+0x1a>
  800de98:	6023      	str	r3, [r4, #0]
  800de9a:	bd38      	pop	{r3, r4, r5, pc}
- 800de9c:	20000eac 	.word	0x20000eac
+ 800de9c:	20000ea8 	.word	0x20000ea8
 
 0800dea0 <_write_r>:
  800dea0:	b538      	push	{r3, r4, r5, lr}
@@ -34984,7 +35011,7 @@ void MX_DriverVbusFS(uint8_t state)
  800deba:	b103      	cbz	r3, 800debe <_write_r+0x1e>
  800debc:	6023      	str	r3, [r4, #0]
  800debe:	bd38      	pop	{r3, r4, r5, pc}
- 800dec0:	20000eac 	.word	0x20000eac
+ 800dec0:	20000ea8 	.word	0x20000ea8
 
 0800dec4 <__errno>:
  800dec4:	4b01      	ldr	r3, [pc, #4]	@ (800decc <__errno+0x8>)
@@ -36356,7 +36383,7 @@ void MX_DriverVbusFS(uint8_t state)
  800ec5a:	e7ca      	b.n	800ebf2 <_free_r+0x22>
  800ec5c:	bd38      	pop	{r3, r4, r5, pc}
  800ec5e:	bf00      	nop
- 800ec60:	20000d6c 	.word	0x20000d6c
+ 800ec60:	20000d68 	.word	0x20000d68
 
 0800ec64 <_Balloc>:
  800ec64:	b570      	push	{r4, r5, r6, lr}
@@ -37586,7 +37613,7 @@ void MX_DriverVbusFS(uint8_t state)
  800f812:	6023      	str	r3, [r4, #0]
  800f814:	bd38      	pop	{r3, r4, r5, pc}
  800f816:	bf00      	nop
- 800f818:	20000eac 	.word	0x20000eac
+ 800f818:	20000ea8 	.word	0x20000ea8
 
 0800f81c <_isatty_r>:
  800f81c:	b538      	push	{r3, r4, r5, lr}
@@ -37602,7 +37629,7 @@ void MX_DriverVbusFS(uint8_t state)
  800f832:	b103      	cbz	r3, 800f836 <_isatty_r+0x1a>
  800f834:	6023      	str	r3, [r4, #0]
  800f836:	bd38      	pop	{r3, r4, r5, pc}
- 800f838:	20000eac 	.word	0x20000eac
+ 800f838:	20000ea8 	.word	0x20000ea8
 
 0800f83c <memcpy>:
  800f83c:	440a      	add	r2, r1
@@ -37779,7 +37806,7 @@ void MX_DriverVbusFS(uint8_t state)
  800f9aa:	6023      	str	r3, [r4, #0]
  800f9ac:	bd38      	pop	{r3, r4, r5, pc}
  800f9ae:	bf00      	nop
- 800f9b0:	20000eac 	.word	0x20000eac
+ 800f9b0:	20000ea8 	.word	0x20000ea8
 
 0800f9b4 <_getpid_r>:
  800f9b4:	f7f3 baaa 	b.w	8002f0c <_getpid>

@@ -76,131 +76,136 @@ void staff_arm_setup(void) {
     HAL_Delay(150);
 }
 
+
 // -----------------------------------------------------------------------
 void staff_arm_control(void) {
+	{
+	    if(btnStatus.up || btnStatus.down)
+	    {
+	        manual_staff_arm_control();
+	    }
+	    else
+	    {
+	        auto_staff_arm_control();
+	    }
 
-//    manual_staff_arm_control();
-	auto_staff_arm_control();
-
-    Pnuematic_OnOff();
+	    Pnuematic_OnOff();
+	}
 }
-
-
-void manual_staff_arm_control() {
+//void manual_staff_arm_control() {
     // ----------------------------------------------------------------
     // 1. STEPPER — runs while button held, stops instantly on release
     // ----------------------------------------------------------------
-	uint32_t now = HAL_GetTick();
+//	uint32_t now = HAL_GetTick();
+//	static bool last_up = false;
+//	static bool last_down = false;
 
-    static uint32_t last_servo_time = 0;
-    static uint32_t last_step_tick  = 0;
-    static bool     last_dir_cw     = true;
+//	uint32_t current = now;
+//	uint32_t previous;
 
-    bool move_ccw  = (btnStatus.triangle);
-    bool move_cw = (btnStatus.cross);
+//	if(current - previous >= 10) {
+//		if(btnStatus.up) {
+//
+//			STEPPER_ALIGN+=20;
+//
+//			 {
+//				 if(current_steps_1 < STEPPER_ALIGN){
+//					 current_steps_1 +=20;
+//				  Stepper_SetDirection(
+//				         STAFF_ARM_P1_DIR_PORT,
+//				            STAFF_ARM_P1_DIR_PIN,
+//				            CCW);
+//
+//				       if(!pwm_running)
+//				        {
+//				         Stepper_SetSpeed(
+//				                &STAFF_ARM_P1_TIM_N,
+//				                STAFF_ARM_P1_PULSE,
+//				                STAFF_ARM_STEPPER_SPEED_HZ);
+//
+//				          HAL_TIM_PWM_Start(
+//				                &STAFF_ARM_P1_TIM_N,
+//				                STAFF_ARM_P1_PULSE);
+//
+//				            pwm_running = true;
+//
+//				        }
+//				    }
+//
+//
+//		}else
+//	    {
+//	        if(pwm_running)
+//	        {
+//	            HAL_TIM_PWM_Stop(
+//	                &STAFF_ARM_P1_TIM_N,
+//	                STAFF_ARM_P1_PULSE);
+//
+//	            pwm_running = false;
+//	        }
+//	}
+//}
+	void manual_staff_arm_control(void)
+	{
+	    if(btnStatus.up)
+	    {
+	        Stepper_SetDirection(
+	            STAFF_ARM_P1_DIR_PORT,
+	            STAFF_ARM_P1_DIR_PIN,
+	            CCW);
 
-   if (move_cw || move_ccw) {
+	        if(!pwm_running)
+	        {
+	            Stepper_SetSpeed(&STAFF_ARM_P1_TIM_N,
+	                             STAFF_ARM_P1_PULSE,
+	                             STAFF_ARM_STEPPER_SPEED_HZ_ADJUST);
 
-        // Check if direction changed
-        bool dir_changed = (move_cw != last_dir_cw);
+	            HAL_TIM_PWM_Start(&STAFF_ARM_P1_TIM_N,
+	                              STAFF_ARM_P1_PULSE);
 
-        // Stop PWM briefly on direction change so driver latches new DIR
-        if (dir_changed && pwm_running) {
-            HAL_TIM_PWM_Stop(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE);
-            pwm_running = false;
-            HAL_Delay(1);
-        }
+	            pwm_running = true;
+	        }
+//	       STEPPER_ALIGN--;
+	    }
+	    else if(btnStatus.down)
+	    {
+	        Stepper_SetDirection(
+	            STAFF_ARM_P1_DIR_PORT,
+	            STAFF_ARM_P1_DIR_PIN,
+	            CW);
 
-        // Set direction BEFORE starting PWM
-        if (move_cw) {
-            Stepper_SetDirection(STAFF_ARM_P1_DIR_PORT, STAFF_ARM_P1_DIR_PIN, CW);
-            last_dir_cw = true;
-        } else {
-            Stepper_SetDirection(STAFF_ARM_P1_DIR_PORT, STAFF_ARM_P1_DIR_PIN, CCW);
-            last_dir_cw = false;
-        }
+	        if(!pwm_running)
+	        {
+	            Stepper_SetSpeed(&STAFF_ARM_P1_TIM_N,
+	                             STAFF_ARM_P1_PULSE,
+	                             STAFF_ARM_STEPPER_SPEED_HZ_ADJUST);
 
-        // Start PWM only if not already running
-        if (!pwm_running) {
-            Stepper_SetSpeed(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE, STAFF_ARM_STEPPER_SPEED_HZ);
-            HAL_TIM_PWM_Start(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE);
-            pwm_running = true;
-        }
+	            HAL_TIM_PWM_Start(&STAFF_ARM_P1_TIM_N,
+	                              STAFF_ARM_P1_PULSE);
 
+	            pwm_running = true;
+	        }
+//	        STEPPER_ALIGN++;
+	    }
+	    else
+	    {
+	        if(pwm_running)
+	        {
+	            HAL_TIM_PWM_Stop(&STAFF_ARM_P1_TIM_N,
+	                             STAFF_ARM_P1_PULSE);
 
-
-        // Software position tracking at 1ms intervals
-        if (now - last_step_tick >= 1) {
-            last_step_tick = now;
-
-            if (move_cw) {
-                if (current_steps_1 < STAFF_ARM_STEP_LIMIT) {
-                    current_steps_1++;
-                } else {
-                    // CW physical limit reached — stop
-                    HAL_TIM_PWM_Stop(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE);
-                    pwm_running = false;
-                }
-
-            } else {
-                if (current_steps_1 > -STAFF_ARM_STEP_LIMIT) {
-                    current_steps_1--;
-                } else {
-                    // CCW physical limit reached — stop
-                    HAL_TIM_PWM_Stop(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE);
-                    pwm_running = false;
-                }
-
-            }
-        }
-
-    } else {
-        // Button released — stop immediately, hold position
-        if (pwm_running) {
-            HAL_TIM_PWM_Stop(&STAFF_ARM_P1_TIM_N, STAFF_ARM_P1_PULSE);
-            pwm_running = false;
-        }
-        target_steps_1 = current_steps_1;
-    }
-
-
-   // ----------------------------------------------------------------
-   // 2. SERVO CONTROL — every 20ms
-   // ----------------------------------------------------------------
-    if (now - last_servo_time >= 20) {
-        last_servo_time = now;
-
-        // P2 Up/Down
-        if (btnStatus.down) current_angle_p2 += STAFF_ARM_P2_STEP_ANGLE;
-        if (btnStatus.up) current_angle_p2 -= STAFF_ARM_P2_STEP_ANGLE;
-
-        // P3 Left/Right
-        if (btnStatus.left) current_angle_p3 += STAFF_ARM_P3_STEP_ANGLE;
-        if (btnStatus.right) current_angle_p3 -= STAFF_ARM_P3_STEP_ANGLE;
-
-        // Clamp P2
-        if (current_angle_p2 > STAFF_ARM_P2_MAX_ANGLE) current_angle_p2 = STAFF_ARM_P2_MAX_ANGLE;
-        if (current_angle_p2 < STAFF_ARM_P2_MIN_ANGLE) current_angle_p2 = STAFF_ARM_P2_MIN_ANGLE;
-
-        // Clamp P3
-        if (current_angle_p3 > STAFF_ARM_P3_MAX_ANGLE) current_angle_p3 = STAFF_ARM_P3_MAX_ANGLE;
-        if (current_angle_p3 < STAFF_ARM_P3_MIN_ANGLE) current_angle_p3 = STAFF_ARM_P3_MIN_ANGLE;
-
-        Servo_WriteAngle(&STAFF_ARM_P2_TIM_N, STAFF_ARM_P2_PULSE, (uint8_t)current_angle_p2);
-        Servo_WriteAngle_168Mhz(&STAFF_ARM_P3_TIM_N, STAFF_ARM_P3_PULSE, (uint8_t)current_angle_p3);
-
-    }
-}
+	            pwm_running = false;
+	        }
+	    }
+	}
 
 
 void auto_staff_arm_control() {
 	uint32_t now = HAL_GetTick();
 
-    static bool last_down = false;
-    static bool last_cross = false;
+
     static bool last_triangle = false;
     static bool last_square = false;
-    static bool last_up = false;
     static bool align_state = false;
     static uint32_t last_step_tick  = 0;
 //    static uint32_t last_servo_tick  = 0;
@@ -221,35 +226,27 @@ void auto_staff_arm_control() {
             STEPPER_ALIGN = STEPPER_DOCK;
             SERVO_ALIGN   = SERVO_DOCK;
             returnServoPending = true;
-        }
+           }
     }
 
     last_triangle = btnStatus.triangle;
-
-    if(btnStatus.down && !last_down)
-    {
-        STEPPER_ALIGN -= 50;
-//        Servo_WriteAngle_168Mhz(&STAFF_ARM_P3_TI    M_N, STAFF_ARM_P3_PULSE, SERVO_DOCK);
-    }
-
-    if(btnStatus.up && !last_up)
-    {
-        STEPPER_ALIGN += 50;
-    }
-
+//
+//    if(btnStatus.down && !last_down)
+//    {
+//        STEPPER_ALIGN -= 10;
+////        Servo_WriteAngle_168Mhz(&STAFF_ARM_P3_TI    M_N, STAFF_ARM_P3_PULSE, SERVO_DOCK);
+//    }
+//
+//    if(btnStatus.up && !last_up)
+//    {
+//        STEPPER_ALIGN += 10;
+//    }
+//
     if(btnStatus.square && !last_square)
 	 {
 		 STEPPER_ALIGN = STEPPER_INITIAL;
 	     SERVO_ALIGN = SERVO_INITIAL;
 	    	}
-    if(btnStatus.cross && !last_cross)
-    {
-        STEPPER_ALIGN = STEPPER_DROP;
-        SERVO_ALIGN   = SERVO_DOCK;
-    }
-//    static bool crossPressed = false;
-//    static bool servoMoved = false;
-//    static uint32_t crossTime = 0;
 
 //    if(btnStatus.cross && !crossPressed)
 //    {
@@ -277,14 +274,12 @@ void auto_staff_arm_control() {
 //    {
 //        crossPressed = false;
 //    }
-//
-          last_up = btnStatus.up;
-          last_down = btnStatus.down;
+
 	      last_triangle = btnStatus.triangle;
 	      last_square = btnStatus.square;
-	      last_cross = btnStatus.cross;
+//	      last_cross = btnStatus.cross;
 
-	    // --------------------------------------------------
+	    // -------------------------------  -------------------
 	    // Auto Move To Position
 	    // --------------------------------------------------
 
@@ -388,6 +383,7 @@ void auto_staff_arm_control() {
 	            }
 	        }
 	    }
+
 
 void Pneumatic_UpdateOutput(void)
 {

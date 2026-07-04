@@ -1,0 +1,8 @@
+../Core/Src/ksf_arm_control.c:37:6:kfs_arm_setup	8	static
+../Core/Src/ksf_arm_control.c:52:6:kfs_arm_handler	16	static
+../Core/Src/ksf_arm_control.c:137:6:kfs_meditation	8	static
+../Core/Src/ksf_arm_control.c:144:5:spark_go_up	8	static
+../Core/Src/ksf_arm_control.c:158:6:spark_go_down	8	static
+../Core/Src/ksf_arm_control.c:162:6:spark_stop	8	static
+../Core/Src/ksf_arm_control.c:167:6:kfs_thuravi_sparkmax	8	static
+../Core/Src/ksf_arm_control.c:181:6:kfs_thuravi_servo	16	static

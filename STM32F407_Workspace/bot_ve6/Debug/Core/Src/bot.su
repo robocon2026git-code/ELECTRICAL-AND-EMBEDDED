@@ -1,0 +1,6 @@
+../Core/Src/bot.c:47:13:stop_kfs_actuators	8	static
+../Core/Src/bot.c:57:13:stop_staff_actuators	8	static
+../Core/Src/bot.c:68:13:update_mode_leds	8	static
+../Core/Src/bot.c:81:5:system_status	4	static
+../Core/Src/bot.c:102:5:odu	16	static
+../Core/Src/bot.c:161:6:bot_setup	8	static

@@ -1,6 +1,6 @@
 ../Core/Src/staff_arm_control.c:62:6:staff_arm_setup	1
-../Core/Src/staff_arm_control.c:80:6:staff_arm_control	1
-../Core/Src/staff_arm_control.c:89:6:manual_staff_arm_control	21
-../Core/Src/staff_arm_control.c:196:6:auto_staff_arm_control	24
-../Core/Src/staff_arm_control.c:392:6:Pneumatic_UpdateOutput	2
-../Core/Src/staff_arm_control.c:417:6:Pnuematic_OnOff	4
+../Core/Src/staff_arm_control.c:81:6:staff_arm_control	3
+../Core/Src/staff_arm_control.c:148:7:manual_staff_arm_control	6
+../Core/Src/staff_arm_control.c:203:6:auto_staff_arm_control	18
+../Core/Src/staff_arm_control.c:388:6:Pneumatic_UpdateOutput	2
+../Core/Src/staff_arm_control.c:413:6:Pnuematic_OnOff	4
