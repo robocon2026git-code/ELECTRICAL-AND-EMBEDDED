@@ -4722,7 +4722,7 @@ void auto_staff_arm_control() {
  8002588:	601a      	str	r2, [r3, #0]
             SERVO_ALIGN   = SERVO_TAKE;
  800258a:	4b6e      	ldr	r3, [pc, #440]	@ (8002744 <auto_staff_arm_control+0x210>)
- 800258c:	222a      	movs	r2, #42	@ 0x2a
+ 800258c:	2234      	movs	r2, #52	@ 0x34
  800258e:	601a      	str	r2, [r3, #0]
  8002590:	e008      	b.n	80025a4 <auto_staff_arm_control+0x70>
         }
@@ -4734,7 +4734,7 @@ void auto_staff_arm_control() {
  8002596:	601a      	str	r2, [r3, #0]
             SERVO_ALIGN   = SERVO_DOCK;
  8002598:	4b6a      	ldr	r3, [pc, #424]	@ (8002744 <auto_staff_arm_control+0x210>)
- 800259a:	2280      	movs	r2, #128	@ 0x80
+ 800259a:	2271      	movs	r2, #113	@ 0x71
  800259c:	601a      	str	r2, [r3, #0]
             returnServoPending = true;
  800259e:	4b6b      	ldr	r3, [pc, #428]	@ (800274c <auto_staff_arm_control+0x218>)
@@ -4780,7 +4780,7 @@ void auto_staff_arm_control() {
  80025dc:	601a      	str	r2, [r3, #0]
 	     SERVO_ALIGN = SERVO_INITIAL;
  80025de:	4b59      	ldr	r3, [pc, #356]	@ (8002744 <auto_staff_arm_control+0x210>)
- 80025e0:	2280      	movs	r2, #128	@ 0x80
+ 80025e0:	2271      	movs	r2, #113	@ 0x71
  80025e2:	601a      	str	r2, [r3, #0]
 //    if(!btnStatus.cross)
 //    {
@@ -4973,7 +4973,7 @@ void auto_staff_arm_control() {
  80026e4:	dd22      	ble.n	800272c <auto_staff_arm_control+0x1f8>
 	                	   {
 	                			Servo_WriteAngle_168Mhz(&STAFF_ARM_P3_TIM_N, STAFF_ARM_P3_PULSE,SERVO_TAKE);
- 80026e6:	222a      	movs	r2, #42	@ 0x2a
+ 80026e6:	2234      	movs	r2, #52	@ 0x34
  80026e8:	2104      	movs	r1, #4
  80026ea:	481f      	ldr	r0, [pc, #124]	@ (8002768 <auto_staff_arm_control+0x234>)
  80026ec:	f000 ff88 	bl	8003600 <Servo_WriteAngle_168Mhz>
@@ -5010,7 +5010,7 @@ void auto_staff_arm_control() {
  8002718:	4293      	cmp	r3, r2
  800271a:	dc07      	bgt.n	800272c <auto_staff_arm_control+0x1f8>
 	                       Servo_WriteAngle_168Mhz(
- 800271c:	2280      	movs	r2, #128	@ 0x80
+ 800271c:	2271      	movs	r2, #113	@ 0x71
  800271e:	2104      	movs	r1, #4
  8002720:	4811      	ldr	r0, [pc, #68]	@ (8002768 <auto_staff_arm_control+0x234>)
  8002722:	f000 ff6d 	bl	8003600 <Servo_WriteAngle_168Mhz>

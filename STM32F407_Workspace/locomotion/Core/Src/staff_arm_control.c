@@ -37,9 +37,9 @@ int32_t current_steps_1  = 0;
 
 int SERVO_ALIGN = 0;
 
-#define SERVO_INITIAL		128
-#define SERVO_TAKE  		42
-#define SERVO_DOCK  		128
+#define SERVO_INITIAL		113
+#define SERVO_TAKE  		52
+#define SERVO_DOCK  		113
 
 
 int32_t STEPPER_ALIGN = 0;
